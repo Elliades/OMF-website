@@ -112,3 +112,21 @@ This specification highlights OMF with visually appealing content emphasizing te
 - DO NOT TOUCH ANYTHING OUTSIDE THE PROJECT FOLDER, unless explicitly told to do so.
 - ALWAYS MAKE ANALYSIS OF THE CODE BEFORE WRITING ANYTHING.
 - ALWAYS CONSULT THE PROJECT DOCUMENTATION BEFORE WRITING ANYTHING.
+
+
+Memory:
+ 
+- When you need to remember something, update the .cursormemory.md file.
+- Refer to the .cursormemory.md file to view the memory.
+- Update the memory with project specifications, requirements, flow of the code, and other relevant information.
+- Add instructions for development like how to add new GraphQL mutations and queries to the memory.
+ 
+Planning:
+ 
+- Always plan the code before writing it.
+- Think about how the new code will fit into the existing codebase.
+- Think about how the new code will interact with the other parts of the codebase.
+- Think about how the new code will handle errors and edge cases.
+- Think about how the new code will be used by the frontend.
+- Think about how the new code will be used by the users.
+- Think about how the new code will be used by the developers.

@@ -51,4 +51,4 @@ ENV PORT 3280
 # Set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
-CMD ["node", "server.js"] 
+CMD ["node", "server.js"]

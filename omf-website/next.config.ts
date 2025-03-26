@@ -1,14 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
-  server: {
-    port: 3280,
-  },
-  output: 'standalone',
+  output: 'standalone', // Enable standalone output for Docker
+  async rewrites() {
+    return [
+      {
+        source: '/:path*',
+        destination: '/:path*',
+      },
+    ];
+  }
 };
 
 export default nextConfig;

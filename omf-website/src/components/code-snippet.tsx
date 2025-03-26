@@ -92,4 +92,4 @@ export default function CodeSnippet({
       </pre>
     </motion.div>
   );
-} 
+}
