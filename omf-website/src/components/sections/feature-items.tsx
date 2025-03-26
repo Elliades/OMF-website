@@ -11,7 +11,11 @@ import PlaceholderMedia from "../placeholder-media";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
-export default function FeatureItems() {
+interface FeatureItemsProps {
+  index?: number;
+}
+
+export default function FeatureItems({ index = 3 }: FeatureItemsProps) {
   // Feature item details
   const featureItems = [
     {
@@ -84,6 +88,7 @@ export default function FeatureItems() {
       title="Feature Items"
       subtitle="Ready-to-use components for your plugins"
       className="section-alt-2 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">

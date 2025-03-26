@@ -11,8 +11,13 @@ import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import CodeSnippet from "../code-snippet";
 
-export default function Library() {
+interface LibraryProps {
+  index?: number;
+}
+
+export default function Library({ index = 4 }: LibraryProps) {
   const [activeLibrary, setActiveLibrary] = useState("sysml-factory");
   
   // Library information
@@ -95,6 +100,7 @@ LayoutManager.arrangeElements(diagram, selectedElements);`
       title="Library: SysML Factory & Helpers"
       subtitle="Effortlessly create and manipulate SysML elements"
       className="bg-section-alt-1 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">

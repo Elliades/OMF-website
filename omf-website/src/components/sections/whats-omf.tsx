@@ -23,7 +23,11 @@ const titleStyle = {
   color: "white"
 };
 
-export default function WhatsOMF() {
+interface WhatsOMFProps {
+  index?: number;
+}
+
+export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
   return (
     <Section 
       id="whats-omf" 
@@ -31,6 +35,7 @@ export default function WhatsOMF() {
       style={bgStyle} 
       className="text-white"
       titleStyles={titleStyle}
+      index={index}
     >
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div>

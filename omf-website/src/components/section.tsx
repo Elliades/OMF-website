@@ -18,6 +18,7 @@ interface SectionProps {
   titleStyles?: CSSProperties;
   fullWidth?: boolean;
   subtitle?: string;
+  index?: number; // Section index for applying alternating patterns
 }
 
 // Dark pattern background
@@ -29,6 +30,18 @@ const darkPatternBg = {
   color: "white"
 };
 
+// Hover overlay for dark sections
+const hoverOverlay = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  transition: 'background-color 0.3s ease-in-out',
+  zIndex: 0,
+} as CSSProperties;
+
 export default function Section({
   id,
   title,
@@ -38,18 +51,23 @@ export default function Section({
   style,
   titleStyles,
   fullWidth = false,
+  index = 0
 }: SectionProps) {
   const { theme } = useTheme();
   const [isDark, setIsDark] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   
   useEffect(() => {
     setIsDark(theme === 'dark');
   }, [theme]);
 
-  // Combine background styles if in dark mode
+  // Determine if this section should have the dark pattern background
+  const shouldHaveDarkPattern = index !== 0 && index % 2 === 0;
+
+  // Combine background styles 
   const combinedStyle = {
     ...style,
-    ...(isDark && !className?.includes('whats-omf') ? darkPatternBg : {})
+    ...(isDark && shouldHaveDarkPattern ? darkPatternBg : {}),
   };
 
   return (
@@ -57,11 +75,28 @@ export default function Section({
       id={id}
       style={combinedStyle}
       className={cn(
-        "min-h-screen py-24 flex flex-col items-center justify-center transition-colors duration-300",
+        "min-h-screen py-24 flex flex-col items-center justify-center transition-colors duration-300 relative",
+        isDark && shouldHaveDarkPattern ? "text-white" : "",
         className
       )}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className={fullWidth ? "w-full" : "container px-4 mx-auto"}>
+      {/* Hover overlay for dark pattern sections */}
+      {isDark && shouldHaveDarkPattern && (
+        <div 
+          style={{
+            ...hoverOverlay,
+            backgroundColor: isHovered ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.3)',
+          }}
+          className="pointer-events-none"
+        />
+      )}
+      
+      <div className={cn(
+        fullWidth ? "w-full" : "container px-4 mx-auto",
+        "relative z-10"
+      )}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,6 +126,7 @@ export default function Section({
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           viewport={{ once: true, margin: "-100px" }}
+          className="relative z-10"
         >
           {children}
         </motion.div>
@@ -98,7 +134,7 @@ export default function Section({
       
       {/* Subtle "scroll for more" indicator */}
       <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 z-10"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 0.7, y: 0 }}
         transition={{ duration: 1, delay: 1.5, repeat: Infinity, repeatType: "reverse" }}

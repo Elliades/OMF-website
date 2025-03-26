@@ -9,7 +9,11 @@ import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import CodeSnippet from "../code-snippet";
 
-export default function TestFramework() {
+interface TestFrameworkProps {
+  index?: number;
+}
+
+export default function TestFramework({ index = 6 }: TestFrameworkProps) {
   // Example code snippet for test framework
   const testFrameworkCode = 
 `// Model comparison test
@@ -50,6 +54,7 @@ public void testUserWorkflow() {
       title="Functional Test Framework"
       subtitle="Automated testing for reliability"
       className="bg-section-alt-1 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">
