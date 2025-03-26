@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  omf-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3280:3280"
+    restart: unless-stopped 
