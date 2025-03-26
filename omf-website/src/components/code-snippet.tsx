@@ -31,22 +31,22 @@ export default function CodeSnippet({
 
   return (
     <motion.div
-      className={`rounded-lg overflow-hidden border border-gray-200 ${className}`}
+      className={`rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-soft ${className}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
-        <span className="text-sm font-medium text-gray-700">{title}</span>
+      <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{title}</span>
         <Button
           variant="ghost"
           size="sm"
           onClick={copyToClipboard}
-          className="text-xs"
+          className="text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           {copied ? (
-            <span className="text-green-600 flex items-center">
+            <span className="text-green-600 dark:text-green-400 flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -64,7 +64,7 @@ export default function CodeSnippet({
               Copied!
             </span>
           ) : (
-            <span className="flex items-center">
+            <span className="flex items-center text-gray-600 dark:text-gray-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -86,9 +86,30 @@ export default function CodeSnippet({
         </Button>
       </div>
       <pre
-        className={`p-4 overflow-x-auto bg-gray-50 text-sm font-mono`}
+        className="bg-code-bg text-code-text p-4 overflow-x-auto text-sm font-mono"
       >
-        <code>{code}</code>
+        <code>
+          {code.split('\n').map((line, index) => (
+            <div key={index} className="leading-relaxed">
+              {line.includes('//') ? (
+                <>
+                  {line.split('//')[0]}
+                  <span className="text-code-comment">// {line.split('//')[1]}</span>
+                </>
+              ) : line.includes('new') ? (
+                line.replace(/(new\s+\w+)/g, match => `<span class="text-code-keyword">${match}</span>`)
+              ) : line.includes('try') || line.includes('if') || line.includes('for') ? (
+                <span className="text-code-keyword">{line}</span>
+              ) : line.includes('.') && line.includes('(') ? (
+                line.replace(/(\.\w+\()/g, match => `<span class="text-code-function">${match}</span>`)
+              ) : line.includes('"') ? (
+                line.replace(/"([^"]*)"/g, match => `<span class="text-code-string">${match}</span>`)
+              ) : (
+                line
+              )}
+            </div>
+          ))}
+        </code>
       </pre>
     </motion.div>
   );

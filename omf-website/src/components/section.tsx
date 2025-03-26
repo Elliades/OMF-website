@@ -27,7 +27,7 @@ export default function Section({
     <section
       id={id}
       className={cn(
-        "min-h-screen py-24 flex flex-col items-center justify-center",
+        "min-h-screen py-24 flex flex-col items-center justify-center transition-colors duration-300",
         className
       )}
     >
@@ -39,8 +39,13 @@ export default function Section({
           viewport={{ once: true, margin: "-100px" }}
           className="mb-16"
         >
-          <h2 className="text-4xl font-bold text-center mb-4">{title}</h2>
-          <div className="w-24 h-1 bg-primary mx-auto"></div>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 dark:text-white">
+            {title}
+          </h2>
+          <div className="relative">
+            <div className="w-24 h-1 bg-gradient-to-r from-gradient-start to-gradient-end mx-auto"></div>
+            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white dark:bg-section-dark opacity-30 blur-sm"></div>
+          </div>
         </motion.div>
         
         <motion.div
@@ -52,6 +57,30 @@ export default function Section({
           {children}
         </motion.div>
       </div>
+      
+      {/* Subtle "scroll for more" indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 0.7, y: 0 }}
+        transition={{ duration: 1, delay: 1.5, repeat: Infinity, repeatType: "reverse" }}
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className="text-primary"
+        >
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+        <span className="text-xs text-gray-500 dark:text-gray-400 sr-only">Scroll for more</span>
+      </motion.div>
     </section>
   );
 } 

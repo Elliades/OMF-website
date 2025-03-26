@@ -11,7 +11,7 @@ import { Card, CardContent } from "../ui/card";
 
 export default function WhatsOMF() {
   return (
-    <Section id="whats-omf" title="What's OMF?">
+    <Section id="whats-omf" title="What's OMF?" className="bg-gradient-to-b from-section-light to-section-blue">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div>
           <motion.div
@@ -20,15 +20,15 @@ export default function WhatsOMF() {
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold mb-6 text-primary">
+            <h3 className="text-3xl font-bold mb-6 gradient-text">
               Build Smarter, Not Harder
             </h3>
-            <p className="text-lg mb-6 text-gray-700 leading-relaxed">
+            <p className="text-lg mb-6 text-gray-700 dark:text-gray-200 leading-relaxed">
               OMF is an open-source framework designed to simplify the robust and 
               efficient development of MagicDraw plugins. Built by developers for 
               developers, OMF streamlines complex automations reliably and elegantly.
             </p>
-            <Card className="bg-slate-50 mt-6">
+            <Card className="bg-white/50 dark:bg-section-dark/50 backdrop-blur-sm shadow-soft mt-6 border dark:border-gray-700">
               <CardContent className="p-6">
                 <h4 className="font-semibold text-lg mb-2 flex items-center">
                   <svg
@@ -41,14 +41,14 @@ export default function WhatsOMF() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="mr-2 text-primary"
+                    className="mr-2 text-section-accent"
                   >
                     <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
                     <path d="m9 12 2 2 4-4" />
                   </svg>
                   Why OMF?
                 </h4>
-                <ul className="space-y-2 ml-7 list-disc text-gray-700">
+                <ul className="space-y-2 ml-7 list-disc text-gray-700 dark:text-gray-300">
                   <li>Simplifies MagicDraw plugin development</li>
                   <li>Ensures robustness with automatic error handling</li>
                   <li>Promotes modular, maintainable plugin architecture</li>
@@ -73,7 +73,7 @@ export default function WhatsOMF() {
               width="80%" 
               height={200} 
               label="OMF Logo"
-              className="mb-8" 
+              className="mb-8 shadow-soft" 
             />
           </motion.div>
           
@@ -82,6 +82,7 @@ export default function WhatsOMF() {
             type="gif" 
             height={250} 
             label="Feature creation and activation demo (~8s)"
+            className="shadow-soft"
           />
         </div>
       </div>
