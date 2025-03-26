@@ -45,9 +45,11 @@ public void testUserWorkflow() {
 }`;
 
   return (
-    <Section 
-      id="test-framework" 
+    <Section
+      id="test-framework"
       title="Functional Test Framework"
+      subtitle="Automated testing for reliability"
+      className="bg-section-alt-1 dark:section-dark"
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">

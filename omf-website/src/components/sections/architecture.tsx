@@ -115,9 +115,11 @@ export default function Architecture() {
   ];
 
   return (
-    <Section 
-      id="architecture" 
+    <Section
+      id="architecture"
       title="Feature-Oriented Architecture"
+      subtitle="Modular, autonomous features for better scalability"
+      className="bg-section-alt-1 dark:section-dark"
     >
       <div className="text-center max-w-3xl mx-auto mb-16">
         <p className="text-lg text-gray-700 leading-relaxed">

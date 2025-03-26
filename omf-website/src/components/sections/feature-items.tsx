@@ -79,10 +79,11 @@ export default function FeatureItems() {
   const [activeTab, setActiveTab] = useState(featureItems[0].id);
 
   return (
-    <Section 
-      id="feature-items" 
+    <Section
+      id="feature-items"
       title="Feature Items"
-      className="bg-gradient-to-b from-slate-50 to-white"
+      subtitle="Ready-to-use components for your plugins"
+      className="section-alt-2 dark:section-dark"
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">

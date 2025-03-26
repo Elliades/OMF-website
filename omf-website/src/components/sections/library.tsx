@@ -90,9 +90,11 @@ LayoutManager.arrangeElements(diagram, selectedElements);`
   const activeLibraryData = libraries.find(lib => lib.id === activeLibrary)!;
 
   return (
-    <Section 
-      id="library" 
-      title="Library"
+    <Section
+      id="library"
+      title="Library: SysML Factory & Helpers"
+      subtitle="Effortlessly create and manipulate SysML elements"
+      className="bg-section-alt-1 dark:section-dark"
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">

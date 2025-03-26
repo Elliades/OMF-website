@@ -48,10 +48,11 @@ export default function FeatureLibrary() {
   ];
 
   return (
-    <Section 
-      id="feature-library" 
+    <Section
+      id="feature-library"
       title="Feature Library"
-      className="bg-gradient-to-b from-white to-slate-50"
+      subtitle="Built-in features for common tasks"
+      className="section-alt-2 dark:section-dark"
     >
       <div className="text-center max-w-3xl mx-auto mb-16">
         <p className="text-lg text-gray-700 leading-relaxed">
