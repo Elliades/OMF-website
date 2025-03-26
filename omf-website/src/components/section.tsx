@@ -4,7 +4,7 @@
  */
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -13,19 +13,26 @@ interface SectionProps {
   title: string;
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
+  titleStyles?: CSSProperties;
   fullWidth?: boolean;
+  subtitle?: string;
 }
 
 export default function Section({
   id,
   title,
+  subtitle,
   children,
   className,
+  style,
+  titleStyles,
   fullWidth = false,
 }: SectionProps) {
   return (
     <section
       id={id}
+      style={style}
       className={cn(
         "min-h-screen py-24 flex flex-col items-center justify-center transition-colors duration-300",
         className
@@ -39,12 +46,20 @@ export default function Section({
           viewport={{ once: true, margin: "-100px" }}
           className="mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 dark:text-white">
+          <h2 
+            className="text-4xl md:text-5xl font-bold text-center mb-4 dark:text-white"
+            style={titleStyles}
+          >
             {title}
           </h2>
+          {subtitle && (
+            <p className="text-xl text-center mb-6 text-gray-600 dark:text-gray-300">
+              {subtitle}
+            </p>
+          )}
           <div className="relative">
-            <div className="w-24 h-1 bg-gradient-to-r from-gradient-start to-gradient-end mx-auto"></div>
-            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white dark:bg-section-dark opacity-30 blur-sm"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-[#0ea5e9] to-[#6366f1] mx-auto"></div>
+            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white dark:bg-[#0f172a] opacity-30 blur-sm"></div>
           </div>
         </motion.div>
         

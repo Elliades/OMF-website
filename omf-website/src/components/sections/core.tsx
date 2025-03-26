@@ -28,7 +28,8 @@ try (OMFBarrier barrier = new OMFBarrier()) {
     <Section 
       id="core" 
       title="Core: Robustness and Simplicity"
-      className="bg-section-light dark:bg-section-dark"
+      subtitle="Error management and state handling made easy"
+      className="bg-[#f8fafc] dark:bg-[#0f172a]"
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
         <div className="order-2 md:order-1">
@@ -56,7 +57,7 @@ try (OMFBarrier barrier = new OMFBarrier()) {
               and integrated listeners, managing your plugin state becomes straightforward.
             </p>
             
-            <div className="bg-white dark:bg-section-dark/80 rounded-lg p-6 shadow-soft border border-gray-100 dark:border-gray-700 mb-8">
+            <div className="bg-white dark:bg-[#0f172a]/80 rounded-lg p-6 shadow-soft border border-gray-100 dark:border-gray-700 mb-8">
               <h4 className="font-semibold text-lg mb-3 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

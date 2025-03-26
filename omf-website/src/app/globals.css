@@ -148,7 +148,7 @@
 
 /* Custom styles for code blocks */
 pre {
-  @apply bg-code-bg text-code-text p-4 rounded-lg overflow-x-auto;
+  @apply bg-[#1e293b] text-[#e2e8f0] p-4 rounded-lg overflow-x-auto;
 }
 
 code {
@@ -157,30 +157,30 @@ code {
 
 /* Section styling */
 .section-alt-1 {
-  @apply bg-section-blue;
+  @apply bg-[#f0f7ff];
 }
 
 .section-alt-2 {
-  @apply bg-gradient-to-b from-white to-section-blue/30;
+  @apply bg-gradient-to-b from-white to-[#f0f7ff]/30;
 }
 
 .section-dark {
-  @apply bg-section-dark text-white;
+  @apply bg-[#0f172a] text-white;
 }
 
 /* Accent borders */
 .accent-border-left {
-  @apply border-l-4 border-section-accent;
+  @apply border-l-4 border-[#38bdf8];
 }
 
 /* Gradient text */
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-gradient-start to-gradient-end;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#0ea5e9] to-[#6366f1];
 }
 
 /* Glow effect */
 .glow-effect {
-  @apply shadow-glow;
+  @apply shadow-[0_0_20px_rgba(56,189,248,0.5)];
 }
 
 /* Dark mode toggle effects */

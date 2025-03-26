@@ -86,7 +86,7 @@ export default function CodeSnippet({
         </Button>
       </div>
       <pre
-        className="bg-code-bg text-code-text p-4 overflow-x-auto text-sm font-mono"
+        className="bg-[#1e293b] text-[#e2e8f0] p-4 overflow-x-auto text-sm font-mono"
       >
         <code>
           {code.split('\n').map((line, index) => (
@@ -94,16 +94,16 @@ export default function CodeSnippet({
               {line.includes('//') ? (
                 <>
                   {line.split('//')[0]}
-                  <span className="text-code-comment">// {line.split('//')[1]}</span>
+                  <span className="text-[#94a3b8]">// {line.split('//')[1]}</span>
                 </>
               ) : line.includes('new') ? (
-                line.replace(/(new\s+\w+)/g, match => `<span class="text-code-keyword">${match}</span>`)
+                line.replace(/(new\s+\w+)/g, match => `<span class="text-[#7dd3fc]">${match}</span>`)
               ) : line.includes('try') || line.includes('if') || line.includes('for') ? (
-                <span className="text-code-keyword">{line}</span>
+                <span className="text-[#7dd3fc]">{line}</span>
               ) : line.includes('.') && line.includes('(') ? (
-                line.replace(/(\.\w+\()/g, match => `<span class="text-code-function">${match}</span>`)
+                line.replace(/(\.\w+\()/g, match => `<span class="text-[#c4b5fd]">${match}</span>`)
               ) : line.includes('"') ? (
-                line.replace(/"([^"]*)"/g, match => `<span class="text-code-string">${match}</span>`)
+                line.replace(/"([^"]*)"/g, match => `<span class="text-[#86efac]">${match}</span>`)
               ) : (
                 line
               )}

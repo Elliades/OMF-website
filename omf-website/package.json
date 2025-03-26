@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 3280",
+    "dev": "next dev --turbopack --port 3282",
     "build": "next build",
-    "start": "next start -p 3280",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7",
     "tw-animate-css": "^1.2.4"
   },
   "devDependencies": {
