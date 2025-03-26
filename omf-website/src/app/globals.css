@@ -191,3 +191,29 @@ code {
 .dark-mode-toggle {
   @apply transition-all duration-300;
 }
+
+/* Dark mode text adjustments */
+.dark p {
+  @apply text-gray-200;
+}
+
+.dark h3, .dark h4, .dark h5, .dark h6 {
+  @apply text-white;
+}
+
+.dark .text-gray-700 {
+  @apply text-gray-200;
+}
+
+.dark li {
+  @apply text-gray-200;
+}
+
+/* Card backgrounds in dark mode */
+.dark .bg-white {
+  @apply bg-[#050309]/80;
+}
+
+.dark .border-gray-200 {
+  @apply border-gray-700;
+}

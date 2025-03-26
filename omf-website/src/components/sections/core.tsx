@@ -51,14 +51,14 @@ try (OMFBarrier barrier = new OMFBarrier()) {
             <h3 className="text-2xl font-bold mb-6 gradient-text">
               Error Management Made Simple
             </h3>
-            <p className="text-lg mb-6 text-gray-700 dark:text-gray-200 leading-relaxed">
+            <p className="text-lg mb-6 text-gray-700 dark:text-gray-100 leading-relaxed">
               At OMF's core is the OMFBarrier, ensuring robust error management 
               with automatic rollback upon failure. Combined with FeatureRegisterer 
               and integrated listeners, managing your plugin state becomes straightforward.
             </p>
             
             <div className="bg-white dark:bg-[#050309]/80 rounded-lg p-6 shadow-soft border border-gray-100 dark:border-gray-700 mb-8">
-              <h4 className="font-semibold text-lg mb-3 flex items-center">
+              <h4 className="font-semibold text-lg mb-3 flex items-center dark:text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
