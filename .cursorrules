@@ -1,0 +1,114 @@
+# TECHN STACK
+- React
+- Next.js
+- Tailwind CSS
+- TypeScript
+- Shadcn UI
+- Framer Motion
+- Locally hosted website
+- Docker
+
+
+
+# PROJECT SPECIFICATION
+ ## OMF Onepager Site Specification
+
+### Overall Structure:
+
+- **Navigation:** Sticky menu either at the top or side, allowing direct section access.
+- **Clearly Defined Sections:** Smooth vertical scroll with subtle visual effects for section separation (soft shadows or background color changes).
+- **GIFs and Demos:** Integrated within each section for clear demonstrations. GIFs should be concise (10-15 sec) and focused.
+- **Visual Style:** Minimalist design with a clear background, readable fonts (Roboto or similar), and vibrant accents to highlight key points.
+
+---
+
+### Proposed Sections and Content:
+
+#### 1\. What's OMF?
+- **Brief Text:** "OMF is an open-source framework designed to simplify the robust and efficient development of MagicDraw plugins. Built by developers for developers, OMF streamlines complex automations reliably and elegantly."
+- **Image:** Clean and minimalist OMF logo accompanied by the tagline "Build Smarter, Not Harder."
+- **GIF/Demo:** Quick demo showcasing feature creation and activation live in MagicDraw (~8s).
+
+#### 2\. Core: Robustness and Simplicity
+- **Short Explanatory Text:** "At OMF's core is the OMFBarrier, ensuring robust error management with automatic rollback upon failure. Combined with FeatureRegisterer and integrated listeners, managing your plugin state becomes straightforward."
+- **GIF:** Execution showcasing a forced error, automatic rollback, and restoration (~10s).
+- **Short Code Example:** Simple snippet illustrating barrier declaration.
+
+#### 3\. Feature-Oriented Architecture
+- **Text:** "OMF structures your plugins into modular, autonomous Features, enhancing scalability and simplifying maintenance."
+- **Image/Diagram:** Simplified visual diagram illustrating feature-oriented architecture with highlighted inter-feature interactions.
+- **GIF:** Live demonstration of enabling/disabling Features (~12s).
+
+#### 4\. Feature Items: UIAction, LiveAction, Option, Hook, API
+- **Text:** "OMF provides ready-to-use Feature Items. Easily integrate UI actions, live actions, configurable options, custom hooks, and standardized APIs."
+- **Grid of GIFs:**
+   - UIAction: Button click in MagicDraw UI.
+   - LiveAction: Immediate response to model modifications.
+   - Option: Real-time configuration change.
+   - Hook: Adding custom behaviors triggered by events.
+
+#### 5\. Library: SysML Factory, SysML Helpers, LayoutManager
+- **Text:** "Accelerate your development with a powerful library: effortlessly create SysML elements, manipulate them efficiently, and automatically manage visual layouts."
+- **GIF:** Dynamic example showing automated SysML block creation and automatic layout adjustments (~12s).
+
+#### 6\. Feature Library: Organizer, Stereotypes, FlowCreation
+- **Text:** "Access a comprehensive collection of built-in Features for organizing projects, managing stereotypes, or automating flow creation."
+- **GIFs:**
+   - Organizer: Quick sorting and filtering elements.
+   - Stereotypes: Instant add/remove stereotype with immediate effect.
+   - FlowCreation: Full flow automation demo (~15s).
+
+#### 7\. Functional Test Framework: Model Comparison & Scenario Testing
+- **Text:** "Automatically test your plugins using the integrated functional test framework. Efficiently compare SysML models and simulate user scenarios to ensure reliability."
+- **GIF:** Quick demonstration of automated SysML model comparison with highlighted results (~12s).
+
+---
+
+### GitHub README
+- **GIF Compatibility:** Yes, GitHub supports GIFs in READMEs, perfect for concise and effective demonstrations directly accessible from your repository.
+- **Suggestion:** Clearly link your onepager website from your README with key GIFs to attract developers at first glance.
+
+This specification highlights OMF with visually appealing content emphasizing technical efficiency and clear explanations, directly targeting demanding developers.
+
+
+#Coding Process
+- new features shall be implemented in a new branch, named like the feature.
+- test shall be added for the new feature.
+- documentation shall be added for the new feature.
+- architecture documentation shall be updated to reflect the new changes.
+- the branch shall be pushed to the remote repository.
+- a PR shall be created for the branch, and merged into the main branch.
+- the branch shall be deleted after the PR is merged.
+
+#Chat verbosity
+- Be concise, to the point, and clear.
+- Be creative on UI/UX design, make it simple and intuitive, modern and chearfull.
+- Explain any Backend concepts, as well as the reasoning behind the code.
+
+#Debugging
+- Always use the test access components to debug the code.
+- Always make an analysis of the potential root cause of the issue, instead of just fixing the symptom.
+- Always consider the impact of the changes on the other parts of the code.
+
+#Code Documentation
+- Always update code comments when editing code.
+- Always add a top comment explaining the purpose of the file
+- Always add comments to the code to explain "why" behind the code in more complex functions.
+- Always add comments to the code to explain "how" behind the code in more complex functions.
+- Always comment the main REST API endpoints.
+- Always add a comment before the main react div explaining the structure of the div
+- always add comment explaining the css properties
+
+#Project Documentation
+- Always update the project documentation when editing code.
+- Always add a top comment explaining the purpose of the project
+
+#Start/Stop script
+- provide a set of script to start Back and Front end, and to stop them.
+
+#Important 
+- DO NOT DUPLICATE CODE, if you see code that is similar, refactor it into a function or a class.
+- DO NOT HALLUCINATE CODE, if you don't know the answer, say so instead of guessing.
+- DO NOT TOUCH ANYTHING OUTSIDE THE PROJECT FOLDER, unless explicitly told to do so.
+- ALWAYS MAKE ANALYSIS OF THE CODE BEFORE WRITING ANYTHING.
+- ALWAYS CONSULT THE PROJECT DOCUMENTATION BEFORE WRITING ANYTHING.
