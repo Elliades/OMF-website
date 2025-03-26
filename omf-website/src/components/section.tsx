@@ -59,7 +59,7 @@ export default function Section({
           )}
           <div className="relative">
             <div className="w-24 h-1 bg-gradient-to-r from-[#0ea5e9] to-[#6366f1] mx-auto"></div>
-            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white dark:bg-[#0f172a] opacity-30 blur-sm"></div>
+            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white dark:bg-[#050309] opacity-30 blur-sm"></div>
           </div>
         </motion.div>
         

@@ -59,8 +59,8 @@ export default function Navbar() {
     <motion.header 
       className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${
         scrolled 
-          ? "dark:bg-[#0f172a]/90 bg-white/90 backdrop-blur-sm shadow-sm" 
-          : "dark:bg-[#0f172a]/20 bg-transparent"
+          ? "dark:bg-[#050309]/90 bg-white/90 backdrop-blur-sm shadow-sm" 
+          : "dark:bg-[#050309]/20 bg-transparent"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -150,7 +150,7 @@ export default function Navbar() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-white dark:bg-[#0f172a] shadow-md"
+          className="md:hidden bg-white dark:bg-[#050309] shadow-md"
         >
           <div className="container py-4 flex flex-col space-y-2">
             {navItems.map((item) => (
