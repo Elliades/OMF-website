@@ -1,44 +1,139 @@
 /**
- * CodeSnippet component for displaying code examples
- * Used to show OMF code samples
+ * CodeSnippet component for displaying code examples with syntax highlighting
+ * Supports Java and Kotlin code with proper syntax highlighting
  */
 "use client";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 interface CodeSnippetProps {
   code: string;
-  language?: string;
+  language: "java" | "kotlin";
   title?: string;
   className?: string;
 }
 
 export default function CodeSnippet({
   code,
-  language = "java",
+  language,
   title = "Code Example",
   className = "",
 }: CodeSnippetProps) {
   const [copied, setCopied] = useState(false);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(code);
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Syntax highlighting for Java/Kotlin
+  const highlightCode = (code: string, lang: "java" | "kotlin") => {
+    return code.split("\n").map((line, i) => {
+      // Keywords for both languages
+      const keywords = [
+        "public", "private", "protected", "class", "interface", "enum", "extends", "implements",
+        "static", "final", "abstract", "native", "transient", "volatile", "synchronized",
+        "void", "boolean", "byte", "short", "char", "int", "long", "float", "double",
+        "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue",
+        "return", "try", "catch", "finally", "throw", "throws", "new", "this", "super",
+        "import", "package", "const", "goto", "strictfp", "assert", "var", "val", "fun",
+        "data", "object", "companion", "sealed", "inline", "noinline", "crossinline",
+        "reified", "expect", "actual", "external", "suspend", "tailrec", "operator",
+        "infix", "internal", "annotation", "init", "constructor", "destructor", "by",
+        "delegate", "dynamic", "field", "file", "finally", "get", "import", "init",
+        "param", "property", "receiver", "set", "setparam", "where", "when"
+      ];
+
+      // Annotations (mostly for Java)
+      const annotations = [
+        "Override", "Deprecated", "SuppressWarnings", "SafeVarargs", "FunctionalInterface",
+        "Documented", "Retention", "Target", "Inherited", "Native", "Repeatable",
+        "NotNull", "Nullable", "NonNull", "Required", "JvmStatic", "JvmField", "JvmName"
+      ];
+
+      // Regular expressions for different code elements
+      const patterns = {
+        comment: /\/\/.*$/,
+        multilineComment: /\/\*[\s\S]*?\*\//,
+        string: /"[^"]*"/,
+        number: /\b\d+\b/,
+        keyword: new RegExp(`\\b(${keywords.join("|")})\\b`),
+        annotation: new RegExp(`@(${annotations.join("|")})\\b`),
+        function: /\b\w+(?=\s*\()/,
+        type: /\b[A-Z]\w*\b/,
+      };
+
+      let highlightedLine = line;
+
+      // Apply highlighting in order of precedence
+      if (patterns.comment.test(line)) {
+        highlightedLine = line.replace(patterns.comment, (match) => 
+          `<span class="text-gray-400">${match}</span>`
+        );
+      }
+
+      if (patterns.multilineComment.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.multilineComment, (match) => 
+          `<span class="text-gray-400">${match}</span>`
+        );
+      }
+
+      if (patterns.string.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.string, (match) => 
+          `<span class="text-emerald-400">${match}</span>`
+        );
+      }
+
+      if (patterns.number.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.number, (match) => 
+          `<span class="text-orange-400">${match}</span>`
+        );
+      }
+
+      if (patterns.keyword.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.keyword, (match) => 
+          `<span class="text-blue-400">${match}</span>`
+        );
+      }
+
+      if (patterns.annotation.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.annotation, (match) => 
+          `<span class="text-pink-400">${match}</span>`
+        );
+      }
+
+      if (patterns.function.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.function, (match) => 
+          `<span class="text-yellow-400">${match}</span>`
+        );
+      }
+
+      if (patterns.type.test(highlightedLine)) {
+        highlightedLine = highlightedLine.replace(patterns.type, (match) => 
+          `<span class="text-purple-400">${match}</span>`
+        );
+      }
+
+      return `<span class="line-number text-gray-500 mr-4">${i + 1}</span>${highlightedLine}`;
+    }).join("\n");
+  };
+
   return (
     <motion.div
-      className={`rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-soft ${className}`}
+      className={cn(
+        "relative rounded-lg border border-gray-200 dark:border-gray-700 shadow-soft",
+        className
+      )}
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
     >
-      <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{title}</span>
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-t-lg">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">{title}</h3>
         <Button
           variant="ghost"
           size="sm"
@@ -85,31 +180,11 @@ export default function CodeSnippet({
           )}
         </Button>
       </div>
-      <pre
-        className="bg-[#1e293b] text-[#e2e8f0] p-4 overflow-x-auto text-sm font-mono"
-      >
-        <code>
-          {code.split('\n').map((line, index) => (
-            <div key={index} className="leading-relaxed">
-              {line.includes('//') ? (
-                <>
-                  {line.split('//')[0]}
-                  <span className="text-[#94a3b8]">// {line.split('//')[1]}</span>
-                </>
-              ) : line.includes('new') ? (
-                line.replace(/(new\s+\w+)/g, match => `<span class="text-[#7dd3fc]">${match}</span>`)
-              ) : line.includes('try') || line.includes('if') || line.includes('for') ? (
-                <span className="text-[#7dd3fc]">{line}</span>
-              ) : line.includes('.') && line.includes('(') ? (
-                line.replace(/(\.\w+\()/g, match => `<span class="text-[#c4b5fd]">${match}</span>`)
-              ) : line.includes('"') ? (
-                line.replace(/"([^"]*)"/g, match => `<span class="text-[#86efac]">${match}</span>`)
-              ) : (
-                line
-              )}
-            </div>
-          ))}
-        </code>
+      <pre className="p-4 overflow-x-auto bg-[#1e293b] rounded-b-lg">
+        <code
+          className="text-sm font-mono text-gray-200"
+          dangerouslySetInnerHTML={{ __html: highlightCode(code, language) }}
+        />
       </pre>
     </motion.div>
   );
