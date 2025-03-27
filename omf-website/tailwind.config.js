@@ -106,7 +106,47 @@ module.exports = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-angular': 'conic-gradient(from 225deg at 50% 50%, #0ea5e9 0%, #6366f1 50%, #ec4899 100%)',
       },
+      fontSize: {
+        // Ajouter des tailles de police personnalisées
+        'title': '10rem',
+        'subtitle': '2rem',
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    // Ajouter un plugin personnalisé pour garantir que nos classes de texte ne sont pas purgées
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.text-title': {
+          fontSize: '10rem',
+          lineHeight: '1',
+        },
+        '.text-subtitle': {
+          fontSize: '2rem',
+          lineHeight: '1.2',
+        },
+        // Responsive versions
+        '@media (max-width: 1024px)': {
+          '.text-title': {
+            fontSize: '7rem',
+          },
+        },
+        '@media (max-width: 768px)': {
+          '.text-title': {
+            fontSize: '5rem',
+          },
+        },
+        '@media (max-width: 640px)': {
+          '.text-title': {
+            fontSize: '3.5rem',
+          },
+          '.text-subtitle': {
+            fontSize: '1.5rem',
+          },
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 } 

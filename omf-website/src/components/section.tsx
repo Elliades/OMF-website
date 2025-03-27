@@ -150,7 +150,7 @@ export default function Section({
       )}>
         <div className="text-center mb-10 md:mb-16">
           <h2 className={cn(
-            "text-title font-bold mb-6",
+            "text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6",
             shouldHavePattern && isDark ? "text-white" : shouldHavePattern ? "text-gray-800" : "dark:text-white"
           )} 
             style={titleStyles}
@@ -166,7 +166,7 @@ export default function Section({
           </h2>
           {subtitle && (
             <p className={cn(
-              "text-subtitle max-w-3xl mx-auto",
+              "text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto",
               shouldHavePattern && isDark ? "text-gray-200" : 
               shouldHavePattern ? "text-gray-600" : "text-gray-600 dark:text-gray-300"
             )}>
