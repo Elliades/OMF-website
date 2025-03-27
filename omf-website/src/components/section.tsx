@@ -27,7 +27,7 @@ export default function Section({
   subtitle,
   children,
   className,
-  style = {},
+  style,
   titleStyles,
   fullWidth = false,
   index = 0
@@ -43,13 +43,24 @@ export default function Section({
   // Use pattern backgrounds for even-indexed sections (except index 0)
   const useDarkPattern = index > 0 && index % 2 === 0;
 
-  // Dark pattern background - used when useDarkPattern is true
+  // Dark pattern background
   const darkPatternStyle: CSSProperties = {
     backgroundImage: `url('/svg/pattern-dark.svg')`,
     backgroundRepeat: 'repeat',
     backgroundSize: '200px 200px',
     backgroundColor: "#050309",
   };
+
+  // Light pattern background
+  const lightPatternStyle: CSSProperties = {
+    backgroundImage: `url('/svg/pattern-light.svg')`,
+    backgroundRepeat: 'repeat',
+    backgroundSize: '200px 200px',
+    backgroundColor: "#f8f9fa",
+  };
+
+  // Section background style based on index
+  const bgStyle = useDarkPattern ? darkPatternStyle : {};
 
   // Hover overlay for dark pattern sections
   const hoverOverlay: CSSProperties = {
@@ -64,12 +75,6 @@ export default function Section({
     zIndex: 0
   };
 
-  // Combine styles
-  const sectionStyle: CSSProperties = {
-    ...(useDarkPattern ? darkPatternStyle : {}),
-    ...style
-  };
-
   return (
     <section
       id={id}
@@ -78,16 +83,13 @@ export default function Section({
         useDarkPattern ? "text-white" : "bg-section-light dark:bg-section-dark",
         className
       )}
-      style={sectionStyle}
+      style={{...bgStyle, ...style}}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {useDarkPattern && <div style={hoverOverlay} />}
       
-      <div className={cn(
-        "relative z-10",
-        fullWidth ? "w-full" : "container mx-auto px-4"
-      )}>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white" style={titleStyles}>
             {title}

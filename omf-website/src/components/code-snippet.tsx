@@ -30,133 +30,102 @@ export default function CodeSnippet({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Process comments first to avoid parsing their content
-  const processComments = (line: string) => {
-    if (line.includes("//")) {
-      const commentIndex = line.indexOf("//");
-      const codeSection = line.substring(0, commentIndex);
-      const commentSection = line.substring(commentIndex);
-      return {
-        codeSection,
-        commentSection,
-        hasComment: true
-      };
-    }
-    return {
-      codeSection: line,
-      commentSection: "",
-      hasComment: false
-    };
+  // Safely replace text with styled span
+  const safeReplace = (text: string, pattern: RegExp, className: string) => {
+    return text.replace(pattern, (match) => {
+      // Escape any HTML in the match
+      const escaped = match
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+      
+      return `<span class="${className}">${escaped}</span>`;
+    });
   };
 
-  // Safe HTML escaping
-  const escapeHtml = (text: string) => {
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  };
-
-  // Highlight specific code parts
+  // Syntax highlighting for Java/Kotlin
   const highlightCode = (code: string, lang: "java" | "kotlin") => {
-    // Define regex patterns
-    const patterns = {
-      annotation: /@\w+/g,
-      keyword: /\b(public|private|protected|class|interface|enum|extends|implements|static|final|abstract|void|boolean|byte|short|char|int|long|float|double|if|else|switch|case|default|for|while|do|break|continue|return|try|catch|finally|throw|throws|new|this|super|import|package|assert|var|val|fun|null|true|false|Test)\b/g,
-      string: /"(?:[^"\\]|\\.)*"/g,
-      method: /\b\w+(?=\s*\()/g,
-      methodChaining: /\.\w+(?=\s*\()/g, // Method calls in chaining
-      number: /\b\d+\b/g,
-      constant: /\b[A-Z][A-Z0-9_]*\b/g,
-      type: /\b[A-Z][a-zA-Z0-9_]*\b/g,
-      punctuation: /[{}()[\]]/g
-    };
-
     return code.split("\n").map((line, i) => {
-      // Process and extract comments first
-      const { codeSection, commentSection, hasComment } = processComments(line);
+      // Escape HTML in the line first
+      let highlightedLine = line
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
       
-      // Escape HTML in both sections
-      let escapedCode = escapeHtml(codeSection);
-      const escapedComment = hasComment ? escapeHtml(commentSection) : "";
-      
-      // Apply syntax highlighting to the code section
-      
-      // First handle annotations (they have @ prefix)
-      if (patterns.annotation.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.annotation, match => 
-          `<span class="text-pink-400">${match}</span>`
-        );
+      // Keywords for both languages
+      const keywords = [
+        "public", "private", "protected", "class", "interface", "enum", "extends", "implements",
+        "static", "final", "abstract", "native", "transient", "volatile", "synchronized",
+        "void", "boolean", "byte", "short", "char", "int", "long", "float", "double",
+        "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue",
+        "return", "try", "catch", "finally", "throw", "throws", "new", "this", "super",
+        "import", "package", "const", "goto", "strictfp", "assert", "var", "val", "fun",
+        "data", "object", "companion", "sealed", "inline", "noinline", "crossinline",
+        "reified", "expect", "actual", "external", "suspend", "tailrec", "operator",
+        "infix", "internal", "annotation", "init", "constructor", "destructor", "by",
+        "delegate", "dynamic", "field", "file", "finally", "get", "import", "init",
+        "param", "property", "receiver", "set", "setparam", "where", "when"
+      ];
+
+      // Regular expressions for different code elements
+      const patterns = {
+        comment: /\/\/.*$/,
+        multilineComment: /\/\*[\s\S]*?\*\//,
+        string: /"(?:[^"\\]|\\.)*"/,
+        number: /\b\d+\b/,
+        keyword: new RegExp(`\\b(${keywords.join("|")})\\b`, 'g'),
+        annotation: /@\w+/g,
+        function: /\b\w+(?=\s*\()/g,
+        type: /\b[A-Z]\w*\b/g,
+      };
+
+      // Apply highlighting in specific order
+      // Comments first to avoid highlighting content inside comments
+      if (line.includes("//")) {
+        const parts = highlightedLine.split("//");
+        if (parts.length > 1) {
+          const comment = parts.slice(1).join("//");
+          highlightedLine = parts[0] + `<span class="text-gray-400">//${comment}</span>`;
+        }
+      } else {
+        // Not a comment line, proceed with other highlighting
+        if (patterns.string.test(highlightedLine)) {
+          highlightedLine = safeReplace(highlightedLine, patterns.string, "text-emerald-400");
+        }
+
+        if (patterns.number.test(highlightedLine)) {
+          highlightedLine = safeReplace(highlightedLine, patterns.number, "text-orange-400");
+        }
+
+        if (patterns.annotation.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.annotation, (match) => 
+            `<span class="text-pink-400">${match}</span>`
+          );
+        }
+
+        if (patterns.keyword.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.keyword, (match) => 
+            `<span class="text-blue-400">${match}</span>`
+          );
+        }
+
+        if (patterns.function.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.function, (match) => 
+            `<span class="text-yellow-400">${match}</span>`
+          );
+        }
+
+        if (patterns.type.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.type, (match) => 
+            `<span class="text-purple-400">${match}</span>`
+          );
+        }
       }
-      
-      // Method chaining
-      if (patterns.methodChaining.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.methodChaining, match => 
-          `<span class="text-yellow-300">${match}</span>`
-        );
-      }
-      
-      // Normal methods
-      if (patterns.method.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.method, match => {
-          // Avoid highlighting methods that are part of chains
-          if (match === 'assert' || match === 'return') return match;
-          return `<span class="text-yellow-400">${match}</span>`;
-        });
-      }
-      
-      // Keywords
-      if (patterns.keyword.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.keyword, match => 
-          `<span class="text-blue-400">${match}</span>`
-        );
-      }
-      
-      // Strings
-      if (patterns.string.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.string, match => 
-          `<span class="text-emerald-400">${match}</span>`
-        );
-      }
-      
-      // Constants and types
-      if (patterns.constant.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.constant, match => {
-          if (match === 'Test') return match; // Skip Test annotation
-          return `<span class="text-orange-400">${match}</span>`;
-        });
-      }
-      
-      // Types (classes, interfaces, etc.)
-      if (patterns.type.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.type, match => {
-          // Skip already highlighted keywords or constants
-          if (match === 'Test' || /^[A-Z][A-Z0-9_]*$/.test(match)) return match;
-          return `<span class="text-purple-400">${match}</span>`;
-        });
-      }
-      
-      // Numbers
-      if (patterns.number.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.number, match => 
-          `<span class="text-orange-300">${match}</span>`
-        );
-      }
-      
-      // Punctuation
-      if (patterns.punctuation.test(escapedCode)) {
-        escapedCode = escapedCode.replace(patterns.punctuation, match => 
-          `<span class="text-gray-400">${match}</span>`
-        );
-      }
-      
-      // Combine code with comment (with highlighting)
-      const highlightedLine = escapedCode + (hasComment ? 
-        `<span class="text-gray-400">${escapedComment}</span>` : "");
-      
-      // Add line number
+
       return `<span class="line-number text-gray-500 mr-4">${i + 1}</span>${highlightedLine}`;
     }).join("\n");
   };
