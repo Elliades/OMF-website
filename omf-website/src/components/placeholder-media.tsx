@@ -40,22 +40,56 @@ export default function PlaceholderMedia({
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [actualHeight, setActualHeight] = useState(height);
   const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Update dimensions when the image loads
+  const updateDimensions = () => {
+    if (imgRef.current) {
+      const imgWidth = imgRef.current.naturalWidth;
+      const imgHeight = imgRef.current.naturalHeight;
+      
+      setDimensions({
+        width: imgWidth,
+        height: imgHeight
+      });
+      
+      // Calculate appropriate container height
+      const aspectRatio = imgWidth / imgHeight;
+      let newHeight = height;
+      
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth;
+        
+        // If image is wider than tall
+        if (aspectRatio > 1) {
+          // Use default height, but ensure it's not too tall for a wide image
+          newHeight = Math.min(height, containerWidth / aspectRatio);
+        } else {
+          // For tall images, limit height to avoid overly tall containers
+          newHeight = Math.min(350, Math.max(250, containerWidth / aspectRatio * 0.8));
+        }
+      }
+      
+      setActualHeight(newHeight);
+    }
+  };
 
   useEffect(() => {
+    // Set initial dimensions
     if (imgRef.current && imgRef.current.complete) {
       updateDimensions();
     }
+    
+    // Add window resize handler
+    const handleResize = () => {
+      updateDimensions();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const updateDimensions = () => {
-    if (imgRef.current) {
-      setDimensions({
-        width: imgRef.current.naturalWidth,
-        height: imgRef.current.naturalHeight
-      });
-    }
-  };
 
   const incrementScale = () => {
     setScale(prev => Math.min(prev + 0.1, 2));
@@ -93,32 +127,17 @@ export default function PlaceholderMedia({
     setShowControls(prev => !prev);
   };
 
-  // Calculate responsive height based on dimensions
-  const calculateHeight = () => {
-    if (dimensions.width === 0 || dimensions.height === 0) {
-      return height; // Default height if dimensions not available
-    }
-    
-    // If the GIF is wider than it is tall, use default height
-    if (dimensions.width > dimensions.height) {
-      return height;
-    }
-    
-    // If the GIF is taller than it is wide, adjust height proportionally
-    // but max out at 400px to not make it too tall
-    return Math.min(height * (dimensions.height / dimensions.width), 400);
-  };
-
   return (
     <motion.div
+      ref={containerRef}
       className={cn(
-        "relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800",
+        "relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 transition-all duration-300 ease-in-out",
         isExpanded ? "fixed inset-0 z-50" : "",
         className
       )}
       style={{ 
         width, 
-        height: isExpanded ? "100%" : calculateHeight() 
+        height: isExpanded ? "100%" : actualHeight
       }}
       onClick={onClick}
     >
