@@ -69,16 +69,6 @@
     --section-alt-1: 40 96% 89%;
     --section-alt-2: 0 0% 98%;
     --section-light: 0 0% 100%;
-    
-    /* Typography scale */
-    --text-title: 10rem; /* Large section titles */
-    --text-subtitle: 2rem; /* Section subtitles */
-    --text-h2: 3rem;
-    --text-h3: 2.25rem;
-    --text-h4: 1.5rem;
-    --text-base: 1rem;
-    --text-sm: 0.875rem;
-    --text-xs: 0.75rem;
   }
   
   .dark {
@@ -106,37 +96,6 @@
     --section-alt-1: 40 13% 10%;
     --section-alt-2: 220 33% 5%;
     --section-light: 222.2 84% 4.9%;
-  }
-}
-
-/* Font size utility classes */
-.text-title {
-  font-size: var(--text-title);
-  line-height: 1;
-}
-
-.text-subtitle {
-  font-size: var(--text-subtitle);
-  line-height: 1.2;
-}
-
-/* Responsive adjustments for title size */
-@media (max-width: 1024px) {
-  :root {
-    --text-title: 7rem;
-  }
-}
-
-@media (max-width: 768px) {
-  :root {
-    --text-title: 5rem;
-  }
-}
-
-@media (max-width: 640px) {
-  :root {
-    --text-title: 3.5rem;
-    --text-subtitle: 1.5rem;
   }
 }
 
@@ -271,4 +230,77 @@ code {
 
 .dark .pattern-bg::after {
   opacity: 0.05;
+}
+
+/* SVG background classes for specific patterns */
+/* Purple Corner Patterns */
+.svg-purple-light {
+  background-image: url('/svg/white-purple-corner.svg');
+  background-color: #f8f8fe;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-purple-light {
+  display: none;
+}
+
+.svg-purple-dark {
+  display: none;
+}
+
+.dark .svg-purple-dark {
+  display: block;
+  background-image: url('/svg/purple-corner.svg');
+  background-color: #220033;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Acid Corner Patterns */
+.svg-acid-light {
+  background-image: url('/svg/white-acid-corner.svg');
+  background-color: #f8fef8;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-acid-light {
+  display: none;
+}
+
+.svg-acid-dark {
+  display: none;
+}
+
+.dark .svg-acid-dark {
+  display: block;
+  background-image: url('/svg/acid-corner.svg');
+  background-color: #003322;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Orange/Cyan Corner Patterns */
+.svg-orange-light {
+  background-image: url('/svg/white-orange-corner.svg');
+  background-color: #fef8f8;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-orange-light {
+  display: none;
+}
+
+.svg-cyan-dark {
+  display: none;
+}
+
+.dark .svg-cyan-dark {
+  display: block;
+  background-image: url('/svg/cyan-corner.svg');
+  background-color: #002233;
+  background-size: cover;
+  background-attachment: fixed;
 }

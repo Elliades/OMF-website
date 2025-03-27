@@ -5,15 +5,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Section from "@/components/section";
-import PlaceholderMedia from "@/components/placeholder-media";
+import Section from "../section";
+import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent } from "../ui/card";
 
 interface ArchitectureProps {
-  index: number;
+  index?: number;
 }
 
-export default function Architecture({ index }: ArchitectureProps) {
+export default function Architecture({ index = 2 }: ArchitectureProps) {
   // Feature information
   const features = [
     {
@@ -127,7 +127,7 @@ export default function Architecture({ index }: ArchitectureProps) {
       index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p className="text-lg text-gray-700 leading-relaxed">
           OMF structures your plugins into modular, autonomous Features, 
           enhancing scalability and simplifying maintenance.
         </p>
@@ -173,12 +173,12 @@ export default function Architecture({ index }: ArchitectureProps) {
                 >
                   <CardContent className="p-6">
                     <div className="flex items-start">
-                      <div className="mr-4 p-2 rounded-full bg-gray-50 dark:bg-gray-800">
+                      <div className="mr-4 p-2 rounded-full bg-gray-50">
                         {feature.icon}
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg mb-2 dark:text-white">{feature.title}</h3>
-                        <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+                        <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
+                        <p className="text-gray-600">{feature.description}</p>
                       </div>
                     </div>
                   </CardContent>

@@ -6,16 +6,16 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Section from "@/components/section";
-import PlaceholderMedia from "@/components/placeholder-media";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Section from "../section";
+import PlaceholderMedia from "../placeholder-media";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 interface FeatureItemsProps {
-  index: number;
+  index?: number;
 }
 
-export default function FeatureItems({ index }: FeatureItemsProps) {
+export default function FeatureItems({ index = 3 }: FeatureItemsProps) {
   // Feature item details
   const featureItems = [
     {

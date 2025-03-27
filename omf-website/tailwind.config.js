@@ -15,6 +15,11 @@ module.exports = {
       },
     },
     extend: {
+      fontSize: {
+        // Ajouter des tailles de police personnalisées
+        'title': '10rem',
+        'subtitle': '2rem',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -105,11 +110,6 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-angular': 'conic-gradient(from 225deg at 50% 50%, #0ea5e9 0%, #6366f1 50%, #ec4899 100%)',
-      },
-      fontSize: {
-        // Ajouter des tailles de police personnalisées
-        'title': '10rem',
-        'subtitle': '2rem',
       },
     },
   },

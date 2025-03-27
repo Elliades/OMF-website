@@ -5,15 +5,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Section from "@/components/section";
-import PlaceholderMedia from "@/components/placeholder-media";
-import CodeSnippet from "@/components/code-snippet";
+import Section from "../section";
+import PlaceholderMedia from "../placeholder-media";
+import CodeSnippet from "../code-snippet";
 
 interface TestFrameworkProps {
-  index: number;
+  index?: number;
 }
 
-export default function TestFramework({ index }: TestFrameworkProps) {
+export default function TestFramework({ index = 6 }: TestFrameworkProps) {
   // Example code snippet for test framework
   const testFrameworkCode = 
 `// Model comparison test
@@ -138,7 +138,6 @@ public void testUserWorkflow() {
             code={testFrameworkCode} 
             title="Functional Test Examples"
             className="shadow-sm"
-            language="java"
           />
           
           <PlaceholderMedia 

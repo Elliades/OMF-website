@@ -32,80 +32,49 @@ export default function Section({
   fullWidth = false,
   index
 }: SectionProps) {
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
   const [isDark, setIsDark] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
+  // useEffect for hydration
   useEffect(() => {
-    setIsDark(theme === 'dark');
-  }, [theme]);
+    setMounted(true);
+  }, []);
+  
+  // useEffect for theme detection
+  useEffect(() => {
+    // Check both theme and resolvedTheme for more reliable detection
+    const isDarkMode = theme === 'dark' || resolvedTheme === 'dark';
+    setIsDark(isDarkMode);
+    
+    // Debug output for theme detection
+    // console.log(`Section ${id}: theme=${theme}, resolvedTheme=${resolvedTheme}, isDark=${isDarkMode}`);
+  }, [theme, resolvedTheme, id]);
 
   // Determine if section should have a special background pattern
   // Sections with odd indices (1, 3, 5, 7) will have SVG patterns
   const shouldHavePattern = index > 0 && index % 2 === 1;
   
-  // Determine which pattern to use based on the section index
+  // Determine which pattern classes to use based on the section index
   // This creates a rotating pattern through the available backgrounds
-  const getPatternIndex = () => {
-    if (!shouldHavePattern) return -1;
+  const getSVGClasses = () => {
+    if (!shouldHavePattern) return '';
     
-    // Rotate through 3 different patterns (0, 1, 2)
-    // Since we're using odd indices (1, 3, 5, 7), subtract 1 first to get (0, 2, 4, 6)
-    // then divide by 2 to get (0, 1, 2, 3), and finally use modulo 3 to cycle
-    return Math.floor((index - 1) / 2) % 3;
-  };
-  
-  const patternIndex = getPatternIndex();
-  
-  // Light mode SVG backgrounds
-  const lightPatterns = [
-    {
-      backgroundImage: `url('/svg/white-purple-corner.svg')`,
-      backgroundColor: "#f8f8fe",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-    },
-    {
-      backgroundImage: `url('/svg/white-acid-corner.svg')`,
-      backgroundColor: "#f8fef8",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-    },
-    {
-      backgroundImage: `url('/svg/white-orange-corner.svg')`,
-      backgroundColor: "#fef8f8",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-    }
-  ];
-  
-  // Dark mode SVG backgrounds
-  const darkPatterns = [
-    {
-      backgroundImage: `url('/svg/purple-corner.svg')`,
-      backgroundColor: "#220033",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-    },
-    {
-      backgroundImage: `url('/svg/acid-corner.svg')`,
-      backgroundColor: "#003322",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-    },
-    {
-      backgroundImage: `url('/svg/cyan-corner.svg')`,
-      backgroundColor: "#002233",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-    }
-  ];
-
-  // Choose the appropriate pattern style based on theme and section index
-  const getPatternStyle = (): CSSProperties => {
-    if (!shouldHavePattern || patternIndex === -1) return {};
+    // Rotate through 3 different patterns
+    // For odd indices (1, 3, 5, 7)
+    const patternIndex = Math.floor((index - 1) / 2) % 3;
     
-    return isDark ? darkPatterns[patternIndex] : lightPatterns[patternIndex];
+    switch(patternIndex) {
+      case 0:
+        return 'svg-purple-light svg-purple-dark';
+      case 1:
+        return 'svg-acid-light svg-acid-dark';
+      case 2:
+        return 'svg-orange-light svg-cyan-dark';
+      default:
+        return '';
+    }
   };
 
   // Hover overlay for dark pattern sections
@@ -121,24 +90,18 @@ export default function Section({
     zIndex: 0
   };
 
-  // Combine background style with user style
-  const sectionStyle = {
-    ...getPatternStyle(),
-    ...style
-  };
-
-  // Debug info to help with pattern troubleshooting
-  // console.log(`Section ${id}: index=${index}, shouldHavePattern=${shouldHavePattern}, patternIndex=${patternIndex}`);
+  // Debug info (enable it temporarily for troubleshooting)
+  // console.log(`Section ${id}: mounted=${mounted}, isDark=${isDark}, pattern=${patternIndex}, style=`, sectionStyle);
 
   return (
     <section
       id={id}
       className={cn(
         "relative py-16 md:py-24 transition-colors duration-300",
-        shouldHavePattern ? "text-white" : "bg-section-light dark:bg-section-dark",
+        shouldHavePattern ? getSVGClasses() : "bg-section-light dark:bg-section-dark",
         className
       )}
-      style={sectionStyle}
+      style={style}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

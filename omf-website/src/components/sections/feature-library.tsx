@@ -5,15 +5,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Section from "@/components/section";
-import PlaceholderMedia from "@/components/placeholder-media";
+import Section from "../section";
+import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 
 interface FeatureLibraryProps {
-  index: number;
+  index?: number;
 }
 
-export default function FeatureLibrary({ index }: FeatureLibraryProps) {
+export default function FeatureLibrary({ index = 5 }: FeatureLibraryProps) {
   // Built-in features
   const features = [
     {
@@ -56,10 +56,11 @@ export default function FeatureLibrary({ index }: FeatureLibraryProps) {
       id="feature-library"
       title="Feature Library"
       subtitle="Built-in features for common tasks"
+      className="section-alt-2 dark:section-dark"
       index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p className="text-lg text-gray-700 leading-relaxed">
           Access a comprehensive collection of built-in Features for organizing projects, 
           managing stereotypes, or automating flow creation.
         </p>
@@ -80,8 +81,8 @@ export default function FeatureLibrary({ index }: FeatureLibraryProps) {
                 <CardTitle className="text-xl">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-gray-700 dark:text-gray-300 mb-6">{feature.description}</p>
-                <ul className="space-y-2 ml-5 list-disc text-gray-700 dark:text-gray-300">
+                <p className="text-gray-700 mb-6">{feature.description}</p>
+                <ul className="space-y-2 ml-5 list-disc text-gray-700">
                   {feature.benefits.map((benefit, idx) => (
                     <li key={idx}>{benefit}</li>
                   ))}
@@ -107,8 +108,8 @@ export default function FeatureLibrary({ index }: FeatureLibraryProps) {
         transition={{ duration: 0.6, delay: 0.2 }}
         viewport={{ once: true }}
       >
-        <div className="bg-primary/10 dark:bg-primary/5 p-8 rounded-xl border border-primary/20">
-          <h3 className="text-xl font-bold text-center mb-8 dark:text-white">Complete Integration Demo</h3>
+        <div className="bg-primary/10 p-8 rounded-xl border border-primary/20">
+          <h3 className="text-xl font-bold text-center mb-8">Complete Integration Demo</h3>
           <PlaceholderMedia 
             type="gif" 
             height={350} 
