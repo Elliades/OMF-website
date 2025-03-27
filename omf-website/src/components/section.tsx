@@ -18,7 +18,7 @@ interface SectionProps {
   titleStyles?: CSSProperties;
   fullWidth?: boolean;
   subtitle?: string;
-  index: number; // Section index for applying alternating patterns
+  index: number; // Section index for applying different SVG patterns
 }
 
 export default function Section({
@@ -47,33 +47,32 @@ export default function Section({
     // Check both theme and resolvedTheme for more reliable detection
     const isDarkMode = theme === 'dark' || resolvedTheme === 'dark';
     setIsDark(isDarkMode);
-    
-    // Debug output for theme detection
-    // console.log(`Section ${id}: theme=${theme}, resolvedTheme=${resolvedTheme}, isDark=${isDarkMode}`);
   }, [theme, resolvedTheme, id]);
 
-  // Determine if section should have a special background pattern
-  // Sections with odd indices (1, 3, 5, 7) will have SVG patterns
-  const shouldHavePattern = index > 0 && index % 2 === 1;
-  
-  // Determine which pattern classes to use based on the section index
-  // This creates a rotating pattern through the available backgrounds
+  // Determine which SVG pattern to use based on the section index
+  // Each section gets its own unique pattern
   const getSVGClasses = () => {
-    if (!shouldHavePattern) return '';
-    
-    // Rotate through 3 different patterns
-    // For odd indices (1, 3, 5, 7)
-    const patternIndex = Math.floor((index - 1) / 2) % 3;
+    // Cycle through all available patterns based on index
+    // We'll have 7 different patterns
+    const patternIndex = index % 7;
     
     switch(patternIndex) {
-      case 0:
-        return 'svg-purple-light svg-purple-dark';
       case 1:
-        return 'svg-acid-light svg-acid-dark';
+        return 'svg-purple-light svg-purple-dark';
       case 2:
-        return 'svg-orange-light svg-cyan-dark';
+        return 'svg-acid-light svg-black-dark';
+      case 3:
+        return 'svg-orange-light svg-cyan2-dark';
+      case 4:
+        return 'svg-acid-light svg-acid-dark';
+      case 5:
+        return 'svg-red2-light svg-red2-dark';
+      case 6:
+        return 'svg-gold-light svg-gold-dark';
+      case 0:
+        return 'svg-pattern-light svg-pattern-dark';
       default:
-        return '';
+        return 'svg-black-light svg-dark-pattern';
     }
   };
 
@@ -90,22 +89,19 @@ export default function Section({
     zIndex: 0
   };
 
-  // Debug info (enable it temporarily for troubleshooting)
-  // console.log(`Section ${id}: mounted=${mounted}, isDark=${isDark}, pattern=${patternIndex}, style=`, sectionStyle);
-
   return (
     <section
       id={id}
       className={cn(
         "relative py-16 md:py-24 transition-colors duration-300",
-        shouldHavePattern ? getSVGClasses() : "bg-section-light dark:bg-section-dark",
+        getSVGClasses(), // Toutes les sections ont maintenant un fond SVG
         className
       )}
       style={style}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {shouldHavePattern && isDark && <div style={hoverOverlay} />}
+      {isDark && <div style={hoverOverlay} />}
       
       <div className={cn(
         "relative z-10",
@@ -114,7 +110,7 @@ export default function Section({
         <div className="text-center mb-10 md:mb-16">
           <h2 className={cn(
             "text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6",
-            shouldHavePattern && isDark ? "text-white" : shouldHavePattern ? "text-gray-800" : "dark:text-white"
+            isDark ? "text-white" : "text-gray-800"
           )} 
             style={titleStyles}
           >
@@ -130,8 +126,7 @@ export default function Section({
           {subtitle && (
             <p className={cn(
               "text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto",
-              shouldHavePattern && isDark ? "text-gray-200" : 
-              shouldHavePattern ? "text-gray-600" : "text-gray-600 dark:text-gray-300"
+              isDark ? "text-gray-200" : "text-gray-600"
             )}>
               {subtitle}
             </p>
@@ -159,4 +154,4 @@ export default function Section({
       </div>
     </section>
   );
-} 
+}

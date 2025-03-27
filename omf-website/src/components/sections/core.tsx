@@ -1,6 +1,6 @@
 /**
- * Core section component
- * Displays information about OMF's core features: robustness and simplicity
+ * "Core: Robustness and Simplicity" section component
+ * Showcases the OMF Barrier and core features
  */
 "use client";
 
@@ -9,6 +9,21 @@ import { useState } from "react";
 import Section from "@/components/section";
 import PlaceholderMedia from "@/components/placeholder-media";
 import CodeSnippet from "@/components/code-snippet";
+import { CheckCircle2 } from "lucide-react";
+
+// Example code snippet for barrier declaration
+const barrierCode = `try (OMFBarrier barrier = new OMFBarrier()) {
+  // Your critical operations here
+  SysMLBlock block = SysMLFactory.createBlock("MyBlock");
+  block.addProperty("myProperty", SysMLFactory.getIntType());
+  block.setOwner(model.getDefaultPackage());
+  
+  // if any operation fails, everything is rolled back automatically
+  barrier.commit(); // commit successful changes
+} catch (Exception e) {
+  // Error was caught and model is in consistent state
+  log.error("Operation failed but model integrity is preserved");
+}`;
 
 interface CoreProps {
   index: number;
@@ -45,7 +60,6 @@ export default function Core({ index }: CoreProps) {
         <div className="flex flex-col space-y-6">
           <CodeSnippet
             language="java"
-            title="OMFBarrier Example"
             code={`// Example of OMFBarrier usage
 try (OMFBarrier barrier = OMFBarrier.newBarrier()) {
     // Any operation within this barrier will be rolled back 
@@ -86,7 +100,6 @@ function Feature({ title, description }: { title: string; description: string })
     </motion.div>
   );
 }
-
 // Note: This function is not being used in the current implementation
 function FeatureItem({ children }: { children: React.ReactNode }) {
   return (
@@ -97,4 +110,4 @@ function FeatureItem({ children }: { children: React.ReactNode }) {
       <span className="text-gray-700 dark:text-gray-300">{children}</span>
     </li>
   );
-}
+} 

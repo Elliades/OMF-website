@@ -113,8 +113,9 @@ code {
   @apply bg-white dark:bg-[#050309];
 }
 
-/* Specific gradient backgrounds for even-indexed sections */
-/* Section index 2 - Core */
+/* Specific gradient backgrounds - now replaced with SVG patterns */
+/* Ces règles sont conservées comme référence mais commentées */
+/*
 #core {
   background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
 }
@@ -123,7 +124,6 @@ code {
   background: linear-gradient(to bottom, #000000, #121212);
 }
 
-/* Section index 4 - Feature Items */
 #feature-items {
   background: linear-gradient(135deg, #f0f7ff, #e6f0fd);
 }
@@ -132,7 +132,6 @@ code {
   background: linear-gradient(135deg, #0c1931, #1a2b42);
 }
 
-/* Section index 6 - Feature Library */
 #feature-library {
   background: linear-gradient(135deg, #fff0f0, #ffe6e6);
 }
@@ -140,41 +139,18 @@ code {
 .dark #feature-library {
   background: linear-gradient(135deg, #310c0c, #421a1a);
 }
+*/
 
-/* SVG Pattern sections - Text color adjustments */
-#whats-omf {
-  @apply text-gray-800;
+/* Text color overrides for specific sections */
+/* Ces règles sont maintenues pour assurer la lisibilité du texte */
+#whats-omf .text-gray-700, #architecture .text-gray-700, 
+#library .text-gray-700, #test-framework .text-gray-700,
+#core .text-gray-700, #feature-items .text-gray-700, 
+#feature-library .text-gray-700 {
+  @apply text-gray-700 dark:text-gray-200;
 }
 
-.dark #whats-omf {
-  @apply text-white;
-}
-
-#architecture {
-  @apply text-gray-800;
-}
-
-.dark #architecture {
-  @apply text-white;
-}
-
-#library {
-  @apply text-gray-800;
-}
-
-.dark #library {
-  @apply text-white;
-}
-
-#test-framework {
-  @apply text-gray-800;
-}
-
-.dark #test-framework {
-  @apply text-white;
-}
-
-/* Dark mode text styling */
+/* Dark mode text styling - global pour toutes les sections */
 .dark .text-gray-700 {
   @apply text-gray-200;
 }
@@ -233,6 +209,8 @@ code {
 }
 
 /* SVG background classes for specific patterns */
+/* Tous les SVG disponibles pour les fonds de section */
+
 /* Purple Corner Patterns */
 .svg-purple-light {
   background-image: url('/svg/white-purple-corner.svg');
@@ -301,6 +279,224 @@ code {
   display: block;
   background-image: url('/svg/cyan-corner.svg');
   background-color: #002233;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Orange/Cyan2 Corner Patterns */
+.svg-orange-light {
+  background-image: url('/svg/white-orange-corner.svg');
+  background-color: #fef8f8;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-orange-light {
+  display: none;
+}
+
+.svg-cyan-dark {
+  display: none;
+}
+
+.dark .svg-cyan2-dark {
+  display: block;
+  background-image: url('/svg/cyan2-corner.svg');
+  background-color: #002233;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Red2 Corner Patterns */
+.svg-red2-light {
+  background-image: url('/svg/white-red3-corner.svg');
+  background-color: #fff5f5;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-red2-light {
+  display: none;
+}
+
+.svg-red2-dark {
+  display: none;
+}
+
+.dark .svg-red2-dark {
+  display: block;
+  background-image: url('/svg/red2-corner.svg');
+  background-color: #330000;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+
+/* Red Corner Patterns */
+.svg-red-light {
+  background-image: url('/svg/white-red-corner.svg');
+  background-color: #fff5f5;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-red-light {
+  display: none;
+}
+
+.svg-red-dark {
+  display: none;
+}
+
+.dark .svg-red-dark {
+  display: block;
+  background-image: url('/svg/red-corner.svg');
+  background-color: #330000;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+
+
+/* Full Black Patterns */
+.svg-black-light {
+  background-image: url('/svg/black-pattern.svg');
+  background-color: #fff5f5;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-black-light {
+  display: none;
+}
+
+.svg-black-dark {
+  display: none;
+}
+
+.dark .svg-black-dark {
+  display: block;
+  background-image: url('/svg/black-pattern.svg');
+  background-color: #330000;
+  background-size: cover;
+  background-attachment: fixed;
+}
+/* Blue Corner Patterns */
+.svg-blue-light {
+  background-image: url('/svg/white-blue-corner.svg');
+  background-color: #f5f9ff;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-blue-light {
+  display: none;
+}
+
+.svg-blue-dark {
+  display: none;
+}
+
+.dark .svg-blue-dark {
+  display: block;
+  background-image: url('/svg/blue-corner.svg');
+  background-color: #001a33;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Gold Corner Patterns */
+.svg-gold-light {
+  background-image: url('/svg/white-gold-corner.svg');
+  background-color: #fffdf5;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-gold-light {
+  display: none;
+}
+
+.svg-gold-dark {
+  display: none;
+}
+
+.dark .svg-gold-dark {
+  display: block;
+  background-image: url('/svg/gold-corner.svg');
+  background-color: #332800;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* White Corner Patterns */
+.svg-white-light {
+  background-image: url('/svg/white-corner.svg');
+  background-color: #ffffff;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-white-light {
+  display: none;
+}
+
+.svg-dark-pattern {
+  display: none;
+}
+
+.dark .svg-dark-pattern {
+  display: block;
+  background-image: url('/svg/dark-pattern.svg');
+  background-color: #101010;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Generic Pattern Backgrounds */
+.svg-pattern-light {
+  background-image: url('/svg/pattern-light.svg');
+  background-color: #ffffff;
+  background-size: 200px 200px;
+  background-attachment: fixed;
+}
+
+.dark .svg-pattern-light {
+  display: none;
+}
+
+.svg-pattern-dark {
+  display: none;
+}
+
+.dark .svg-pattern-dark {
+  display: block;
+  background-image: url('/svg/pattern-dark.svg');
+  background-color: #121212;
+  background-size: 200px 200px;
+  background-attachment: fixed;
+}
+
+/* Purple to Yellow Gradient */
+.svg-purple-to-yellow-light {
+  background-image: url('/svg/white-corner.svg');
+  background-color: #f8f8ff;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-purple-to-yellow-light {
+  display: none;
+}
+
+.svg-purple-to-yellow-dark {
+  display: none;
+}
+
+.dark .svg-purple-to-yellow-dark {
+  display: block;
+  background-image: url('/svg/purpleToYellow.svg');
+  background-color: #170033;
   background-size: cover;
   background-attachment: fixed;
 }

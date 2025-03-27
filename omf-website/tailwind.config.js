@@ -15,11 +15,6 @@ module.exports = {
       },
     },
     extend: {
-      fontSize: {
-        // Ajouter des tailles de police personnalisées
-        'title': '10rem',
-        'subtitle': '2rem',
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -113,40 +108,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    // Ajouter un plugin personnalisé pour garantir que nos classes de texte ne sont pas purgées
-    function({ addUtilities }) {
-      const newUtilities = {
-        '.text-title': {
-          fontSize: '10rem',
-          lineHeight: '1',
-        },
-        '.text-subtitle': {
-          fontSize: '2rem',
-          lineHeight: '1.2',
-        },
-        // Responsive versions
-        '@media (max-width: 1024px)': {
-          '.text-title': {
-            fontSize: '7rem',
-          },
-        },
-        '@media (max-width: 768px)': {
-          '.text-title': {
-            fontSize: '5rem',
-          },
-        },
-        '@media (max-width: 640px)': {
-          '.text-title': {
-            fontSize: '3.5rem',
-          },
-          '.text-subtitle': {
-            fontSize: '1.5rem',
-          },
-        },
-      }
-      addUtilities(newUtilities)
-    }
-  ],
+  plugins: [require("tailwindcss-animate")],
 } 
