@@ -45,10 +45,11 @@ export default function Section({
 
   // Dark pattern background
   const darkPatternStyle: CSSProperties = {
-    backgroundImage: `url('/svg/pattern-dark.svg')`,
-    backgroundRepeat: 'repeat',
-    backgroundSize: '200px 200px',
-    backgroundColor: "#050309",
+    // backgroundImage: `url('/svg/dark pattern.svg')`,
+    backgroundImage: `url('/svg/purple-corner.svg')`,
+    backgroundColor: "#A22756",
+    backgroundAttachment: "fixed",
+    backgroundSize: "cover",
   };
 
   // Light pattern background
