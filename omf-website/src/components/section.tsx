@@ -18,7 +18,7 @@ interface SectionProps {
   titleStyles?: CSSProperties;
   fullWidth?: boolean;
   subtitle?: string;
-  index?: number; // Section index for applying alternating patterns
+  index: number; // Section index for applying alternating patterns
 }
 
 export default function Section({
@@ -30,7 +30,7 @@ export default function Section({
   style = {},
   titleStyles,
   fullWidth = false,
-  index = 0
+  index
 }: SectionProps) {
   const { theme } = useTheme();
   const [isDark, setIsDark] = useState(false);
