@@ -39,22 +39,18 @@ export default function PlaceholderMedia({
   const [showControls, setShowControls] = useState(false);
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [naturalDimensions, setNaturalDimensions] = useState<{ width: number, height: number } | null>(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Get natural dimensions of the image when it loads
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete) {
-      setNaturalDimensions({
-        width: imgRef.current.naturalWidth,
-        height: imgRef.current.naturalHeight
-      });
+      updateDimensions();
     }
-  }, [gifPath]);
+  }, []);
 
-  const handleImageLoad = () => {
+  const updateDimensions = () => {
     if (imgRef.current) {
-      setNaturalDimensions({
+      setDimensions({
         width: imgRef.current.naturalWidth,
         height: imgRef.current.naturalHeight
       });
@@ -97,10 +93,21 @@ export default function PlaceholderMedia({
     setShowControls(prev => !prev);
   };
 
-  // Calculate container height based on natural dimensions
-  const containerHeight = naturalDimensions && typeof width === 'string' && width.endsWith('%')
-    ? Math.min(naturalDimensions.height, 400) // Limit height to 400px max
-    : height;
+  // Calculate responsive height based on dimensions
+  const calculateHeight = () => {
+    if (dimensions.width === 0 || dimensions.height === 0) {
+      return height; // Default height if dimensions not available
+    }
+    
+    // If the GIF is wider than it is tall, use default height
+    if (dimensions.width > dimensions.height) {
+      return height;
+    }
+    
+    // If the GIF is taller than it is wide, adjust height proportionally
+    // but max out at 400px to not make it too tall
+    return Math.min(height * (dimensions.height / dimensions.width), 400);
+  };
 
   return (
     <motion.div
@@ -110,8 +117,8 @@ export default function PlaceholderMedia({
         className
       )}
       style={{ 
-        width,
-        height: containerHeight
+        width, 
+        height: isExpanded ? "100%" : calculateHeight() 
       }}
       onClick={onClick}
     >
@@ -122,12 +129,12 @@ export default function PlaceholderMedia({
               ref={imgRef}
               src={gifPath}
               alt={label}
-              onLoad={handleImageLoad}
               className="w-full h-full object-contain transition-transform duration-200"
               style={{
                 transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
                 transformOrigin: 'center center'
               }}
+              onLoad={updateDimensions}
             />
           </div>
           
@@ -135,9 +142,8 @@ export default function PlaceholderMedia({
           <button
             onClick={toggleControls}
             className="absolute top-2 right-2 p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors z-10"
-            aria-label="Media settings"
           >
-            <Settings className="h-4 w-4 stroke-current" />
+            <Settings className="h-4 w-4" />
           </button>
 
           {/* Controls panel - only shown when showControls is true */}
@@ -148,52 +154,45 @@ export default function PlaceholderMedia({
                 <button 
                   onClick={(e) => { e.stopPropagation(); decrementScale(); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                  aria-label="Zoom out"
                 >
-                  <ZoomOut className="h-4 w-4 stroke-current" />
+                  <ZoomOut className="h-4 w-4" />
                 </button>
                 <div className="text-xs text-white">{scale.toFixed(1)}x</div>
                 <button 
                   onClick={(e) => { e.stopPropagation(); incrementScale(); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                  aria-label="Zoom in"
                 >
-                  <ZoomIn className="h-4 w-4 stroke-current" />
+                  <ZoomIn className="h-4 w-4" />
                 </button>
                 <div className="w-px h-6 bg-white/20 mx-1"></div>
                 <button 
                   onClick={(e) => { e.stopPropagation(); moveHorizontal('left'); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                  aria-label="Move left"
                 >
-                  <MoveHorizontal className="h-4 w-4 stroke-current" />
+                  <MoveHorizontal className="h-4 w-4" />
                 </button>
                 <button 
                   onClick={(e) => { e.stopPropagation(); moveVertical('up'); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                  aria-label="Move up"
                 >
-                  <MoveVertical className="h-4 w-4 stroke-current" />
+                  <MoveVertical className="h-4 w-4" />
                 </button>
                 <button 
                   onClick={(e) => { e.stopPropagation(); moveVertical('down'); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
-                  aria-label="Move down"
                 >
-                  <MoveVertical className="h-4 w-4 stroke-current" />
+                  <MoveVertical className="h-4 w-4" />
                 </button>
                 <button 
                   onClick={(e) => { e.stopPropagation(); moveHorizontal('right'); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
-                  aria-label="Move right"
                 >
-                  <MoveHorizontal className="h-4 w-4 stroke-current" />
+                  <MoveHorizontal className="h-4 w-4" />
                 </button>
                 <div className="w-px h-6 bg-white/20 mx-1"></div>
                 <button
                   onClick={(e) => { e.stopPropagation(); resetPosition(); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors text-xs"
-                  aria-label="Reset position"
                 >
                   Reset
                 </button>
@@ -201,12 +200,8 @@ export default function PlaceholderMedia({
                 <button
                   onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
                   className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                  aria-label={isExpanded ? "Minimize" : "Maximize"}
                 >
-                  {isExpanded ? 
-                    <Minimize2 className="h-4 w-4 stroke-current" /> : 
-                    <Maximize2 className="h-4 w-4 stroke-current" />
-                  }
+                  {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
                 </button>
               </div>
             </div>

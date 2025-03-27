@@ -1,6 +1,6 @@
 /**
- * Section component for consistent section styling and animations
- * Used throughout the OMF Vitrine website
+ * Section component for displaying major content sections
+ * Each section has a title, optional subtitle, and children content
  */
 "use client";
 
@@ -21,27 +21,6 @@ interface SectionProps {
   index?: number; // Section index for applying alternating patterns
 }
 
-// Dark pattern background
-const darkPatternBg = {
-  backgroundColor: "#050309",
-  backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(220,768,395)'%3E%3Cstop offset='0' stop-color='%23050309'/%3E%3Cstop offset='1' stop-color='%23414033'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='540' height='450' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.1'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3Cpolygon fill='%23444' points='810 150 720 300 900 300'/%3E%3Cpolygon fill='%23FFF' points='810 150 900 0 720 0'/%3E%3Cpolygon fill='%23DDD' points='990 150 900 300 1080 300'/%3E%3Cpolygon fill='%23444' points='990 150 1080 0 900 0'/%3E%3Cpolygon fill='%23DDD' points='90 450 0 600 180 600'/%3E%3Cpolygon points='90 450 180 300 0 300'/%3E%3Cpolygon fill='%23666' points='270 450 180 600 360 600'/%3E%3Cpolygon fill='%23AAA' points='270 450 360 300 180 300'/%3E%3Cpolygon fill='%23DDD' points='450 450 360 600 540 600'/%3E%3Cpolygon fill='%23999' points='450 450 540 300 360 300'/%3E%3Cpolygon fill='%23999' points='630 450 540 600 720 600'/%3E%3Cpolygon fill='%23FFF' points='630 450 720 300 540 300'/%3E%3Cpolygon points='810 450 720 600 900 600'/%3E%3Cpolygon fill='%23DDD' points='810 450 900 300 720 300'/%3E%3Cpolygon fill='%23AAA' points='990 450 900 600 1080 600'/%3E%3Cpolygon fill='%23444' points='990 450 1080 300 900 300'/%3E%3Cpolygon fill='%23222' points='90 750 0 900 180 900'/%3E%3Cpolygon points='270 750 180 900 360 900'/%3E%3Cpolygon fill='%23DDD' points='270 750 360 600 180 600'/%3E%3Cpolygon points='450 750 540 600 360 600'/%3E%3Cpolygon points='630 750 540 900 720 900'/%3E%3Cpolygon fill='%23444' points='630 750 720 600 540 600'/%3E%3Cpolygon fill='%23AAA' points='810 750 720 900 900 900'/%3E%3Cpolygon fill='%23666' points='810 750 900 600 720 600'/%3E%3Cpolygon fill='%23999' points='990 750 900 900 1080 900'/%3E%3Cpolygon fill='%23999' points='180 0 90 150 270 150'/%3E%3Cpolygon fill='%23444' points='360 0 270 150 450 150'/%3E%3Cpolygon fill='%23FFF' points='540 0 450 150 630 150'/%3E%3Cpolygon points='900 0 810 150 990 150'/%3E%3Cpolygon fill='%23222' points='0 300 -90 450 90 450'/%3E%3Cpolygon fill='%23FFF' points='0 300 90 150 -90 150'/%3E%3Cpolygon fill='%23FFF' points='180 300 90 450 270 450'/%3E%3Cpolygon fill='%23666' points='180 300 270 150 90 150'/%3E%3Cpolygon fill='%23222' points='360 300 270 450 450 450'/%3E%3Cpolygon fill='%23FFF' points='360 300 450 150 270 150'/%3E%3Cpolygon fill='%23444' points='540 300 450 450 630 450'/%3E%3Cpolygon fill='%23222' points='540 300 630 150 450 150'/%3E%3Cpolygon fill='%23AAA' points='720 300 630 450 810 450'/%3E%3Cpolygon fill='%23666' points='720 300 810 150 630 150'/%3E%3Cpolygon fill='%23FFF' points='900 300 810 450 990 450'/%3E%3Cpolygon fill='%23999' points='900 300 990 150 810 150'/%3E%3Cpolygon points='0 600 -90 750 90 750'/%3E%3Cpolygon fill='%23666' points='0 600 90 450 -90 450'/%3E%3Cpolygon fill='%23AAA' points='180 600 90 750 270 750'/%3E%3Cpolygon fill='%23444' points='180 600 270 450 90 450'/%3E%3Cpolygon fill='%23444' points='360 600 270 750 450 750'/%3E%3Cpolygon fill='%23999' points='360 600 450 450 270 450'/%3E%3Cpolygon fill='%23666' points='540 600 630 450 450 450'/%3E%3Cpolygon fill='%23222' points='720 600 630 750 810 750'/%3E%3Cpolygon fill='%23FFF' points='900 600 810 750 990 750'/%3E%3Cpolygon fill='%23222' points='900 600 990 450 810 450'/%3E%3Cpolygon fill='%23DDD' points='0 900 90 750 -90 750'/%3E%3Cpolygon fill='%23444' points='180 900 270 750 90 750'/%3E%3Cpolygon fill='%23FFF' points='360 900 450 750 270 750'/%3E%3Cpolygon fill='%23AAA' points='540 900 630 750 450 750'/%3E%3Cpolygon fill='%23FFF' points='720 900 810 750 630 750'/%3E%3Cpolygon fill='%23222' points='900 900 990 750 810 750'/%3E%3Cpolygon fill='%23222' points='1080 300 990 450 1170 450'/%3E%3Cpolygon fill='%23FFF' points='1080 300 1170 150 990 150'/%3E%3Cpolygon points='1080 600 990 750 1170 750'/%3E%3Cpolygon fill='%23666' points='1080 600 1170 450 990 450'/%3E%3Cpolygon fill='%23DDD' points='1080 900 1170 750 990 750'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E\")",
-  backgroundAttachment: "fixed",
-  backgroundSize: "cover",
-  color: "white"
-};
-
-// Hover overlay for dark sections
-const hoverOverlay = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  transition: 'background-color 0.3s ease-in-out',
-  zIndex: 0,
-} as CSSProperties;
-
 export default function Section({
   id,
   title,
@@ -61,100 +40,85 @@ export default function Section({
     setIsDark(theme === 'dark');
   }, [theme]);
 
-  // Determine if this section should have the dark pattern background
-  const shouldHaveDarkPattern = index !== 0 && index % 2 === 0;
+  // Use pattern backgrounds for even-indexed sections (except index 0)
+  const useDarkPattern = index > 0 && index % 2 === 0;
 
-  // Combine background styles 
-  const combinedStyle = {
-    ...style,
-    ...(isDark && shouldHaveDarkPattern ? darkPatternBg : {}),
+  // Dark pattern background
+  const darkPatternStyle: CSSProperties = {
+    background: `url('/svg/pattern-dark.svg')`,
+    backgroundColor: "#050309",
+  };
+
+  // Light pattern background
+  const lightPatternStyle: CSSProperties = {
+    background: `url('/svg/pattern-light.svg')`,
+    backgroundColor: "#f8f9fa",
+  };
+
+  // Section background style based on index
+  const bgStyle = useDarkPattern ? darkPatternStyle : {};
+
+  // Hover overlay for dark pattern sections
+  const hoverOverlay: CSSProperties = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    opacity: isHovered ? 0.7 : 0.3,
+    transition: "opacity 0.3s ease-in-out",
+    zIndex: 0
   };
 
   return (
     <section
       id={id}
-      style={combinedStyle}
       className={cn(
-        "min-h-screen py-24 flex flex-col items-center justify-center transition-colors duration-300 relative",
-        isDark && shouldHaveDarkPattern ? "text-white" : "",
+        "relative py-16 md:py-24 transition-colors duration-300",
+        useDarkPattern ? "text-white" : "bg-section-light dark:bg-section-dark",
         className
       )}
+      style={bgStyle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Hover overlay for dark pattern sections */}
-      {isDark && shouldHaveDarkPattern && (
-        <div 
-          style={{
-            ...hoverOverlay,
-            backgroundColor: isHovered ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.3)',
-          }}
-          className="pointer-events-none"
-        />
-      )}
+      {useDarkPattern && <div style={hoverOverlay} />}
       
-      <div className={cn(
-        fullWidth ? "w-full" : "container px-4 mx-auto",
-        "relative z-10"
-      )}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="mb-16"
-        >
-          <h2 
-            className="text-4xl md:text-5xl font-bold text-center mb-4 dark:text-white"
-            style={titleStyles}
-          >
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white">
             {title}
+            <motion.div
+              className="h-1 w-24 mx-auto mt-4 bg-gradient-to-r from-primary to-accent rounded"
+              initial={{ width: 0 }}
+              whileInView={{ width: "6rem" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            />
           </h2>
-          {subtitle && (
-            <p className="text-xl text-center mb-6 text-gray-600 dark:text-gray-300">
-              {subtitle}
-            </p>
-          )}
-          <div className="relative">
-            <div className="w-24 h-1 bg-gradient-to-r from-[#0ea5e9] to-[#6366f1] mx-auto"></div>
-            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white dark:bg-[#050309] opacity-30 blur-sm"></div>
-          </div>
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="relative z-10"
-        >
-          {children}
-        </motion.div>
+          {subtitle && <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">{subtitle}</p>}
+        </div>
+        {children}
       </div>
       
       {/* Subtle "scroll for more" indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 z-10"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 0.7, y: 0 }}
-        transition={{ duration: 1, delay: 1.5, repeat: Infinity, repeatType: "reverse" }}
-      >
+      <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center text-sm text-gray-400 dark:text-gray-500 animate-pulse">
+        <span className="mb-1">Scroll for more</span>
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
-          width="24" 
-          height="24" 
+          width="16" 
+          height="16" 
           viewBox="0 0 24 24" 
           fill="none" 
           stroke="currentColor" 
           strokeWidth="2" 
           strokeLinecap="round" 
-          strokeLinejoin="round" 
-          className="text-primary"
+          strokeLinejoin="round"
         >
-          <path d="m6 9 6 6 6-6"/>
+          <path d="M12 19V5M5 12l7 7 7-7" />
         </svg>
-        <span className="text-xs text-gray-500 dark:text-gray-400 sr-only">Scroll for more</span>
-      </motion.div>
+      </div>
     </section>
   );
 } 

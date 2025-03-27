@@ -30,85 +30,104 @@ export default function CodeSnippet({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Safely replace text with styled span
+  const safeReplace = (text: string, pattern: RegExp, className: string) => {
+    return text.replace(pattern, (match) => {
+      // Escape any HTML in the match
+      const escaped = match
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+      
+      return `<span class="${className}">${escaped}</span>`;
+    });
+  };
+
   // Syntax highlighting for Java/Kotlin
   const highlightCode = (code: string, lang: "java" | "kotlin") => {
-    const lines = code.split("\n");
-    const processedLines = [];
-
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      // Line number
-      const linePrefix = `<span class="line-number text-gray-500 mr-4">${i + 1}</span>`;
+    return code.split("\n").map((line, i) => {
+      // Escape HTML in the line first
+      let highlightedLine = line
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
       
-      // Skip empty lines
-      if (line.trim() === '') {
-        processedLines.push(`${linePrefix}`);
-        continue;
-      }
+      // Keywords for both languages
+      const keywords = [
+        "public", "private", "protected", "class", "interface", "enum", "extends", "implements",
+        "static", "final", "abstract", "native", "transient", "volatile", "synchronized",
+        "void", "boolean", "byte", "short", "char", "int", "long", "float", "double",
+        "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue",
+        "return", "try", "catch", "finally", "throw", "throws", "new", "this", "super",
+        "import", "package", "const", "goto", "strictfp", "assert", "var", "val", "fun",
+        "data", "object", "companion", "sealed", "inline", "noinline", "crossinline",
+        "reified", "expect", "actual", "external", "suspend", "tailrec", "operator",
+        "infix", "internal", "annotation", "init", "constructor", "destructor", "by",
+        "delegate", "dynamic", "field", "file", "finally", "get", "import", "init",
+        "param", "property", "receiver", "set", "setparam", "where", "when"
+      ];
 
-      // Process different line types
-      if (line.trim().startsWith("//")) {
-        // Single line comment
-        processedLines.push(`${linePrefix}<span class="text-gray-400">${line}</span>`);
-      } else if (line.trim().startsWith("@")) {
-        // Annotation
-        const matches = line.match(/(@\w+)(\(.*\))?/);
-        if (matches) {
-          const annotation = matches[1];
-          const params = matches[2] || '';
-          const remainingText = line.slice((annotation + params).length);
-          
-          let processedLine = `${linePrefix}<span class="text-pink-400">${annotation}${params}</span>`;
-          if (remainingText) {
-            processedLine += remainingText;
-          }
-          processedLines.push(processedLine);
-        } else {
-          processedLines.push(`${linePrefix}${line}`);
+      // Regular expressions for different code elements
+      const patterns = {
+        comment: /\/\/.*$/,
+        multilineComment: /\/\*[\s\S]*?\*\//,
+        string: /"(?:[^"\\]|\\.)*"/,
+        number: /\b\d+\b/,
+        keyword: new RegExp(`\\b(${keywords.join("|")})\\b`, 'g'),
+        annotation: /@\w+/g,
+        function: /\b\w+(?=\s*\()/g,
+        type: /\b[A-Z]\w*\b/g,
+      };
+
+      // Apply highlighting in specific order
+      // Comments first to avoid highlighting content inside comments
+      if (line.includes("//")) {
+        const parts = highlightedLine.split("//");
+        if (parts.length > 1) {
+          const comment = parts.slice(1).join("//");
+          highlightedLine = parts[0] + `<span class="text-gray-400">//${comment}</span>`;
         }
       } else {
-        // Regular code - apply syntax highlighting for keywords, strings, etc.
-        let processedLine = line;
-        
-        // Keywords
-        const keywords = [
-          "public", "private", "protected", "class", "interface", "enum", "extends", "implements",
-          "static", "final", "abstract", "native", "transient", "volatile", "synchronized",
-          "void", "boolean", "byte", "short", "char", "int", "long", "float", "double",
-          "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue",
-          "return", "try", "catch", "finally", "throw", "throws", "new", "this", "super",
-          "import", "package", "const", "goto", "strictfp", "assert", "var", "val", "fun"
-        ];
-        
-        // Replace keywords
-        keywords.forEach(keyword => {
-          const pattern = new RegExp(`\\b${keyword}\\b`, 'g');
-          processedLine = processedLine.replace(pattern, `<span class="text-blue-400">${keyword}</span>`);
-        });
-        
-        // Strings
-        processedLine = processedLine.replace(/"([^"]*)"/g, '<span class="text-emerald-400">"$1"</span>');
-        
-        // Functions
-        processedLine = processedLine.replace(/\b(\w+)\s*\(/g, '<span class="text-yellow-400">$1</span>(');
-        
-        // Types (capitalized words)
-        processedLine = processedLine.replace(/\b([A-Z]\w*)\b/g, '<span class="text-purple-400">$1</span>');
-        
-        // Numbers
-        processedLine = processedLine.replace(/\b(\d+)\b/g, '<span class="text-orange-400">$1</span>');
-        
-        // Inline comments after code
-        if (processedLine.includes("//")) {
-          const [code, comment] = processedLine.split("//", 2);
-          processedLine = `${code}<span class="text-gray-400">//${comment}</span>`;
+        // Not a comment line, proceed with other highlighting
+        if (patterns.string.test(highlightedLine)) {
+          highlightedLine = safeReplace(highlightedLine, patterns.string, "text-emerald-400");
         }
-        
-        processedLines.push(`${linePrefix}${processedLine}`);
+
+        if (patterns.number.test(highlightedLine)) {
+          highlightedLine = safeReplace(highlightedLine, patterns.number, "text-orange-400");
+        }
+
+        if (patterns.annotation.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.annotation, (match) => 
+            `<span class="text-pink-400">${match}</span>`
+          );
+        }
+
+        if (patterns.keyword.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.keyword, (match) => 
+            `<span class="text-blue-400">${match}</span>`
+          );
+        }
+
+        if (patterns.function.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.function, (match) => 
+            `<span class="text-yellow-400">${match}</span>`
+          );
+        }
+
+        if (patterns.type.test(highlightedLine)) {
+          highlightedLine = highlightedLine.replace(patterns.type, (match) => 
+            `<span class="text-purple-400">${match}</span>`
+          );
+        }
       }
-    }
-    
-    return processedLines.join("\n");
+
+      return `<span class="line-number text-gray-500 mr-4">${i + 1}</span>${highlightedLine}`;
+    }).join("\n");
   };
 
   return (
