@@ -14,6 +14,7 @@ interface CodeSnippetProps {
   language: "java" | "kotlin";
   title?: string;
   className?: string;
+  highlightLines?: number[];
 }
 
 export default function CodeSnippet({
@@ -21,6 +22,7 @@ export default function CodeSnippet({
   language,
   title = "Code Example",
   className = "",
+  highlightLines = [],
 }: CodeSnippetProps) {
   const [copied, setCopied] = useState(false);
 
@@ -126,7 +128,13 @@ export default function CodeSnippet({
         }
       }
 
-      return `<span class="line-number text-gray-500 mr-4">${i + 1}</span>${highlightedLine}`;
+      // Check if this line should be highlighted
+      const lineNumber = i + 1;
+      const isHighlighted = highlightLines.includes(lineNumber);
+      
+      return `<div class="${isHighlighted ? 'bg-yellow-500/10 -mx-4 px-4 border-l-2 border-yellow-500' : ''}">
+        <span class="line-number text-gray-500 mr-4">${lineNumber}</span>${highlightedLine}
+      </div>`;
     }).join("\n");
   };
 

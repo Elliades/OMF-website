@@ -5,6 +5,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import Section from "@/components/section";
 import PlaceholderMedia from "@/components/placeholder-media";
 import CodeSnippet from "@/components/code-snippet";
@@ -29,86 +30,80 @@ interface CoreProps {
 }
 
 export default function Core({ index }: CoreProps) {
-  const codeExample = `// Define a barrier to handle errors and ensure rollback
-public void createBlock(String name) {
-    OMFBarrier.execute(() -> {
-        // Create a block element
-        Block block = SysMLFactory.createBlock(name);
-        
-        // Add properties - all changes are tracked
-        block.addProperty("status", "active");
-        block.addProperty("version", "1.0");
-        
-        // If any error occurs, all changes are rolled back
-        // automatically by the barrier
-    });
-}`;
-
   return (
-    <Section
-      id="core"
-      title="Core: Robustness and Simplicity"
-      subtitle="Our framework ensures reliability through automatic error handling and rollback mechanisms"
+    <Section 
+      id="core" 
+      title="Core: Robustness and Simplicity" 
+      subtitle="Error management with automatic rollback, feature registration, and integrated listeners"
       index={index}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-        <motion.div
-          className="flex flex-col"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <div className="bg-white/80 dark:bg-gray-800/50 rounded-lg p-6 shadow-md backdrop-blur-sm border border-gray-200 dark:border-gray-700 h-full">
-            <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">
-              Key Features
-            </h3>
-            <ul className="space-y-4">
-              <Feature>
-                <strong>OMFBarrier</strong>: Automatic error handling and
-                rollback mechanism ensures data integrity
-              </Feature>
-              <Feature>
-                <strong>FeatureRegisterer</strong>: Simplified registration and
-                activation of features
-              </Feature>
-              <Feature>
-                <strong>Event Listeners</strong>: Integrated system for reacting
-                to model changes
-              </Feature>
-              <Feature>
-                <strong>Simplified API</strong>: Intuitive interfaces reduce
-                learning curve and development time
-              </Feature>
-            </ul>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="flex flex-col gap-6"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <PlaceholderMedia
-            type="gif"
-            label="Error rollback demonstration (~10s)"
-            className="mb-4"
-            height={220}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+        <div className="flex flex-col space-y-6">
+          <Feature
+            title="OMFBarrier"
+            description="Ensures robust error management with automatic rollback upon failure. Any error during execution will trigger a rollback to the original state."
           />
+          <Feature
+            title="FeatureRegisterer"
+            description="Register your features easily and manage their lifecycle. The registerer takes care of loading, initialization, and shutdown processes."
+          />
+          <Feature
+            title="Integrated Listeners"
+            description="Built-in event listeners that simplify the management of your plugin's state and interactions with MagicDraw."
+          />
+          <PlaceholderMedia 
+            type="gif" 
+            label="Error rollback demonstration (~10s)" 
+            className="hidden md:block"
+          />
+        </div>
+        <div className="flex flex-col space-y-6">
           <CodeSnippet
-            code={codeExample}
             language="java"
             title="OMFBarrier Example"
+            code={`// Example of OMFBarrier usage
+try (OMFBarrier barrier = OMFBarrier.newBarrier()) {
+    // Any operation within this barrier will be rolled back 
+    // if an error occurs
+    SysMLBlock block = factory.createBlock("MyBlock");
+    block.addProperty("property1", "String");
+    
+    // If this throws an exception, all operations are rolled back
+    someOperationThatMightFail();
+    
+    // Once the barrier is closed, the operations are committed
+    barrier.commit();
+}`}
+            highlightLines={[1, 8, 12]}
           />
-        </motion.div>
+          <PlaceholderMedia 
+            type="gif" 
+            label="Error rollback demonstration (~10s)" 
+            className="md:hidden mt-4"
+          />
+        </div>
       </div>
     </Section>
   );
 }
 
-function Feature({ children }: { children: React.ReactNode }) {
+function Feature({ title, description }: { title: string; description: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="flex flex-col space-y-2"
+    >
+      <h3 className="text-xl font-bold dark:text-white">{title}</h3>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
+    </motion.div>
+  );
+}
+
+// Note: This function is not being used in the current implementation
+function FeatureItem({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-start">
       <span className="text-green-500 mr-2 mt-1 flex-shrink-0">

@@ -7,7 +7,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
-import { Maximize2, Minimize2, ZoomIn, ZoomOut, MoveHorizontal, MoveVertical, Settings } from "lucide-react";
+import { Maximize2, Minimize2, X } from "lucide-react";
 
 interface PlaceholderMediaProps {
   type: "image" | "gif";
@@ -35,176 +35,143 @@ export default function PlaceholderMedia({
   onClick
 }: PlaceholderMediaProps) {
   const gifPath = gifMapping[label];
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showControls, setShowControls] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [actualHeight, setActualHeight] = useState(height);
   const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const fullscreenRef = useRef<HTMLDivElement>(null);
+  
+  // Update dimensions when the image loads
+  const updateDimensions = () => {
+    if (imgRef.current) {
+      const imgWidth = imgRef.current.naturalWidth;
+      const imgHeight = imgRef.current.naturalHeight;
+      
+      setDimensions({
+        width: imgWidth,
+        height: imgHeight
+      });
+      
+      // Calculate appropriate container height
+      const aspectRatio = imgWidth / imgHeight;
+      let newHeight = height;
+      
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth;
+        
+        // If image is wider than tall
+        if (aspectRatio > 1) {
+          // Use default height, but ensure it's not too tall for a wide image
+          newHeight = Math.min(height, containerWidth / aspectRatio);
+        } else {
+          // For tall images, limit height to avoid overly tall containers
+          newHeight = Math.min(350, Math.max(250, containerWidth / aspectRatio * 0.8));
+        }
+      }
+      
+      setActualHeight(newHeight);
+    }
+  };
 
+  // Handle Escape key press to exit fullscreen
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    
+    // Handle scroll to exit fullscreen
+    const handleScroll = () => {
+      if (isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleScroll);
+    
+    // Set initial dimensions
     if (imgRef.current && imgRef.current.complete) {
       updateDimensions();
     }
-  }, []);
-
-  const updateDimensions = () => {
-    if (imgRef.current) {
-      setDimensions({
-        width: imgRef.current.naturalWidth,
-        height: imgRef.current.naturalHeight
-      });
-    }
-  };
-
-  const incrementScale = () => {
-    setScale(prev => Math.min(prev + 0.1, 2));
-  };
-
-  const decrementScale = () => {
-    setScale(prev => Math.max(prev - 0.1, 0.5));
-  };
-
-  const moveHorizontal = (direction: 'left' | 'right') => {
-    setPosition(prev => ({
-      ...prev,
-      x: direction === 'left' 
-        ? prev.x - 5
-        : prev.x + 5
-    }));
-  };
-
-  const moveVertical = (direction: 'up' | 'down') => {
-    setPosition(prev => ({
-      ...prev,
-      y: direction === 'up'
-        ? prev.y - 5
-        : prev.y + 5
-    }));
-  };
-
-  const resetPosition = () => {
-    setScale(1);
-    setPosition({ x: 0, y: 0 });
-  };
-
-  const toggleControls = (e: React.MouseEvent) => {
+    
+    // Add window resize handler
+    const handleResize = () => {
+      updateDimensions();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isFullscreen]);
+  
+  const toggleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setShowControls(prev => !prev);
-  };
-
-  // Calculate responsive height based on dimensions
-  const calculateHeight = () => {
-    if (dimensions.width === 0 || dimensions.height === 0) {
-      return height; // Default height if dimensions not available
-    }
+    setIsFullscreen(!isFullscreen);
     
-    // If the GIF is wider than it is tall, use default height
-    if (dimensions.width > dimensions.height) {
-      return height;
+    // When entering fullscreen, scroll to the component to make it visible
+    if (!isFullscreen && fullscreenRef.current) {
+      setTimeout(() => {
+        fullscreenRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 50);
     }
-    
-    // If the GIF is taller than it is wide, adjust height proportionally
-    // but max out at 400px to not make it too tall
-    return Math.min(height * (dimensions.height / dimensions.width), 400);
   };
 
   return (
     <motion.div
+      ref={containerRef}
       className={cn(
-        "relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800",
-        isExpanded ? "fixed inset-0 z-50" : "",
+        "relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 transition-all duration-300 ease-in-out",
+        isFullscreen ? "fixed inset-x-0 top-16 bottom-0 z-50 rounded-none" : "",
         className
       )}
       style={{ 
-        width, 
-        height: isExpanded ? "100%" : calculateHeight() 
+        width: isFullscreen ? "100%" : width, 
+        height: isFullscreen ? "calc(100vh - 4rem)" : actualHeight,
       }}
       onClick={onClick}
     >
       {gifPath ? (
         <>
-          <div className="relative w-full h-full overflow-hidden">
+          <div ref={fullscreenRef} className="relative w-full h-full overflow-hidden">
             <img
               ref={imgRef}
               src={gifPath}
               alt={label}
               className="w-full h-full object-contain transition-transform duration-200"
-              style={{
-                transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
-                transformOrigin: 'center center'
-              }}
               onLoad={updateDimensions}
             />
+            
+            {/* Caption overlay at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
+              <div className="text-sm text-white text-center">{label}</div>
+            </div>
           </div>
           
-          {/* Small settings button */}
+          {/* Fullscreen toggle button */}
           <button
-            onClick={toggleControls}
+            onClick={toggleFullscreen}
             className="absolute top-2 right-2 p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors z-10"
+            aria-label={isFullscreen ? "Exit fullscreen" : "View fullscreen"}
           >
-            <Settings className="h-4 w-4" />
+            {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
-
-          {/* Controls panel - only shown when showControls is true */}
-          {showControls && (
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent z-10">
-              <div className="text-sm text-white mb-2 text-center">{label}</div>
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); decrementScale(); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                >
-                  <ZoomOut className="h-4 w-4" />
-                </button>
-                <div className="text-xs text-white">{scale.toFixed(1)}x</div>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); incrementScale(); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                >
-                  <ZoomIn className="h-4 w-4" />
-                </button>
-                <div className="w-px h-6 bg-white/20 mx-1"></div>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); moveHorizontal('left'); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                >
-                  <MoveHorizontal className="h-4 w-4" />
-                </button>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); moveVertical('up'); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                >
-                  <MoveVertical className="h-4 w-4" />
-                </button>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); moveVertical('down'); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
-                >
-                  <MoveVertical className="h-4 w-4" />
-                </button>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); moveHorizontal('right'); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
-                >
-                  <MoveHorizontal className="h-4 w-4" />
-                </button>
-                <div className="w-px h-6 bg-white/20 mx-1"></div>
-                <button
-                  onClick={(e) => { e.stopPropagation(); resetPosition(); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors text-xs"
-                >
-                  Reset
-                </button>
-                <div className="w-px h-6 bg-white/20 mx-1"></div>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-                >
-                  {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-                </button>
-              </div>
-            </div>
+          
+          {/* Close button (only visible in fullscreen mode) */}
+          {isFullscreen && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setIsFullscreen(false); }}
+              className="absolute top-2 left-2 p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors z-10"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
           )}
         </>
       ) : (
