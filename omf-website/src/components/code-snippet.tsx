@@ -49,7 +49,12 @@ export default function CodeSnippet({
 
   // Syntax highlighting for Java/Kotlin
   const highlightCode = (code: string, lang: "java" | "kotlin") => {
-    return code.split("\n").map((line, i) => {
+    // Clean up the code first - normalize line endings and trim extra blank lines
+    const cleanedCode = code
+      .replace(/\r\n/g, '\n')  // Normalize line endings
+      .replace(/\n{3,}/g, '\n\n');  // Limit consecutive line breaks to max 2
+    
+    return cleanedCode.split("\n").map((line, i) => {
       // Escape HTML in the line first
       let highlightedLine = line
         .replace(/&/g, '&amp;')
@@ -95,32 +100,43 @@ export default function CodeSnippet({
         }
       } else {
         // Not a comment line, proceed with other highlighting
+        // Apply syntax highlighting in a specific order to avoid conflicts
+        
+        // First handle strings to avoid other rules applying to string contents
         if (patterns.string.test(highlightedLine)) {
           highlightedLine = safeReplace(highlightedLine, patterns.string, "text-emerald-400");
         }
 
+        // Then handle numbers which might be part of identifiers
         if (patterns.number.test(highlightedLine)) {
-          highlightedLine = safeReplace(highlightedLine, patterns.number, "text-orange-400");
+          // Only replace numbers that aren't part of identifiers
+          highlightedLine = highlightedLine.replace(/\b(\d+)\b/g, (match) => 
+            `<span class="text-orange-400">${match}</span>`
+          );
         }
 
+        // Then annotations which start with @ and are distinct
         if (patterns.annotation.test(highlightedLine)) {
           highlightedLine = highlightedLine.replace(patterns.annotation, (match) => 
             `<span class="text-pink-400">${match}</span>`
           );
         }
 
+        // Then keywords which are distinct whole words
         if (patterns.keyword.test(highlightedLine)) {
           highlightedLine = highlightedLine.replace(patterns.keyword, (match) => 
             `<span class="text-blue-400">${match}</span>`
           );
         }
 
+        // Then function calls which are followed by parentheses
         if (patterns.function.test(highlightedLine)) {
           highlightedLine = highlightedLine.replace(patterns.function, (match) => 
             `<span class="text-yellow-400">${match}</span>`
           );
         }
 
+        // Finally handle types which start with uppercase
         if (patterns.type.test(highlightedLine)) {
           highlightedLine = highlightedLine.replace(patterns.type, (match) => 
             `<span class="text-purple-400">${match}</span>`
@@ -132,10 +148,12 @@ export default function CodeSnippet({
       const lineNumber = i + 1;
       const isHighlighted = highlightLines.includes(lineNumber);
       
-      return `<div class="${isHighlighted ? 'bg-yellow-500/10 -mx-4 px-4 border-l-2 border-yellow-500' : ''}">
-        <span class="line-number text-gray-500 mr-4">${lineNumber}</span>${highlightedLine}
+      // Use clean DIV structure to avoid extra spacing and ensure consistent rendering
+      return `<div class="${isHighlighted ? 'bg-yellow-500/10 -mx-4 px-4 border-l-2 border-yellow-500' : ''} flex">
+        <span class="line-number text-gray-500 mr-4 flex-shrink-0 w-7 text-right">${lineNumber}</span>
+        <span class="flex-grow">${highlightedLine || ' '}</span>
       </div>`;
-    }).join("\n");
+    }).join("");  // Use empty string instead of newline to avoid extra spacing
   };
 
   return (
@@ -198,7 +216,7 @@ export default function CodeSnippet({
       </div>
       <pre className="p-4 overflow-x-auto bg-[#1e293b] rounded-b-lg">
         <code
-          className="text-sm font-mono text-gray-200"
+          className="text-sm font-mono text-gray-200 leading-relaxed"
           dangerouslySetInnerHTML={{ __html: highlightCode(code, language) }}
         />
       </pre>

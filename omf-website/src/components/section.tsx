@@ -41,16 +41,18 @@ export default function Section({
   }, [theme]);
 
   // Determine if section should have a special background pattern
-  // Skip index 0 (first section), then apply patterns to alternating sections
-  const shouldHavePattern = index > 0 && index % 2 === 0;
+  // Sections with odd indices (1, 3, 5, 7) will have SVG patterns
+  const shouldHavePattern = index > 0 && index % 2 === 1;
   
   // Determine which pattern to use based on the section index
   // This creates a rotating pattern through the available backgrounds
   const getPatternIndex = () => {
     if (!shouldHavePattern) return -1;
-    // Take the section index (skipping 0), divide by 2 (since we only style even indices)
-    // then use modulo 3 to cycle through the 3 pattern options
-    return Math.floor(index / 2) % 3;
+    
+    // Rotate through 3 different patterns (0, 1, 2)
+    // Since we're using odd indices (1, 3, 5, 7), subtract 1 first to get (0, 2, 4, 6)
+    // then divide by 2 to get (0, 1, 2, 3), and finally use modulo 3 to cycle
+    return Math.floor((index - 1) / 2) % 3;
   };
   
   const patternIndex = getPatternIndex();
@@ -124,6 +126,9 @@ export default function Section({
     ...getPatternStyle(),
     ...style
   };
+
+  // Debug info to help with pattern troubleshooting
+  // console.log(`Section ${id}: index=${index}, shouldHavePattern=${shouldHavePattern}, patternIndex=${patternIndex}`);
 
   return (
     <section

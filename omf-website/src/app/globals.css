@@ -65,13 +65,12 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
-    --text-5xl: 12rem;
-    --text-xl: 2.25rem;
     --section-dark: 221 70% 54%;
     --section-alt-1: 40 96% 89%;
     --section-alt-2: 0 0% 98%;
+    --section-light: 0 0% 100%;
   }
- 
+  
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -96,15 +95,7 @@
     --section-dark: 221 80% 56%;
     --section-alt-1: 40 13% 10%;
     --section-alt-2: 220 33% 5%;
-
-    /* Dark theme specific colors */
-    --text-primary: 210 40% 98%;
-    --text-secondary: 215 20.2% 65.1%;
-    --text-muted: 215 20.2% 65.1%;
-    --border-color: 217.2 32.6% 17.5%;
-    --hover-bg: 217.2 32.6% 17.5%;
-    --active-bg: 217.2 32.6% 17.5%;
-    --focus-ring: 224.3 76.3% 48%;
+    --section-light: 222.2 84% 4.9%;
   }
 }
 
@@ -117,75 +108,73 @@ code {
   @apply font-mono text-sm;
 }
 
-/* Section styling */
-.section-alt-1 {
-  @apply bg-[#f0f7ff];
+/* Section styling - for even-indexed sections (0, 2, 4, 6) */
+.bg-section-light {
+  @apply bg-white dark:bg-[#050309];
 }
 
-.section-alt-2 {
-  @apply bg-gradient-to-b from-white to-[#f0f7ff]/30;
+/* Specific gradient backgrounds for even-indexed sections */
+/* Section index 2 - Core */
+#core {
+  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
 }
 
-.dark .section-alt-2 {
-  @apply bg-gradient-to-b from-[#060b10] to-[#0a1222];
-}
-
-/* Core section dark mode gradient */
 .dark #core {
-  @apply bg-gradient-to-br from-black to-[#121212];
-  color: white;
+  background: linear-gradient(to bottom, #000000, #121212);
 }
 
-/* WhatsOMF section for dark mode */
+/* Section index 4 - Feature Items */
+#feature-items {
+  background: linear-gradient(135deg, #f0f7ff, #e6f0fd);
+}
+
+.dark #feature-items {
+  background: linear-gradient(135deg, #0c1931, #1a2b42);
+}
+
+/* Section index 6 - Feature Library */
+#feature-library {
+  background: linear-gradient(135deg, #fff0f0, #ffe6e6);
+}
+
+.dark #feature-library {
+  background: linear-gradient(135deg, #310c0c, #421a1a);
+}
+
+/* SVG Pattern sections - Text color adjustments */
+#whats-omf {
+  @apply text-gray-800;
+}
+
 .dark #whats-omf {
-  @apply bg-gradient-to-br from-[#18092c] to-[#290742];
-  color: white;
+  @apply text-white;
 }
 
-/* Architecture section for dark mode */
+#architecture {
+  @apply text-gray-800;
+}
+
 .dark #architecture {
-  @apply bg-gradient-to-br from-[#092c18] to-[#104226];
-  color: white;
-}
-
-/* Section dark pattern */
-.section-dark {
-  @apply text-white;
-  background-color: #050309;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(220,768,395)'%3E%3Cstop offset='0' stop-color='%23050309'/%3E%3Cstop offset='1' stop-color='%23414033'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='540' height='450' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.1'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3Cpolygon fill='%23444' points='810 150 720 300 900 300'/%3E%3Cpolygon fill='%23FFF' points='810 150 900 0 720 0'/%3E%3Cpolygon fill='%23DDD' points='990 150 900 300 1080 300'/%3E%3Cpolygon fill='%23444' points='990 150 1080 0 900 0'/%3E%3Cpolygon fill='%23DDD' points='90 450 0 600 180 600'/%3E%3Cpolygon points='90 450 180 300 0 300'/%3E%3Cpolygon fill='%23666' points='270 450 180 600 360 600'/%3E%3Cpolygon fill='%23AAA' points='270 450 360 300 180 300'/%3E%3Cpolygon fill='%23DDD' points='450 450 360 600 540 600'/%3E%3Cpolygon fill='%23999' points='450 450 540 300 360 300'/%3E%3Cpolygon fill='%23999' points='630 450 540 600 720 600'/%3E%3Cpolygon fill='%23FFF' points='630 450 720 300 540 300'/%3E%3Cpolygon points='810 450 720 600 900 600'/%3E%3Cpolygon fill='%23DDD' points='810 450 900 300 720 300'/%3E%3Cpolygon fill='%23AAA' points='990 450 900 600 1080 600'/%3E%3Cpolygon fill='%23444' points='990 450 1080 300 900 300'/%3E%3Cpolygon fill='%23222' points='90 750 0 900 180 900'/%3E%3Cpolygon points='270 750 180 900 360 900'/%3E%3Cpolygon fill='%23DDD' points='270 750 360 600 180 600'/%3E%3Cpolygon points='450 750 540 600 360 600'/%3E%3Cpolygon points='630 750 540 900 720 900'/%3E%3Cpolygon fill='%23444' points='630 750 720 600 540 600'/%3E%3Cpolygon fill='%23AAA' points='810 750 720 900 900 900'/%3E%3Cpolygon fill='%23666' points='810 750 900 600 720 600'/%3E%3Cpolygon fill='%23999' points='990 750 900 900 1080 900'/%3E%3Cpolygon fill='%23999' points='180 0 90 150 270 150'/%3E%3Cpolygon fill='%23444' points='360 0 270 150 450 150'/%3E%3Cpolygon fill='%23FFF' points='540 0 450 150 630 150'/%3E%3Cpolygon points='900 0 810 150 990 150'/%3E%3Cpolygon fill='%23222' points='0 300 -90 450 90 450'/%3E%3Cpolygon fill='%23FFF' points='0 300 90 150 -90 150'/%3E%3Cpolygon fill='%23FFF' points='180 300 90 450 270 450'/%3E%3Cpolygon fill='%23666' points='180 300 270 150 90 150'/%3E%3Cpolygon fill='%23222' points='360 300 270 450 450 450'/%3E%3Cpolygon fill='%23FFF' points='360 300 450 150 270 150'/%3E%3Cpolygon fill='%23444' points='540 300 450 450 630 450'/%3E%3Cpolygon fill='%23222' points='540 300 630 150 450 150'/%3E%3Cpolygon fill='%23AAA' points='720 300 630 450 810 450'/%3E%3Cpolygon fill='%23666' points='720 300 810 150 630 150'/%3E%3Cpolygon fill='%23FFF' points='900 300 810 450 990 450'/%3E%3Cpolygon fill='%23999' points='900 300 990 150 810 150'/%3E%3Cpolygon points='0 600 -90 750 90 750'/%3E%3Cpolygon fill='%23666' points='0 600 90 450 -90 450'/%3E%3Cpolygon fill='%23AAA' points='180 600 90 750 270 750'/%3E%3Cpolygon fill='%23444' points='180 600 270 450 90 450'/%3E%3Cpolygon fill='%23444' points='360 600 270 750 450 750'/%3E%3Cpolygon fill='%23999' points='360 600 450 450 270 450'/%3E%3Cpolygon fill='%23666' points='540 600 630 450 450 450'/%3E%3Cpolygon fill='%23222' points='720 600 630 750 810 750'/%3E%3Cpolygon fill='%23FFF' points='900 600 810 750 990 750'/%3E%3Cpolygon fill='%23222' points='900 600 990 450 810 450'/%3E%3Cpolygon fill='%23DDD' points='0 900 90 750 -90 750'/%3E%3Cpolygon fill='%23444' points='180 900 270 750 90 750'/%3E%3Cpolygon fill='%23FFF' points='360 900 450 750 270 750'/%3E%3Cpolygon fill='%23AAA' points='540 900 630 750 450 750'/%3E%3Cpolygon fill='%23FFF' points='720 900 810 750 630 750'/%3E%3Cpolygon fill='%23222' points='900 900 990 750 810 750'/%3E%3Cpolygon fill='%23222' points='1080 300 990 450 1170 450'/%3E%3Cpolygon fill='%23FFF' points='1080 300 1170 150 990 150'/%3E%3Cpolygon points='1080 600 990 750 1170 750'/%3E%3Cpolygon fill='%23666' points='1080 600 1170 450 990 450'/%3E%3Cpolygon fill='%23DDD' points='1080 900 1170 750 990 750'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
-  background-attachment: fixed;
-  background-size: cover;
-}
-
-/* Accent borders */
-.accent-border-left {
-  @apply border-l-4 border-[#38bdf8];
-}
-
-/* Gradient text */
-.gradient-text {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent;
-}
-
-/* Glow effect */
-.glow-effect {
-  @apply shadow-[0_0_20px_rgba(56,189,248,0.5)];
-}
-
-/* Dark mode toggle effects */
-.dark-mode-toggle {
-  @apply transition-all duration-300;
-}
-
-/* Dark mode text adjustments */
-.dark p {
-  @apply text-gray-200;
-}
-
-.dark h3, .dark h4, .dark h5, .dark h6 {
   @apply text-white;
 }
 
+#library {
+  @apply text-gray-800;
+}
+
+.dark #library {
+  @apply text-white;
+}
+
+#test-framework {
+  @apply text-gray-800;
+}
+
+.dark #test-framework {
+  @apply text-white;
+}
+
+/* Dark mode text styling */
 .dark .text-gray-700 {
   @apply text-gray-200;
 }
@@ -203,34 +192,26 @@ code {
   @apply border-gray-700;
 }
 
-/* Light mode section colors */
-#core {
-  @apply bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef];
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent;
 }
 
-#whats-omf {
-  @apply bg-gradient-to-b from-[#f5f0ff] to-[#ede6ff];
+/* Animation for scroll indicator */
+.animate-arrow {
+  animation: bounce 2s infinite;
 }
 
-#architecture {
-  @apply bg-gradient-to-b from-[#f0fff5] to-[#e6ffed];
-}
-
-/* Core section specific styling */
-#core {
-  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
-}
-
-.dark #core {
-  background: linear-gradient(to bottom, #000000, #121212);
-}
-
-.section-alt-2 {
-  background: radial-gradient(ellipse at top left, hsl(var(--section-alt-2)), rgba(255, 255, 255, 0.8));
-}
-
-.dark .section-alt-2 {
-  background: linear-gradient(to bottom right, hsl(var(--section-alt-2)), #0a1222);
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
 }
 
 /* SVG background patterns */
@@ -249,20 +230,4 @@ code {
 
 .dark .pattern-bg::after {
   opacity: 0.05;
-}
-
-.animate-arrow {
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
 }

@@ -19,13 +19,16 @@ export default function Home() {
       
       {/* Main content with all sections */}
       <div className="pt-16"> {/* Add padding top to account for the navbar */}
-        <WhatsOMF index={1} />
-        <Core index={2} />
-        <Architecture index={3} />
-        <FeatureItems index={4} />
-        <Library index={5} />
-        <FeatureLibrary index={6} />
-        <TestFramework index={7} />
+        {/* Sections avec le pattern SVG alternent avec des sections à gradient */}
+        {/* Les sections avec index 0, 2, 4, 6 auront des fonds unis/gradients */}
+        {/* Les sections avec index 1, 3, 5, 7 auront des fonds avec pattern SVG */}
+        <WhatsOMF index={1} /> {/* SVG pattern (purple corner) */}
+        <Core index={2} /> {/* Gradient background */}
+        <Architecture index={3} /> {/* SVG pattern (acid corner) */}
+        <FeatureItems index={4} /> {/* Gradient background */}
+        <Library index={5} /> {/* SVG pattern (orange corner) */}
+        <FeatureLibrary index={6} /> {/* Gradient background */}
+        <TestFramework index={7} /> {/* SVG pattern (purple corner again) */}
       </div>
       
       <Footer />
