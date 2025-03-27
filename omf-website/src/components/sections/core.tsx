@@ -5,9 +5,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Section from "../section";
-import PlaceholderMedia from "../placeholder-media";
-import CodeSnippet from "../code-snippet";
+import Section from "@/components/section";
+import PlaceholderMedia from "@/components/placeholder-media";
+import CodeSnippet from "@/components/code-snippet";
+import { CheckCircle2 } from "lucide-react";
 
 // Example code snippet for barrier declaration
 const barrierCode = `try (OMFBarrier barrier = new OMFBarrier()) {
@@ -24,81 +25,96 @@ const barrierCode = `try (OMFBarrier barrier = new OMFBarrier()) {
 }`;
 
 interface CoreProps {
-  index?: number;
+  index: number;
 }
 
-export default function Core({ index = 1 }: CoreProps) {
-  return (
-    <div className="cover">
-      <Section 
-        id="core" 
-        title="Core: Robustness and Simplicity"
-        subtitle="Error management and state handling made easy"
-        className="bg-[#f8fafc] dark:section-dark"
-        index={index}
-      >
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="order-2 md:order-1">
-            <PlaceholderMedia 
-              type="gif" 
-              height={300} 
-              label="Error rollback demonstration (~10s)"
-              className="shadow-soft rounded-lg"
-            />
-          </div>
+export default function Core({ index }: CoreProps) {
+  const codeExample = `// Define a barrier to handle errors and ensure rollback
+public void createBlock(String name) {
+    OMFBarrier.execute(() -> {
+        // Create a block element
+        Block block = SysMLFactory.createBlock(name);
+        
+        // Add properties - all changes are tracked
+        block.addProperty("status", "active");
+        block.addProperty("version", "1.0");
+        
+        // If any error occurs, all changes are rolled back
+        // automatically by the barrier
+    });
+}`;
 
-          <div className="order-1 md:order-2">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-6 gradient-text">
-                Error Management Made Simple
-              </h3>
-              <p className="text-lg mb-6 text-gray-700 dark:text-gray-100 leading-relaxed">
-                At OMF's core is the OMFBarrier, ensuring robust error management 
-                with automatic rollback upon failure. Combined with FeatureRegisterer 
-                and integrated listeners, managing your plugin state becomes straightforward.
-              </p>
-              
-              <div className="bg-white dark:bg-[#050309]/80 rounded-lg p-6 shadow-soft border border-gray-100 dark:border-gray-700 mb-8">
-                <h4 className="font-semibold text-lg mb-3 flex items-center dark:text-white">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mr-2 text-section-accent"
-                  >
-                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                    <path d="m9 12 2 2 4-4" />
-                  </svg>
-                  Key Benefits
-                </h4>
-                <ul className="space-y-2 ml-7 list-disc text-gray-700 dark:text-gray-300">
-                  <li>Automatic rollback on failure</li>
-                  <li>Simplified plugin state management</li>
-                  <li>Built-in error handling</li>
-                  <li>Consistent model state</li>
-                </ul>
-              </div>
-              
-              <CodeSnippet 
-                code={barrierCode} 
-                language="java" 
-                title="OMFBarrier Example"
-              />
-            </motion.div>
+  return (
+    <Section
+      id="core"
+      title="Core: Robustness and Simplicity"
+      subtitle="Our framework ensures reliability through automatic error handling and rollback mechanisms"
+      index={index}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        <motion.div
+          className="flex flex-col"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <div className="bg-white/80 dark:bg-gray-800/50 rounded-lg p-6 shadow-md backdrop-blur-sm border border-gray-200 dark:border-gray-700 h-full">
+            <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">
+              Key Features
+            </h3>
+            <ul className="space-y-4">
+              <Feature>
+                <strong>OMFBarrier</strong>: Automatic error handling and
+                rollback mechanism ensures data integrity
+              </Feature>
+              <Feature>
+                <strong>FeatureRegisterer</strong>: Simplified registration and
+                activation of features
+              </Feature>
+              <Feature>
+                <strong>Event Listeners</strong>: Integrated system for reacting
+                to model changes
+              </Feature>
+              <Feature>
+                <strong>Simplified API</strong>: Intuitive interfaces reduce
+                learning curve and development time
+              </Feature>
+            </ul>
           </div>
-        </div>
-      </Section>
-    </div>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <PlaceholderMedia
+            type="gif"
+            label="Error rollback demonstration (~10s)"
+            className="mb-4"
+            height={220}
+          />
+          <CodeSnippet
+            code={codeExample}
+            language="java"
+            title="OMFBarrier Example"
+          />
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
+function Feature({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex items-start">
+      <span className="text-green-500 mr-2 mt-1 flex-shrink-0">
+        <CheckCircle2 className="h-5 w-5" />
+      </span>
+      <span className="text-gray-700 dark:text-gray-300">{children}</span>
+    </li>
   );
 } 

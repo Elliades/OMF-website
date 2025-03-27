@@ -27,7 +27,7 @@ export default function Section({
   subtitle,
   children,
   className,
-  style,
+  style = {},
   titleStyles,
   fullWidth = false,
   index = 0
@@ -40,28 +40,71 @@ export default function Section({
     setIsDark(theme === 'dark');
   }, [theme]);
 
-  // Use pattern backgrounds for even-indexed sections (except index 0)
-  const useDarkPattern = index > 0 && index % 2 === 0;
-
-  // Dark pattern background
-  const darkPatternStyle: CSSProperties = {
-    // backgroundImage: `url('/svg/dark pattern.svg')`,
-    backgroundImage: `url('/svg/purple-corner.svg')`,
-    backgroundColor: "#A22756",
-    backgroundAttachment: "fixed",
-    backgroundSize: "cover",
+  // Determine if section should have a special background pattern
+  // Skip index 0 (first section), then apply patterns to alternating sections
+  const shouldHavePattern = index > 0 && index % 2 === 0;
+  
+  // Determine which pattern to use based on the section index
+  // This creates a rotating pattern through the available backgrounds
+  const getPatternIndex = () => {
+    if (!shouldHavePattern) return -1;
+    // Take the section index (skipping 0), divide by 2 (since we only style even indices)
+    // then use modulo 3 to cycle through the 3 pattern options
+    return Math.floor(index / 2) % 3;
   };
+  
+  const patternIndex = getPatternIndex();
+  
+  // Light mode SVG backgrounds
+  const lightPatterns = [
+    {
+      backgroundImage: `url('/svg/white-purple-corner.svg')`,
+      backgroundColor: "#f8f8fe",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+    },
+    {
+      backgroundImage: `url('/svg/white-acid-corner.svg')`,
+      backgroundColor: "#f8fef8",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+    },
+    {
+      backgroundImage: `url('/svg/white-orange-corner.svg')`,
+      backgroundColor: "#fef8f8",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+    }
+  ];
+  
+  // Dark mode SVG backgrounds
+  const darkPatterns = [
+    {
+      backgroundImage: `url('/svg/purple-corner.svg')`,
+      backgroundColor: "#220033",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+    },
+    {
+      backgroundImage: `url('/svg/acid-corner.svg')`,
+      backgroundColor: "#003322",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+    },
+    {
+      backgroundImage: `url('/svg/cyan-corner.svg')`,
+      backgroundColor: "#002233",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+    }
+  ];
 
-  // Light pattern background
-  const lightPatternStyle: CSSProperties = {
-    backgroundImage: `url('/svg/pattern-light.svg')`,
-    backgroundRepeat: 'repeat',
-    backgroundSize: '200px 200px',
-    backgroundColor: "#f8f9fa",
+  // Choose the appropriate pattern style based on theme and section index
+  const getPatternStyle = (): CSSProperties => {
+    if (!shouldHavePattern || patternIndex === -1) return {};
+    
+    return isDark ? darkPatterns[patternIndex] : lightPatterns[patternIndex];
   };
-
-  // Section background style based on index
-  const bgStyle = useDarkPattern ? darkPatternStyle : {};
 
   // Hover overlay for dark pattern sections
   const hoverOverlay: CSSProperties = {
@@ -76,23 +119,37 @@ export default function Section({
     zIndex: 0
   };
 
+  // Combine background style with user style
+  const sectionStyle = {
+    ...getPatternStyle(),
+    ...style
+  };
+
   return (
     <section
       id={id}
       className={cn(
         "relative py-16 md:py-24 transition-colors duration-300",
-        useDarkPattern ? "text-white" : "bg-section-light dark:bg-section-dark",
+        shouldHavePattern ? "text-white" : "bg-section-light dark:bg-section-dark",
         className
       )}
-      style={{...bgStyle, ...style}}
+      style={sectionStyle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {useDarkPattern && <div style={hoverOverlay} />}
+      {shouldHavePattern && isDark && <div style={hoverOverlay} />}
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className={cn(
+        "relative z-10",
+        fullWidth ? "w-full" : "container mx-auto px-4"
+      )}>
         <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white" style={titleStyles}>
+          <h2 className={cn(
+            "text-4xl md:text-5xl font-bold mb-4",
+            shouldHavePattern && isDark ? "text-white" : shouldHavePattern ? "text-gray-800" : "dark:text-white"
+          )} 
+            style={titleStyles}
+          >
             {title}
             <motion.div
               className="h-1 w-24 mx-auto mt-4 bg-gradient-to-r from-primary to-accent rounded"
@@ -102,7 +159,15 @@ export default function Section({
               transition={{ duration: 0.5 }}
             />
           </h2>
-          {subtitle && <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">{subtitle}</p>}
+          {subtitle && (
+            <p className={cn(
+              "text-lg max-w-3xl mx-auto",
+              shouldHavePattern && isDark ? "text-gray-200" : 
+              shouldHavePattern ? "text-gray-600" : "text-gray-600 dark:text-gray-300"
+            )}>
+              {subtitle}
+            </p>
+          )}
         </div>
         {children}
       </div>

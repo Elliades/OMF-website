@@ -65,7 +65,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
-    --text-5xl: 10rem;
+    --text-5xl: 12rem;
     --text-xl: 2.25rem;
   }
  
@@ -93,7 +93,7 @@
     /* Dark theme specific colors */
     --section-dark: 222.2 84% 4.9%;
     --section-alt-1: 222.2 84% 4.9%;
-    --section-alt-2: 222.2 84% 4.9%;
+    --section-alt-2: 220 33% 5%;  /* Dark blue #060b10 */
     --section-accent: 217.2 91.2% 59.8%;
     --text-primary: 210 40% 98%;
     --text-secondary: 215 20.2% 65.1%;

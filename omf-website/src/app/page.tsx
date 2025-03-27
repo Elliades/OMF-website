@@ -19,13 +19,13 @@ export default function Home() {
       
       {/* Main content with all sections */}
       <div className="pt-16"> {/* Add padding top to account for the navbar */}
-        <WhatsOMF index={0} />
-        <Core index={1} />
-        <Architecture index={2} />
-        <FeatureItems index={3} />
-        <Library index={4} />
-        <FeatureLibrary index={5} />
-        <TestFramework index={6} />
+        <WhatsOMF index={1} />
+        <Core index={2} />
+        <Architecture index={3} />
+        <FeatureItems index={4} />
+        <Library index={5} />
+        <FeatureLibrary index={6} />
+        <TestFramework index={7} />
       </div>
       
       <Footer />
