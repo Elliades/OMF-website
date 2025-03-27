@@ -7,7 +7,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { Maximize2, Minimize2, ZoomIn, ZoomOut, MoveHorizontal, MoveVertical } from "lucide-react";
+import { Maximize2, Minimize2, ZoomIn, ZoomOut, MoveHorizontal, MoveVertical, Settings } from "lucide-react";
 
 interface PlaceholderMediaProps {
   type: "image" | "gif";
@@ -36,8 +36,9 @@ export default function PlaceholderMedia({
 }: PlaceholderMediaProps) {
   const gifPath = gifMapping[label];
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showControls, setShowControls] = useState(false);
   const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const incrementScale = () => {
     setScale(prev => Math.min(prev + 0.1, 2));
@@ -51,8 +52,8 @@ export default function PlaceholderMedia({
     setPosition(prev => ({
       ...prev,
       x: direction === 'left' 
-        ? Math.max(prev.x - 5, 0) 
-        : Math.min(prev.x + 5, 100)
+        ? prev.x - 5
+        : prev.x + 5
     }));
   };
 
@@ -60,9 +61,19 @@ export default function PlaceholderMedia({
     setPosition(prev => ({
       ...prev,
       y: direction === 'up'
-        ? Math.max(prev.y - 5, 0)
-        : Math.min(prev.y + 5, 100)
+        ? prev.y - 5
+        : prev.y + 5
     }));
+  };
+
+  const resetPosition = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  const toggleControls = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowControls(prev => !prev);
   };
 
   return (
@@ -81,63 +92,82 @@ export default function PlaceholderMedia({
             <img
               src={gifPath}
               alt={label}
-              className="w-full h-full object-cover transition-transform duration-200"
+              className="w-full h-full object-contain transition-transform duration-200"
               style={{
-                transform: `scale(${scale}) translate(${position.x - 50}%, ${position.y - 50}%)`,
+                transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
                 transformOrigin: 'center center'
               }}
             />
           </div>
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-            <div className="text-sm text-white mb-2 text-center">{label}</div>
-            <div className="flex items-center justify-center gap-2">
-              <button 
-                onClick={(e) => { e.stopPropagation(); decrementScale(); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-              >
-                <ZoomOut className="h-4 w-4" />
-              </button>
-              <div className="text-xs text-white">{scale.toFixed(1)}x</div>
-              <button 
-                onClick={(e) => { e.stopPropagation(); incrementScale(); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-              >
-                <ZoomIn className="h-4 w-4" />
-              </button>
-              <div className="w-px h-6 bg-white/20 mx-1"></div>
-              <button 
-                onClick={(e) => { e.stopPropagation(); moveHorizontal('left'); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-              >
-                <MoveHorizontal className="h-4 w-4" />
-              </button>
-              <button 
-                onClick={(e) => { e.stopPropagation(); moveVertical('up'); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-              >
-                <MoveVertical className="h-4 w-4" />
-              </button>
-              <button 
-                onClick={(e) => { e.stopPropagation(); moveVertical('down'); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
-              >
-                <MoveVertical className="h-4 w-4" />
-              </button>
-              <button 
-                onClick={(e) => { e.stopPropagation(); moveHorizontal('right'); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
-              >
-                <MoveHorizontal className="h-4 w-4" />
-              </button>
-              <div className="w-px h-6 bg-white/20 mx-1"></div>
-              <button
-                onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-                className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
-              >
-                {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-              </button>
+          
+          {/* Small settings button */}
+          <button
+            onClick={toggleControls}
+            className="absolute top-2 right-2 p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors z-10"
+          >
+            <Settings className="h-4 w-4" />
+          </button>
+
+          {/* Controls panel - only shown when showControls is true */}
+          {showControls && (
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent z-10">
+              <div className="text-sm text-white mb-2 text-center">{label}</div>
+              <div className="flex items-center justify-center gap-2 flex-wrap">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); decrementScale(); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
+                >
+                  <ZoomOut className="h-4 w-4" />
+                </button>
+                <div className="text-xs text-white">{scale.toFixed(1)}x</div>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); incrementScale(); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
+                >
+                  <ZoomIn className="h-4 w-4" />
+                </button>
+                <div className="w-px h-6 bg-white/20 mx-1"></div>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); moveHorizontal('left'); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
+                >
+                  <MoveHorizontal className="h-4 w-4" />
+                </button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); moveVertical('up'); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
+                >
+                  <MoveVertical className="h-4 w-4" />
+                </button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); moveVertical('down'); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
+                >
+                  <MoveVertical className="h-4 w-4" />
+                </button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); moveHorizontal('right'); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors rotate-180"
+                >
+                  <MoveHorizontal className="h-4 w-4" />
+                </button>
+                <div className="w-px h-6 bg-white/20 mx-1"></div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); resetPosition(); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors text-xs"
+                >
+                  Reset
+                </button>
+                <div className="w-px h-6 bg-white/20 mx-1"></div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+                  className="p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors"
+                >
+                  {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </>
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
