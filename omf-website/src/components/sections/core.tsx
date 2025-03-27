@@ -45,6 +45,7 @@ export default function Core({ index }: CoreProps) {
         <div className="flex flex-col space-y-6">
           <CodeSnippet
             language="java"
+            title="OMFBarrier Example"
             code={`// Example of OMFBarrier usage
 try (OMFBarrier barrier = OMFBarrier.newBarrier()) {
     // Any operation within this barrier will be rolled back 
@@ -83,5 +84,17 @@ function Feature({ title, description }: { title: string; description: string })
       <h3 className="text-xl font-bold dark:text-white">{title}</h3>
       <p className="text-gray-600 dark:text-gray-300">{description}</p>
     </motion.div>
+  );
+}
+
+// Note: This function is not being used in the current implementation
+function FeatureItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex items-start">
+      <span className="text-green-500 mr-2 mt-1 flex-shrink-0">
+        <CheckCircle2 className="h-5 w-5" />
+      </span>
+      <span className="text-gray-700 dark:text-gray-300">{children}</span>
+    </li>
   );
 }
