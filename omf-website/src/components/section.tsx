@@ -45,13 +45,17 @@ export default function Section({
 
   // Dark pattern background
   const darkPatternStyle: CSSProperties = {
-    background: `url('/svg/pattern-dark.svg')`,
+    backgroundImage: `url('/svg/pattern-dark.svg')`,
+    backgroundRepeat: 'repeat',
+    backgroundSize: '200px 200px',
     backgroundColor: "#050309",
   };
 
   // Light pattern background
   const lightPatternStyle: CSSProperties = {
-    background: `url('/svg/pattern-light.svg')`,
+    backgroundImage: `url('/svg/pattern-light.svg')`,
+    backgroundRepeat: 'repeat',
+    backgroundSize: '200px 200px',
     backgroundColor: "#f8f9fa",
   };
 
@@ -79,7 +83,7 @@ export default function Section({
         useDarkPattern ? "text-white" : "bg-section-light dark:bg-section-dark",
         className
       )}
-      style={bgStyle}
+      style={{...bgStyle, ...style}}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -87,7 +91,7 @@ export default function Section({
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white" style={titleStyles}>
             {title}
             <motion.div
               className="h-1 w-24 mx-auto mt-4 bg-gradient-to-r from-primary to-accent rounded"
