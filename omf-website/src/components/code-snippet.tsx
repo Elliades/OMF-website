@@ -32,94 +32,83 @@ export default function CodeSnippet({
 
   // Syntax highlighting for Java/Kotlin
   const highlightCode = (code: string, lang: "java" | "kotlin") => {
-    return code.split("\n").map((line, i) => {
-      // Keywords for both languages
-      const keywords = [
-        "public", "private", "protected", "class", "interface", "enum", "extends", "implements",
-        "static", "final", "abstract", "native", "transient", "volatile", "synchronized",
-        "void", "boolean", "byte", "short", "char", "int", "long", "float", "double",
-        "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue",
-        "return", "try", "catch", "finally", "throw", "throws", "new", "this", "super",
-        "import", "package", "const", "goto", "strictfp", "assert", "var", "val", "fun",
-        "data", "object", "companion", "sealed", "inline", "noinline", "crossinline",
-        "reified", "expect", "actual", "external", "suspend", "tailrec", "operator",
-        "infix", "internal", "annotation", "init", "constructor", "destructor", "by",
-        "delegate", "dynamic", "field", "file", "finally", "get", "import", "init",
-        "param", "property", "receiver", "set", "setparam", "where", "when"
-      ];
+    const lines = code.split("\n");
+    const processedLines = [];
 
-      // Annotations (mostly for Java)
-      const annotations = [
-        "Override", "Deprecated", "SuppressWarnings", "SafeVarargs", "FunctionalInterface",
-        "Documented", "Retention", "Target", "Inherited", "Native", "Repeatable",
-        "NotNull", "Nullable", "NonNull", "Required", "JvmStatic", "JvmField", "JvmName"
-      ];
-
-      // Regular expressions for different code elements
-      const patterns = {
-        comment: /\/\/.*$/,
-        multilineComment: /\/\*[\s\S]*?\*\//,
-        string: /"[^"]*"/,
-        number: /\b\d+\b/,
-        keyword: new RegExp(`\\b(${keywords.join("|")})\\b`),
-        annotation: new RegExp(`@(${annotations.join("|")})\\b`),
-        function: /\b\w+(?=\s*\()/,
-        type: /\b[A-Z]\w*\b/,
-      };
-
-      let highlightedLine = line;
-
-      // Apply highlighting in order of precedence
-      if (patterns.comment.test(line)) {
-        highlightedLine = line.replace(patterns.comment, (match) => 
-          `<span class="text-gray-400">${match}</span>`
-        );
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      // Line number
+      const linePrefix = `<span class="line-number text-gray-500 mr-4">${i + 1}</span>`;
+      
+      // Skip empty lines
+      if (line.trim() === '') {
+        processedLines.push(`${linePrefix}`);
+        continue;
       }
 
-      if (patterns.multilineComment.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.multilineComment, (match) => 
-          `<span class="text-gray-400">${match}</span>`
-        );
+      // Process different line types
+      if (line.trim().startsWith("//")) {
+        // Single line comment
+        processedLines.push(`${linePrefix}<span class="text-gray-400">${line}</span>`);
+      } else if (line.trim().startsWith("@")) {
+        // Annotation
+        const matches = line.match(/(@\w+)(\(.*\))?/);
+        if (matches) {
+          const annotation = matches[1];
+          const params = matches[2] || '';
+          const remainingText = line.slice((annotation + params).length);
+          
+          let processedLine = `${linePrefix}<span class="text-pink-400">${annotation}${params}</span>`;
+          if (remainingText) {
+            processedLine += remainingText;
+          }
+          processedLines.push(processedLine);
+        } else {
+          processedLines.push(`${linePrefix}${line}`);
+        }
+      } else {
+        // Regular code - apply syntax highlighting for keywords, strings, etc.
+        let processedLine = line;
+        
+        // Keywords
+        const keywords = [
+          "public", "private", "protected", "class", "interface", "enum", "extends", "implements",
+          "static", "final", "abstract", "native", "transient", "volatile", "synchronized",
+          "void", "boolean", "byte", "short", "char", "int", "long", "float", "double",
+          "if", "else", "switch", "case", "default", "for", "while", "do", "break", "continue",
+          "return", "try", "catch", "finally", "throw", "throws", "new", "this", "super",
+          "import", "package", "const", "goto", "strictfp", "assert", "var", "val", "fun"
+        ];
+        
+        // Replace keywords
+        keywords.forEach(keyword => {
+          const pattern = new RegExp(`\\b${keyword}\\b`, 'g');
+          processedLine = processedLine.replace(pattern, `<span class="text-blue-400">${keyword}</span>`);
+        });
+        
+        // Strings
+        processedLine = processedLine.replace(/"([^"]*)"/g, '<span class="text-emerald-400">"$1"</span>');
+        
+        // Functions
+        processedLine = processedLine.replace(/\b(\w+)\s*\(/g, '<span class="text-yellow-400">$1</span>(');
+        
+        // Types (capitalized words)
+        processedLine = processedLine.replace(/\b([A-Z]\w*)\b/g, '<span class="text-purple-400">$1</span>');
+        
+        // Numbers
+        processedLine = processedLine.replace(/\b(\d+)\b/g, '<span class="text-orange-400">$1</span>');
+        
+        // Inline comments after code
+        if (processedLine.includes("//")) {
+          const [code, comment] = processedLine.split("//", 2);
+          processedLine = `${code}<span class="text-gray-400">//${comment}</span>`;
+        }
+        
+        processedLines.push(`${linePrefix}${processedLine}`);
       }
-
-      if (patterns.string.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.string, (match) => 
-          `<span class="text-emerald-400">${match}</span>`
-        );
-      }
-
-      if (patterns.number.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.number, (match) => 
-          `<span class="text-orange-400">${match}</span>`
-        );
-      }
-
-      if (patterns.keyword.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.keyword, (match) => 
-          `<span class="text-blue-400">${match}</span>`
-        );
-      }
-
-      if (patterns.annotation.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.annotation, (match) => 
-          `<span class="text-pink-400">${match}</span>`
-        );
-      }
-
-      if (patterns.function.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.function, (match) => 
-          `<span class="text-yellow-400">${match}</span>`
-        );
-      }
-
-      if (patterns.type.test(highlightedLine)) {
-        highlightedLine = highlightedLine.replace(patterns.type, (match) => 
-          `<span class="text-purple-400">${match}</span>`
-        );
-      }
-
-      return `<span class="line-number text-gray-500 mr-4">${i + 1}</span>${highlightedLine}`;
-    }).join("\n");
+    }
+    
+    return processedLines.join("\n");
   };
 
   return (
