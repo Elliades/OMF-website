@@ -69,6 +69,16 @@
     --section-alt-1: 40 96% 89%;
     --section-alt-2: 0 0% 98%;
     --section-light: 0 0% 100%;
+    
+    /* Typography scale */
+    --text-title: 10rem; /* Large section titles */
+    --text-subtitle: 2rem; /* Section subtitles */
+    --text-h2: 3rem;
+    --text-h3: 2.25rem;
+    --text-h4: 1.5rem;
+    --text-base: 1rem;
+    --text-sm: 0.875rem;
+    --text-xs: 0.75rem;
   }
   
   .dark {
@@ -96,6 +106,37 @@
     --section-alt-1: 40 13% 10%;
     --section-alt-2: 220 33% 5%;
     --section-light: 222.2 84% 4.9%;
+  }
+}
+
+/* Font size utility classes */
+.text-title {
+  font-size: var(--text-title);
+  line-height: 1;
+}
+
+.text-subtitle {
+  font-size: var(--text-subtitle);
+  line-height: 1.2;
+}
+
+/* Responsive adjustments for title size */
+@media (max-width: 1024px) {
+  :root {
+    --text-title: 7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --text-title: 5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --text-title: 3.5rem;
+    --text-subtitle: 1.5rem;
   }
 }
 

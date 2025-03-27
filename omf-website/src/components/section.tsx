@@ -150,14 +150,14 @@ export default function Section({
       )}>
         <div className="text-center mb-10 md:mb-16">
           <h2 className={cn(
-            "text-4xl md:text-5xl font-bold mb-4",
+            "text-title font-bold mb-6",
             shouldHavePattern && isDark ? "text-white" : shouldHavePattern ? "text-gray-800" : "dark:text-white"
           )} 
             style={titleStyles}
           >
             {title}
             <motion.div
-              className="h-1 w-24 mx-auto mt-4 bg-gradient-to-r from-primary to-accent rounded"
+              className="h-1 w-24 mx-auto mt-6 bg-gradient-to-r from-primary to-accent rounded"
               initial={{ width: 0 }}
               whileInView={{ width: "6rem" }}
               viewport={{ once: true }}
@@ -166,7 +166,7 @@ export default function Section({
           </h2>
           {subtitle && (
             <p className={cn(
-              "text-lg max-w-3xl mx-auto",
+              "text-subtitle max-w-3xl mx-auto",
               shouldHavePattern && isDark ? "text-gray-200" : 
               shouldHavePattern ? "text-gray-600" : "text-gray-600 dark:text-gray-300"
             )}>
