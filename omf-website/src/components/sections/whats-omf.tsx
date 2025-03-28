@@ -5,6 +5,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent } from "../ui/card";
@@ -93,14 +94,17 @@ export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
             viewport={{ once: true }}
             className="flex justify-center"
           >
-            {/* Placeholder for OMF logo */}
-            <PlaceholderMedia 
-              type="image" 
-              width="80%" 
-              height={200} 
-              label="OMF logo"
-              className="mb-8 shadow-soft rounded-lg" 
-            />
+            {/* OMF Logo */}
+            <div className="mb-8 shadow-soft rounded-lg overflow-hidden bg-white/10 p-4 w-4/5">
+              <Image 
+                src="/logo/OMF-LOGO.png"
+                alt="OMF Logo" 
+                width={400}
+                height={200}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
           </motion.div>
           
           {/* Placeholder for demo GIF */}
