@@ -134,10 +134,11 @@ public void testUserWorkflow() {
         </div>
 
         <div className="space-y-8">
-          <CodeSnippet 
-            code={testFrameworkCode} 
+          <CodeSnippet
+            code={testFrameworkCode}
             title="Functional Test Examples"
             className="shadow-sm"
+            language="java"
           />
           
           <PlaceholderMedia 
