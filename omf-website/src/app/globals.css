@@ -314,7 +314,7 @@ code {
 
 /* Orange/Cyan2 Corner Patterns */
 .svg-orange-light {
-  background-image: url('/svg/light-mode/big-corner/white-orange-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-cyan-corner.svg');
   background-color: #fef8f8;
   background-size: cover;
   background-attachment: fixed;
@@ -471,7 +471,8 @@ code {
 
 /* White Corner Patterns */
 .svg-white-light {
-  background-image: url('/svg/light-mode/big-corner/white-corner.svg');
+  display: block;
+  background-image: url('/svg/light-mode/white-pattern.svg');
   background-color: #ffffff;
   background-size: cover;
   background-attachment: fixed;
@@ -544,4 +545,52 @@ code {
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
+}
+
+/* Text styling for light mode */
+h2, h3, h4, h5, h6 {
+  color: #000000;
+}
+
+p, li, button {
+  color: #333333;
+}
+
+/* Text titles with font-semibold in light mode */
+.font-semibold {
+  color: #0066cc;
+}
+
+/* Feature items buttons in light mode */
+.feature-item-button {
+  background-color: rgba(0, 0, 0, 0.7); /* Black with transparency */
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Selected feature item button in light mode */
+.feature-item-button.selected {
+  background-color: #ffffffed;
+  color: black;
+  border-color: #0066cc;
+}
+
+/* Footer styling for light mode */
+footer {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+}
+
+footer a, footer p, footer h3, footer h4 {
+  color: #333333;
+}
+
+footer .text-slate-300 {
+  color: #333333;
+}
+
+footer .gradient-text {
+  background: linear-gradient(to right, #0066cc, #0099ff);
+  -webkit-background-clip: text;
+  color: transparent;
 }

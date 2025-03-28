@@ -62,7 +62,7 @@ export default function Section({
       case 1:
         return 'svg-purple-light svg-purple-dark';
       case 2:
-        return 'svg-acid-light svg-black-dark';
+        return 'svg-white-light svg-black-dark';
       case 3:
         return 'svg-orange-light svg-cyan2-dark';
       case 4:

@@ -85,14 +85,14 @@ export default function Navbar() {
               onClick={() => scrollToSection(item.href)}
               className={`text-sm font-medium ${
                 activeSection === item.href.substring(1) 
-                  ? "dark:text-white dark:bg-primary/90" 
-                  : "dark:text-gray-300 dark:hover:bg-gray-800/50"
+                  ? "text-white dark:text-white dark:bg-primary/90" 
+                  : "text-gray-700 hover:bg-gray-100/80 dark:text-gray-300 dark:hover:bg-gray-800/50"
               }`}
             >
               {item.name}
             </Button>
           ))}
-          <div className="ml-2 pl-2 border-l dark:border-gray-700">
+          <div className="ml-2 pl-2 border-l border-gray-200 dark:border-gray-700">
             <ThemeToggle />
           </div>
         </nav>
@@ -103,7 +103,7 @@ export default function Navbar() {
             variant="ghost" 
             size="icon"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="dark:text-gray-300"
+            className="text-gray-700 dark:text-gray-300"
           >
             <span className="sr-only">Toggle menu</span>
             {menuOpen ? (
@@ -161,8 +161,8 @@ export default function Navbar() {
                 onClick={() => scrollToSection(item.href)}
                 className={`text-left justify-start w-full ${
                   activeSection === item.href.substring(1) 
-                    ? "dark:bg-primary/20 bg-primary/10 font-medium" 
-                    : "dark:text-gray-300"
+                    ? "bg-primary/10 text-primary dark:bg-primary/20 font-medium" 
+                    : "text-gray-700 dark:text-gray-300"
                 }`}
               >
                 {item.name}
