@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3282",
-    "build": "next build",
+    "build": "next build && node scripts/post-build.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "node scripts/post-build.js"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",

@@ -213,7 +213,7 @@ code {
 
 /* Purple Corner Patterns */
 .svg-purple-light {
-  background-image: url('/svg/white-purple-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-purple-corner.svg');
   background-color: #f8f8fe;
   background-size: cover;
   background-attachment: fixed;
@@ -229,7 +229,7 @@ code {
 
 .dark .svg-purple-dark {
   display: block;
-  background-image: url('/svg/purple-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-purple-corner.svg');
   background-color: #220033;
   background-size: cover;
   background-attachment: fixed;
@@ -237,7 +237,7 @@ code {
 
 /* Acid Corner Patterns */
 .svg-acid-light {
-  background-image: url('/svg/white-acid-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-acid-corner.svg');
   background-color: #f8fef8;
   background-size: cover;
   background-attachment: fixed;
@@ -253,7 +253,7 @@ code {
 
 .dark .svg-acid-dark {
   display: block;
-  background-image: url('/svg/acid-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-acid-corner.svg');
   background-color: #003322;
   background-size: cover;
   background-attachment: fixed;
@@ -261,7 +261,7 @@ code {
 
 /* Orange/Cyan Corner Patterns */
 .svg-orange-light {
-  background-image: url('/svg/white-orange-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-orange-corner.svg');
   background-color: #fef8f8;
   background-size: cover;
   background-attachment: fixed;
@@ -277,7 +277,7 @@ code {
 
 .dark .svg-cyan-dark {
   display: block;
-  background-image: url('/svg/cyan-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-cyan-corner.svg');
   background-color: #002233;
   background-size: cover;
   background-attachment: fixed;
@@ -285,7 +285,7 @@ code {
 
 /* Orange/Cyan2 Corner Patterns */
 .svg-orange-light {
-  background-image: url('/svg/white-orange-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-orange-corner.svg');
   background-color: #fef8f8;
   background-size: cover;
   background-attachment: fixed;
@@ -301,7 +301,7 @@ code {
 
 .dark .svg-cyan2-dark {
   display: block;
-  background-image: url('/svg/cyan2-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-cyan-corner.svg');
   background-color: #002233;
   background-size: cover;
   background-attachment: fixed;
@@ -309,7 +309,7 @@ code {
 
 /* Red2 Corner Patterns */
 .svg-red2-light {
-  background-image: url('/svg/white-red3-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-red-corner.svg');
   background-color: #fff5f5;
   background-size: cover;
   background-attachment: fixed;
@@ -325,7 +325,7 @@ code {
 
 .dark .svg-red2-dark {
   display: block;
-  background-image: url('/svg/red2-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-red-corner.svg');
   background-color: #330000;
   background-size: cover;
   background-attachment: fixed;
@@ -334,7 +334,7 @@ code {
 
 /* Red Corner Patterns */
 .svg-red-light {
-  background-image: url('/svg/white-red-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-red-corner.svg');
   background-color: #fff5f5;
   background-size: cover;
   background-attachment: fixed;
@@ -350,7 +350,7 @@ code {
 
 .dark .svg-red-dark {
   display: block;
-  background-image: url('/svg/red-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-red-corner.svg');
   background-color: #330000;
   background-size: cover;
   background-attachment: fixed;
@@ -360,7 +360,7 @@ code {
 
 /* Full Black Patterns */
 .svg-black-light {
-  background-image: url('/svg/black-pattern.svg');
+  background-image: url('/svg/light-mode/big-corner/white-white-corner.svg');
   background-color: #fff5f5;
   background-size: cover;
   background-attachment: fixed;
@@ -376,14 +376,14 @@ code {
 
 .dark .svg-black-dark {
   display: block;
-  background-image: url('/svg/black-pattern.svg');
+  background-image: url('/svg/dark-mode/big-corner/black-pattern.svg');
   background-color: #330000;
   background-size: cover;
   background-attachment: fixed;
 }
 /* Blue Corner Patterns */
 .svg-blue-light {
-  background-image: url('/svg/white-blue-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-blue-corner.svg');
   background-color: #f5f9ff;
   background-size: cover;
   background-attachment: fixed;
@@ -399,7 +399,7 @@ code {
 
 .dark .svg-blue-dark {
   display: block;
-  background-image: url('/svg/blue-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-blue-corner.svg');
   background-color: #001a33;
   background-size: cover;
   background-attachment: fixed;
@@ -407,7 +407,7 @@ code {
 
 /* Gold Corner Patterns */
 .svg-gold-light {
-  background-image: url('/svg/white-gold-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-gold-corner.svg');
   background-color: #fffdf5;
   background-size: cover;
   background-attachment: fixed;
@@ -423,7 +423,7 @@ code {
 
 .dark .svg-gold-dark {
   display: block;
-  background-image: url('/svg/gold-corner.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-gold-corner.svg');
   background-color: #332800;
   background-size: cover;
   background-attachment: fixed;
@@ -431,7 +431,7 @@ code {
 
 /* White Corner Patterns */
 .svg-white-light {
-  background-image: url('/svg/white-corner.svg');
+  background-image: url('/svg/light-mode/big-corner/white-corner.svg');
   background-color: #ffffff;
   background-size: cover;
   background-attachment: fixed;
@@ -447,7 +447,7 @@ code {
 
 .dark .svg-dark-pattern {
   display: block;
-  background-image: url('/svg/dark-pattern.svg');
+  background-image: url('/svg/dark-mode/small-corner/small-white-corner.svg');
   background-color: #101010;
   background-size: cover;
   background-attachment: fixed;
@@ -455,7 +455,7 @@ code {
 
 /* Generic Pattern Backgrounds */
 .svg-pattern-light {
-  background-image: url('/svg/pattern-light.svg');
+  background-image: url('/svg/light-mode/pattern-light.svg');
   background-color: #ffffff;
   background-size: 200px 200px;
   background-attachment: fixed;
@@ -471,7 +471,7 @@ code {
 
 .dark .svg-pattern-dark {
   display: block;
-  background-image: url('/svg/pattern-dark.svg');
+  background-image: url('/svg/dark-mode/big-corner/black-pattern.svg');
   background-color: #121212;
   background-size: 200px 200px;
   background-attachment: fixed;
@@ -479,7 +479,7 @@ code {
 
 /* Purple to Yellow Gradient */
 .svg-purple-to-yellow-light {
-  background-image: url('/svg/white-corner.svg');
+  background-image: url('/svg/background/purpleToYellow.svg');
   background-color: #f8f8ff;
   background-size: cover;
   background-attachment: fixed;
@@ -495,7 +495,7 @@ code {
 
 .dark .svg-purple-to-yellow-dark {
   display: block;
-  background-image: url('/svg/purpleToYellow.svg');
+  background-image: url('/svg/background/purpleToYellow.svg');
   background-color: #170033;
   background-size: cover;
   background-attachment: fixed;
