@@ -217,14 +217,15 @@ code {
   background-color: #f8f8fe;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-purple-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-purple-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-purple-dark {
@@ -233,6 +234,7 @@ code {
   background-color: #220033;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Acid Corner Patterns */
@@ -257,6 +259,7 @@ code {
   background-color: #003322;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Orange/Cyan Corner Patterns */
@@ -265,14 +268,15 @@ code {
   background-color: #fef8f8;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-orange-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-cyan-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-cyan-dark {
@@ -281,6 +285,7 @@ code {
   background-color: #002233;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Orange/Cyan2 Corner Patterns */
@@ -292,11 +297,11 @@ code {
 }
 
 .dark .svg-orange-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-cyan-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-cyan2-dark {
@@ -305,6 +310,7 @@ code {
   background-color: #002233;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Red2 Corner Patterns */
@@ -313,14 +319,15 @@ code {
   background-color: #fff5f5;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-red2-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-red2-dark {
-  display: none;
+  /*background-image: none;*/
 }
 
 .dark .svg-red2-dark {
@@ -329,6 +336,7 @@ code {
   background-color: #330000;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 
@@ -338,14 +346,15 @@ code {
   background-color: #fff5f5;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-red-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-red-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-red-dark {
@@ -354,6 +363,7 @@ code {
   background-color: #330000;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 
@@ -364,14 +374,15 @@ code {
   background-color: #fff5f5;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-black-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-black-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-black-dark {
@@ -380,6 +391,7 @@ code {
   background-color: #330000;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 /* Blue Corner Patterns */
 .svg-blue-light {
@@ -387,14 +399,15 @@ code {
   background-color: #f5f9ff;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-blue-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-blue-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-blue-dark {
@@ -403,6 +416,7 @@ code {
   background-color: #001a33;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Gold Corner Patterns */
@@ -411,14 +425,15 @@ code {
   background-color: #fffdf5;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-gold-light {
-  display: none;
+  /* background-image: none; */
 }
 
 .svg-gold-dark {
-  display: none;
+  /* background-image: none; */
 }
 
 .dark .svg-gold-dark {
@@ -427,6 +442,7 @@ code {
   background-color: #332800;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* White Corner Patterns */
@@ -435,14 +451,15 @@ code {
   background-color: #ffffff;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-white-light {
-  display: none;
+  /* background-image: none; */
 }
 
 .svg-dark-pattern {
-  display: none;
+  /* background-image: none; */
 }
 
 .dark .svg-dark-pattern {
@@ -451,6 +468,7 @@ code {
   background-color: #101010;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Generic Pattern Backgrounds */
@@ -459,14 +477,15 @@ code {
   background-color: #ffffff;
   background-size: 200px 200px;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-pattern-light {
-  display: none;
+  background-image: none;
 }
 
 .svg-pattern-dark {
-  display: none;
+  background-image: none;
 }
 
 .dark .svg-pattern-dark {
@@ -475,6 +494,7 @@ code {
   background-color: #121212;
   background-size: 200px 200px;
   background-attachment: fixed;
+  background-position: center;
 }
 
 /* Purple to Yellow Gradient */
@@ -483,20 +503,21 @@ code {
   background-color: #f8f8ff;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .dark .svg-purple-to-yellow-light {
-  display: none;
+  /* background-image: none; */
 }
 
 .svg-purple-to-yellow-dark {
-  display: none;
+  /* background-image: none; */
 }
 
 .dark .svg-purple-to-yellow-dark {
-  display: block;
   background-image: url('/svg/background/purpleToYellow.svg');
   background-color: #170033;
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }

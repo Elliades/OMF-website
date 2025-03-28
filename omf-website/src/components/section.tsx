@@ -44,10 +44,12 @@ export default function Section({
   
   // useEffect for theme detection
   useEffect(() => {
-    // Check both theme and resolvedTheme for more reliable detection
-    const isDarkMode = theme === 'dark' || resolvedTheme === 'dark';
-    setIsDark(isDarkMode);
-  }, [theme, resolvedTheme, id]);
+    if (mounted) {
+      // Check both theme and resolvedTheme for more reliable detection
+      const isDarkMode = theme === 'dark' || resolvedTheme === 'dark';
+      setIsDark(isDarkMode);
+    }
+  }, [theme, resolvedTheme, mounted, id]);
 
   // Determine which SVG pattern to use based on the section index
   // Each section gets its own unique pattern
@@ -89,6 +91,40 @@ export default function Section({
     zIndex: 0
   };
 
+  if (!mounted) {
+    // Return a minimal section while theme is loading to prevent flash
+    return (
+      <section
+        id={id}
+        className={cn(
+          "relative py-16 md:py-24 transition-colors duration-300",
+          className
+        )}
+        style={{...style, display: 'block'}}
+      >
+        <div className={cn(
+          "relative z-10",
+          fullWidth ? "w-full" : "container mx-auto px-4"
+        )}>
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6 text-gray-800" 
+              style={titleStyles}
+            >
+              {title}
+              <div className="h-1 w-24 mx-auto mt-6 bg-gradient-to-r from-primary to-accent rounded" />
+            </h2>
+            {subtitle && (
+              <p className="text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto text-gray-600">
+                {subtitle}
+              </p>
+            )}
+          </div>
+          {children}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       id={id}
@@ -97,7 +133,7 @@ export default function Section({
         getSVGClasses(), // Toutes les sections ont maintenant un fond SVG
         className
       )}
-      style={style}
+      style={{...style, visibility: 'visible', display: 'block'}} // Ensure visibility and display
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
