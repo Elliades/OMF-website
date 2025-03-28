@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Section from "@/components/section";
 import PlaceholderMedia from "@/components/placeholder-media";
-import CodeSnippet from "@/components/code-snippet";
+import CodeSnippetV2 from "@/components/code-snippet-v2";
 import { CheckCircle2 } from "lucide-react";
 
 // Example code snippet for barrier declaration
@@ -23,6 +23,29 @@ const barrierCode = `try (OMFBarrier barrier = new OMFBarrier()) {
 } catch (Exception e) {
   // Error was caught and model is in consistent state
   log.error("Operation failed but model integrity is preserved");
+}`;
+
+// Example code for Kotlin implementation
+const barrierKotlinCode = `// Example of OMFBarrier usage
+fun doStuff(element: Class): Element {
+    try {
+        OMFBarrierExecutor.executeWithinBarrier {
+            // Do stuff here
+            val port = SysMLFactory.getInstance().createProxyPort(element)
+            port.name = "Port"
+            // PORT TYPE DOES NOT EXIST
+            port.type!!.name = "PortType" // --> THROWS EXCEPTION
+        }
+            
+    } catch (e: OMFCriticalException) {
+        OMFLogger2.toAll().error(
+            "Something went wrong," +
+            "the session has been rolled back," +
+            "preventing the creation of the element."
+        )
+    }
+    
+    return element
 }`;
 
 interface CoreProps {
@@ -58,22 +81,15 @@ export default function Core({ index }: CoreProps) {
           />
         </div>
         <div className="flex flex-col space-y-6">
-          <CodeSnippet
+          <CodeSnippetV2
             language="java"
-            code={`// Example of OMFBarrier usage
-try (OMFBarrier barrier = OMFBarrier.newBarrier()) {
-    // Any operation within this barrier will be rolled back 
-    // if an error occurs
-    SysMLBlock block = factory.createBlock("MyBlock");
-    block.addProperty("property1", "String");
-    
-    // If this throws an exception, all operations are rolled back
-    someOperationThatMightFail();
-    
-    // Once the barrier is closed, the operations are committed
-    barrier.commit();
-}`}
-            highlightLines={[1, 8, 12]}
+            code={barrierCode}
+            title="Java Implementation"
+          />
+          <CodeSnippetV2
+            language="kotlin"
+            code={barrierKotlinCode}
+            title="Kotlin Implementation"
           />
           <PlaceholderMedia 
             type="gif" 

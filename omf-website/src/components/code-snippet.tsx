@@ -35,7 +35,7 @@ export default function CodeSnippet({
   // Safely replace text with styled span
   const safeReplace = (text: string, pattern: RegExp, className: string) => {
     return text.replace(pattern, (match) => {
-      // Escape any HTML in the match
+      // Escape any HTML in the match to prevent malformed HTML
       const escaped = match
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -47,8 +47,23 @@ export default function CodeSnippet({
     });
   };
 
+  // New helper function to apply highlighting with safety checks
+  const applyHighlighting = (text: string, pattern: RegExp, className: string) => {
+    if (!pattern.test(text)) return text;
+    
+    // Reset the RegExp lastIndex if it's a global regex
+    if (pattern.global) pattern.lastIndex = 0;
+    
+    try {
+      return safeReplace(text, pattern, className);
+    } catch (error) {
+      console.error("Error applying highlighting:", error);
+      return text; // Return original text if there was an error
+    }
+  };
+
   // Syntax highlighting for Java/Kotlin
-  const highlightCode = (code: string, lang: "java" | "kotlin") => {
+  const highlightCode = (code: string, language: "java" | "kotlin") => {
     // Clean up the code first - normalize line endings and trim extra blank lines
     const cleanedCode = code
       .replace(/\r\n/g, '\n')  // Normalize line endings
@@ -75,17 +90,18 @@ export default function CodeSnippet({
         "reified", "expect", "actual", "external", "suspend", "tailrec", "operator",
         "infix", "internal", "annotation", "init", "constructor", "destructor", "by",
         "delegate", "dynamic", "field", "file", "finally", "get", "import", "init",
-        "param", "property", "receiver", "set", "setparam", "where", "when"
+        "param", "property", "receiver", "set", "setparam", "where", "when", "override",
+        "Test", "RunWith", "Suite", "SuiteClasses"
       ];
 
       // Regular expressions for different code elements
       const patterns = {
         comment: /\/\/.*$/,
         multilineComment: /\/\*[\s\S]*?\*\//,
-        string: /"(?:[^"\\]|\\.)*"/,
-        number: /\b\d+\b/,
+        string: /"(?:[^"\\]|\\.)*"/g,
+        number: /\b\d+\b/g,
         keyword: new RegExp(`\\b(${keywords.join("|")})\\b`, 'g'),
-        annotation: /@\w+/g,
+        annotation: /@[\w.]+(?:\([^)]*\))?/g,  // Simplified annotation pattern
         function: /\b\w+(?=\s*\()/g,
         type: /\b[A-Z]\w*\b/g,
       };
@@ -93,55 +109,64 @@ export default function CodeSnippet({
       // Apply highlighting in specific order
       // Comments first to avoid highlighting content inside comments
       if (line.includes("//")) {
-        const parts = highlightedLine.split("//");
-        if (parts.length > 1) {
-          const comment = parts.slice(1).join("//");
-          highlightedLine = parts[0] + `<span class="text-gray-400">//${comment}</span>`;
-        }
+        const commentIndex = line.indexOf("//");
+        const codePart = highlightedLine.substring(0, commentIndex);
+        const commentPart = highlightedLine.substring(commentIndex);
+        
+        // Apply highlighting to code part with safety checks
+        let highlightedCodePart = codePart;
+        
+        // Apply syntax highlighting to code part in specific order
+        highlightedCodePart = applyHighlighting(highlightedCodePart, patterns.string, "text-emerald-400");
+        highlightedCodePart = applyHighlighting(highlightedCodePart, patterns.number, "text-orange-400");
+        highlightedCodePart = applyHighlighting(highlightedCodePart, patterns.annotation, "text-pink-400");
+        highlightedCodePart = applyHighlighting(highlightedCodePart, patterns.keyword, "text-blue-400");
+        highlightedCodePart = applyHighlighting(highlightedCodePart, patterns.function, "text-yellow-400");
+        highlightedCodePart = applyHighlighting(highlightedCodePart, patterns.type, "text-purple-400");
+        
+        // Combine with comment part
+        highlightedLine = highlightedCodePart + '<span class="text-gray-400">' + commentPart + '</span>';
       } else {
-        // Not a comment line, proceed with other highlighting
-        // Apply syntax highlighting in a specific order to avoid conflicts
+        // Not a comment line, proceed with other highlighting in a specific order
         
         // First handle strings to avoid other rules applying to string contents
-        if (patterns.string.test(highlightedLine)) {
-          highlightedLine = safeReplace(highlightedLine, patterns.string, "text-emerald-400");
+        highlightedLine = applyHighlighting(highlightedLine, patterns.string, "text-emerald-400");
+        
+        // Special handling for annotations to ensure they're colored properly and don't break HTML
+        if (highlightedLine.includes("@")) {
+          const annotationMatches = [...highlightedLine.matchAll(/@[\w.]+(?:\([^)]*\))?/g)];
+          if (annotationMatches.length > 0) {
+            for (const match of annotationMatches) {
+              if (match.index !== undefined) {
+                const annotation = match[0];
+                const escapedAnnotation = annotation
+                  .replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;')
+                  .replace(/'/g, '&#039;');
+                
+                // Create a safer replacement by using a unique placeholder
+                const placeholder = `__ANNOTATION_${Math.random().toString(36).substring(2)}__`;
+                highlightedLine = highlightedLine.substring(0, match.index) + 
+                  placeholder + 
+                  highlightedLine.substring(match.index + annotation.length);
+                
+                // Replace the placeholder with properly wrapped annotation
+                highlightedLine = highlightedLine.replace(
+                  placeholder, 
+                  `<span class="text-pink-400">${escapedAnnotation}</span>`
+                );
+              }
+            }
+          }
         }
-
-        // Then handle numbers which might be part of identifiers
-        if (patterns.number.test(highlightedLine)) {
-          // Only replace numbers that aren't part of identifiers
-          highlightedLine = highlightedLine.replace(/\b(\d+)\b/g, (match) => 
-            `<span class="text-orange-400">${match}</span>`
-          );
-        }
-
-        // Then annotations which start with @ and are distinct
-        if (patterns.annotation.test(highlightedLine)) {
-          highlightedLine = highlightedLine.replace(patterns.annotation, (match) => 
-            `<span class="text-pink-400">${match}</span>`
-          );
-        }
-
-        // Then keywords which are distinct whole words
-        if (patterns.keyword.test(highlightedLine)) {
-          highlightedLine = highlightedLine.replace(patterns.keyword, (match) => 
-            `<span class="text-blue-400">${match}</span>`
-          );
-        }
-
-        // Then function calls which are followed by parentheses
-        if (patterns.function.test(highlightedLine)) {
-          highlightedLine = highlightedLine.replace(patterns.function, (match) => 
-            `<span class="text-yellow-400">${match}</span>`
-          );
-        }
-
-        // Finally handle types which start with uppercase
-        if (patterns.type.test(highlightedLine)) {
-          highlightedLine = highlightedLine.replace(patterns.type, (match) => 
-            `<span class="text-purple-400">${match}</span>`
-          );
-        }
+        
+        // Apply the rest of the highlighting in order
+        highlightedLine = applyHighlighting(highlightedLine, patterns.number, "text-orange-400");
+        highlightedLine = applyHighlighting(highlightedLine, patterns.keyword, "text-blue-400");
+        highlightedLine = applyHighlighting(highlightedLine, patterns.function, "text-yellow-400");
+        highlightedLine = applyHighlighting(highlightedLine, patterns.type, "text-purple-400");
       }
 
       // Check if this line should be highlighted

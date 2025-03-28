@@ -5,9 +5,12 @@
   "scripts": {
     "dev": "next dev --turbopack --port 3282",
     "build": "next build && node scripts/post-build.js",
+    "build-no-lint": "next build --no-lint && node scripts/post-build.js",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "node scripts/post-build.js"
+    "lint:fix": "next lint --fix",
+    "postbuild": "node scripts/post-build.js",
+    "deploy": "next build --no-lint && node scripts/post-build.js && firebase deploy --only hosting"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",

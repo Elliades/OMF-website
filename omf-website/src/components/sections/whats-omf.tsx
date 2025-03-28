@@ -98,7 +98,7 @@ export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
               type="image" 
               width="80%" 
               height={200} 
-              label="OMF Logo"
+              label="OMF logo"
               className="mb-8 shadow-soft rounded-lg" 
             />
           </motion.div>
