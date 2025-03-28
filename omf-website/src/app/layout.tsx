@@ -13,23 +13,9 @@ export const metadata: Metadata = {
   title: "OMF - Open MagicDraw Framework",
   description: "OMF is an open-source framework designed to simplify the robust and efficient development of MagicDraw plugins.",
   icons: {
-    icon: [
-      {
-        url: "/favicon/favicon.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
-      {
-        url: "/favicon/favicon.png",
-        sizes: "16x16",
-        type: "image/png",
-      }
-    ],
-    apple: {
-      url: "/favicon/favicon.png",
-      sizes: "180x180",
-      type: "image/png",
-    },
+    icon: "/favicon/favicon.png",
+    shortcut: "/favicon/favicon.png",
+    apple: "/favicon/favicon.png",
   },
 };
 
@@ -39,17 +25,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href="/favicon/favicon.png" />
+        <link rel="icon" type="image/png" href="/favicon/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon/favicon.png" />
       </head>
-      <body className={cn(
-        inter.className,
-        "transition-colors duration-300"
-      )}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body 
+        className={cn(
+          inter.className,
+          "transition-colors duration-300"
+        )}
+        suppressHydrationWarning
+      >
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="system" 
+          enableSystem
+          suppressHydrationWarning
+        >
           {children}
         </ThemeProvider>
       </body>
