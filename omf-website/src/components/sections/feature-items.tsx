@@ -101,7 +101,11 @@ export default function FeatureItems({ index = 3 }: FeatureItemsProps) {
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full mb-8">
             {featureItems.map(item => (
-              <TabsTrigger key={item.id} value={item.id} className="text-sm">
+              <TabsTrigger 
+                key={item.id} 
+                value={item.id} 
+                className={`text-sm feature-item-button ${activeTab === item.id ? 'selected' : ''}`}
+              >
                 {item.title}
               </TabsTrigger>
             ))}
@@ -112,14 +116,14 @@ export default function FeatureItems({ index = 3 }: FeatureItemsProps) {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <Card className="border-t-4 border-primary shadow-sm">
                   <CardHeader>
-                    <CardTitle>{item.title}</CardTitle>
-                    <CardDescription className="text-base text-gray-700">
+                    <CardTitle className="font-semibold">{item.title}</CardTitle>
+                    <CardDescription className="text-base">
                       {item.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <h4 className="font-semibold text-sm mb-3 text-gray-500 uppercase">Benefits</h4>
-                    <ul className="space-y-2 ml-5 list-disc text-gray-700">
+                    <h4 className="font-semibold text-sm mb-3 uppercase">Benefits</h4>
+                    <ul className="space-y-2 ml-5 list-disc">
                       {item.benefits.map((benefit, index) => (
                         <li key={index}>{benefit}</li>
                       ))}

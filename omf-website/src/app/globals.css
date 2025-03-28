@@ -151,12 +151,36 @@ code {
 }
 
 /* Dark mode text styling - global pour toutes les sections */
-.dark .text-gray-700 {
-  @apply text-gray-200;
+.dark .text-gray-700, .dark p, .dark li, .dark button {
+  color: white;
 }
 
-.dark li {
-  @apply text-gray-200;
+/* Dark mode subtitle styling */
+.dark .text-gray-600 {
+  color: oklch(0.81 0.05 256.84);
+}
+
+/* Dark mode title styling */
+.dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: white;
+}
+
+/* Text titles with font-semibold in dark mode */
+.dark .font-semibold {
+  color: #24d5ff;
+}
+
+/* Feature items buttons in dark mode */
+.dark .feature-item-button {
+  background-color: #000000b3;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* Selected feature item button in dark mode */
+.dark .feature-item-button.selected {
+  border-color: #98ff00;
+  background-color: #609f00cc;
 }
 
 /* Card backgrounds in dark mode */

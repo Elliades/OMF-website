@@ -107,14 +107,14 @@ export default function Section({
           fullWidth ? "w-full" : "container mx-auto px-4"
         )}>
           <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6 text-gray-800" 
+            <h2 className="text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6" 
               style={titleStyles}
             >
               {title}
               <div className="h-1 w-24 mx-auto mt-6 bg-gradient-to-r from-primary to-accent rounded" />
             </h2>
             {subtitle && (
-              <p className="text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto text-gray-600">
+              <p className="text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto">
                 {subtitle}
               </p>
             )}
@@ -145,8 +145,7 @@ export default function Section({
       )}>
         <div className="text-center mb-10 md:mb-16">
           <h2 className={cn(
-            "text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6",
-            isDark ? "text-white" : "text-gray-800"
+            "text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6"
           )} 
             style={titleStyles}
           >
@@ -162,7 +161,7 @@ export default function Section({
           {subtitle && (
             <p className={cn(
               "text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto",
-              isDark ? "text-gray-200" : "text-gray-600"
+              "text-gray-600"
             )}>
               {subtitle}
             </p>
@@ -172,7 +171,7 @@ export default function Section({
       </div>
       
       {/* Subtle "scroll for more" indicator */}
-      <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center text-sm text-gray-400 dark:text-gray-500 animate-pulse">
+      <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center text-sm animate-pulse">
         <span className="mb-1">Scroll for more</span>
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
