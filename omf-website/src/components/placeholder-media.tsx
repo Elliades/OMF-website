@@ -24,6 +24,8 @@ const gifMapping: Record<string, string> = {
   "Error rollback demonstration (~10s)": "/gifs/Error Management.gif",
   "Button click in MagicDraw UI": "/gifs/CreateUIAction.gif",
   "Immediate response to model modifications": "/gifs/LiveAction.gif",
+  "Real-time configuration change": "/gifs/OMF-Option.gif",
+  "Mini Option demo": "/gifs/OMF-Option.gif",
 };
 
 export default function PlaceholderMedia({

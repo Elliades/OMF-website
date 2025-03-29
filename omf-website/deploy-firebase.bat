@@ -1,9 +1,18 @@
 @echo off
-echo Deploying to Firebase...
+echo Building and deploying OMF Website to Firebase...
 
-:: Deploy to Firebase
+REM Clean previous builds
+if exist .next rmdir /s /q .next
+if exist out rmdir /s /q out
+
+REM Install dependencies if needed
+call npm install
+
+REM Build the project
+call npm run build
+
+REM Deploy to Firebase
 call firebase deploy --only hosting
 
 echo Deployment complete!
-echo Site is now live at https://omf-website-48649.web.app
-pause 
+pause

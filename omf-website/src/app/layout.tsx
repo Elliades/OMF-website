@@ -42,7 +42,6 @@ export default function RootLayout({
           attribute="class" 
           defaultTheme="system" 
           enableSystem
-          suppressHydrationWarning
         >
           {children}
         </ThemeProvider>
