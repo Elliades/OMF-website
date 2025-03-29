@@ -6,9 +6,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import ThemeToggle from "./theme-toggle";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
   { name: "What's OMF?", href: "#whats-omf" },
@@ -47,6 +48,21 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!menuOpen) return;
+    
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.mobile-menu') && !target.closest('.menu-button')) {
+        setMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [menuOpen]);
+
   const scrollToSection = (href: string) => {
     const element = document.getElementById(href.substring(1));
     if (element) {
@@ -66,7 +82,7 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex items-center justify-between px-4">
         <motion.div 
           className="text-2xl font-bold gradient-text"
           initial={{ opacity: 0 }}
@@ -76,6 +92,7 @@ export default function Navbar() {
           OMF
         </motion.div>
         
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
           {navItems.map((item) => (
             <Button
@@ -97,80 +114,51 @@ export default function Navbar() {
           </div>
         </nav>
         
-        <div className="md:hidden flex items-center gap-2">
+        {/* Mobile Navigation Controls */}
+        <div className="flex items-center space-x-2 md:hidden">
           <ThemeToggle />
           <Button 
             variant="ghost" 
             size="icon"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-gray-700 dark:text-gray-300"
+            className="text-gray-700 dark:text-gray-300 menu-button"
+            aria-label="Toggle menu"
           >
-            <span className="sr-only">Toggle menu</span>
-            {menuOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6"
-              >
-                <line x1="4" x2="20" y1="12" y2="12" />
-                <line x1="4" x2="20" y1="6" y2="6" />
-                <line x1="4" x2="20" y1="18" y2="18" />
-              </svg>
-            )}
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
       
       {/* Mobile Menu */}
-      {menuOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-white dark:bg-[#050309] shadow-md"
-        >
-          <div className="container py-4 flex flex-col space-y-2">
-            {navItems.map((item) => (
-              <Button
-                key={item.name}
-                variant="ghost"
-                size="sm"
-                onClick={() => scrollToSection(item.href)}
-                className={`text-left justify-start w-full ${
-                  activeSection === item.href.substring(1) 
-                    ? "bg-primary/10 text-primary dark:bg-primary/20 font-medium" 
-                    : "text-gray-700 dark:text-gray-300"
-                }`}
-              >
-                {item.name}
-              </Button>
-            ))}
-          </div>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="md:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-lg mobile-menu overflow-hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="container py-4 flex flex-col space-y-2 px-4">
+              {navItems.map((item) => (
+                <Button
+                  key={item.name}
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => scrollToSection(item.href)}
+                  className={`text-left justify-start w-full ${
+                    activeSection === item.href.substring(1) 
+                      ? "bg-primary/10 text-primary dark:bg-primary/20 font-medium" 
+                      : "text-gray-700 dark:text-gray-300"
+                  }`}
+                >
+                  {item.name}
+                </Button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 } 
