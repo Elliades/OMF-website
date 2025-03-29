@@ -1,6 +1,8 @@
 /**
  * Test page for debugging code highlighting
  */
+"use client";
+
 import { Metadata } from "next";
 import CodeSnippetTest from "@/components/code-snippet-test";
 import CodeSnippet from "@/components/code-snippet";
@@ -41,6 +43,27 @@ class DemoLocalBatch : ATestBatchLocal() {
 }`;
 
 export default function TestPage() {
+  // Test code snippet with annotations
+  const kotlinCode = `@BrowserAction // This action will be available in the browser
+@DiagramAction // This action will be available in the diagram
+@MenuAction // This action will be available in the menu
+@DeactivateListener //Deactivates the listeners when triggered
+//Action will be available under "DEMO.Demo Action" in the menu
+@MDAction(actionName = "Demo Action", category = "DEMO") 
+class DemoAction: AUIAction() {
+
+    //Check when the action is available (displayed when right click on the element)
+    override fun checkAvailability(selectedElements: List<Element>): Boolean {
+        return isProjectOpened
+    }
+
+    //This method is called when the action is triggered
+    //Actions is performed inside a session, and inside OMFBarrier
+    override fun actionToPerform(selectedElements: List<Element>) {
+        OMFLogger2.toNotification().success("Demo Action performed")
+    }    
+}`;
+
   return (
     <main className="min-h-screen py-20 px-4">
       <div className="container mx-auto">
@@ -74,7 +97,7 @@ export default function TestPage() {
             <div>
               <h3 className="text-xl font-semibold mb-3">Original Component</h3>
               <CodeSnippet 
-                code={kotlinTestCode} 
+                code={kotlinCode} 
                 language="kotlin" 
                 title="Original Kotlin Code" 
               />
@@ -82,7 +105,7 @@ export default function TestPage() {
             <div>
               <h3 className="text-xl font-semibold mb-3">Improved Component (V2)</h3>
               <CodeSnippetV2 
-                code={kotlinTestCode} 
+                code={kotlinCode} 
                 language="kotlin" 
                 title="Improved Kotlin Code" 
               />

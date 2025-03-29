@@ -7,7 +7,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
-import { Maximize2, Minimize2, X } from "lucide-react";
+import { Maximize2, Minimize2, X, Play } from "lucide-react";
 
 interface PlaceholderMediaProps {
   type: "image" | "gif";
@@ -28,6 +28,10 @@ const gifMapping: Record<string, string> = {
   "Mini Option demo": "/gifs/OMF-Option.gif",
   "Mini UIAction demo": "/gifs/CreateUIAction.gif",
   "Mini LiveAction demo": "/gifs/LiveAction.gif",
+  "Mini Hook demo": "/gifs/placeholder-hook.gif",
+  "Mini API demo": "/gifs/placeholder-api.gif",
+  "Adding custom behaviors triggered by events": "/gifs/placeholder-hook.gif",
+  "API integration demonstration": "/gifs/placeholder-api.gif"
 };
 
 export default function PlaceholderMedia({
@@ -40,8 +44,9 @@ export default function PlaceholderMedia({
 }: PlaceholderMediaProps) {
   const gifPath = gifMapping[label];
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [actualHeight, setActualHeight] = useState(height);
+  const [actualHeight, setActualHeight] = useState(height || 300);
   const imgRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fullscreenRef = useRef<HTMLDivElement>(null);
@@ -52,29 +57,31 @@ export default function PlaceholderMedia({
       const imgWidth = imgRef.current.naturalWidth;
       const imgHeight = imgRef.current.naturalHeight;
       
-      setDimensions({
-        width: imgWidth,
-        height: imgHeight
-      });
-      
-      // Calculate appropriate container height
-      const aspectRatio = imgWidth / imgHeight;
-      let newHeight = height;
-      
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.clientWidth;
+      if (imgWidth && imgHeight) {
+        setDimensions({
+          width: imgWidth,
+          height: imgHeight
+        });
         
-        // If image is wider than tall
-        if (aspectRatio > 1) {
-          // Use default height, but ensure it's not too tall for a wide image
-          newHeight = Math.min(height, containerWidth / aspectRatio);
-        } else {
-          // For tall images, limit height to avoid overly tall containers
-          newHeight = Math.min(350, Math.max(250, containerWidth / aspectRatio * 0.8));
+        // Calculate appropriate container height
+        const aspectRatio = imgWidth / imgHeight;
+        let newHeight = height || 300;
+        
+        if (containerRef.current) {
+          const containerWidth = containerRef.current.clientWidth;
+          
+          // If image is wider than tall
+          if (aspectRatio > 1) {
+            // Use default height, but ensure it's not too tall for a wide image
+            newHeight = Math.min(newHeight, containerWidth / aspectRatio);
+          } else {
+            // For tall images, limit height to avoid overly tall containers
+            newHeight = Math.min(350, Math.max(250, containerWidth / aspectRatio * 0.8));
+          }
         }
+        
+        setActualHeight(newHeight);
       }
-      
-      setActualHeight(newHeight);
     }
   };
 
@@ -96,14 +103,11 @@ export default function PlaceholderMedia({
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('scroll', handleScroll);
     
-    // Set initial dimensions
-    if (imgRef.current && imgRef.current.complete) {
-      updateDimensions();
-    }
-    
     // Add window resize handler
     const handleResize = () => {
-      updateDimensions();
+      if (!imageError) {
+        updateDimensions();
+      }
     };
     
     window.addEventListener('resize', handleResize);
@@ -113,7 +117,7 @@ export default function PlaceholderMedia({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
     };
-  }, [isFullscreen]);
+  }, [isFullscreen, imageError]);
   
   const toggleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -126,6 +130,21 @@ export default function PlaceholderMedia({
       }, 50);
     }
   };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  // Render placeholder when image not available
+  const renderPlaceholder = () => (
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+      <Play className="text-gray-400 dark:text-gray-600 mb-3" size={36} />
+      <div className="text-sm text-gray-600 dark:text-gray-400 text-center px-4">
+        <div className="font-medium mb-1">{label}</div>
+        <div className="text-xs opacity-70">Demo animation</div>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div
@@ -141,7 +160,7 @@ export default function PlaceholderMedia({
       }}
       onClick={onClick}
     >
-      {gifPath ? (
+      {!imageError && gifPath ? (
         <>
           <div ref={fullscreenRef} className="relative w-full h-full overflow-hidden">
             <img
@@ -150,6 +169,7 @@ export default function PlaceholderMedia({
               alt={label}
               className="w-full h-full object-contain transition-transform duration-200"
               onLoad={updateDimensions}
+              onError={handleImageError}
             />
             
             {/* Caption overlay at bottom */}
@@ -179,12 +199,7 @@ export default function PlaceholderMedia({
           )}
         </>
       ) : (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-4xl mb-2">🎥</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{label}</div>
-          </div>
-        </div>
+        renderPlaceholder()
       )}
     </motion.div>
   );
