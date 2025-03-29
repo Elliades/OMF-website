@@ -9,8 +9,6 @@ import Image from "next/image";
 import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent } from "../ui/card";
-import { useState } from "react";
-import { Copy, Check, Github } from "lucide-react";
 
 // Custom background style for the first section
 const bgStyle = {
@@ -32,15 +30,6 @@ interface WhatsOMFProps {
 }
 
 export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
-  const [copied, setCopied] = useState(false);
-  const githubUrl = "https://github.com/OMF-Open-MBSE-Framework/OMF/";
-  
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(githubUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <Section 
       id="whats-omf" 
@@ -66,40 +55,6 @@ export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
               efficient development of MagicDraw plugins. Built by developers for 
               developers, OMF streamlines complex automations reliably and elegantly.
             </p>
-            
-            {/* GitHub link with copy functionality */}
-            <div className="mb-6">
-              <h4 className="text-lg font-medium mb-2 text-white/80">Get the code:</h4>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div 
-                  className="flex-1 bg-white/10 rounded-lg px-4 py-3 flex justify-between items-center cursor-pointer border border-white/20 hover:bg-white/15 transition-colors"
-                  onClick={copyToClipboard}
-                >
-                  <code className="text-blue-300 text-sm sm:text-base font-mono truncate">{githubUrl}</code>
-                  <button 
-                    className="ml-2 text-white/70 hover:text-white transition-colors"
-                    aria-label="Copy repository URL"
-                  >
-                    {copied ? (
-                      <Check className="h-4 w-4 text-green-400" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-                
-                <a 
-                  href={githubUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary-600 transition-colors rounded text-white font-medium text-sm whitespace-nowrap"
-                >
-                  <Github className="h-4 w-4 mr-2" />
-                  View on GitHub
-                </a>
-              </div>
-            </div>
-            
             <Card className="bg-white/10 backdrop-blur-sm shadow-soft mt-6 border border-white/20">
               <CardContent className="p-6">
                 <h4 className="font-semibold text-lg mb-2 flex items-center text-white">
@@ -163,4 +118,4 @@ export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
       </div>
     </Section>
   );
-}
+} 
