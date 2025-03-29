@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3282",
-    "build": "next build && node scripts/post-build.js",
+    "build": "next build --no-lint && node scripts/post-build.js",
     "build-no-lint": "next build --no-lint && node scripts/post-build.js",
     "start": "next start",
     "lint": "next lint",

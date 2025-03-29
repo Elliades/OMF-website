@@ -6,9 +6,12 @@ const nextConfig = {
   },
   // Ensure the base path matches your hosting URL path if not at root
   basePath: '',
-  // Disable server-side features since we're doing static export
+  // Configure static export
+  distDir: '.next',
   experimental: {
-    appDir: true,
+    // Enable modern static export features
+    staticWorkerRequestDeduping: true,
+    optimizePackageImports: ['@radix-ui/react-icons'],
   },
 }
 
