@@ -58,20 +58,30 @@ class DemoAction: AUIAction() {
 }`,
     
     liveaction: `//Will be evaluated when model change is detected
-@LiveAction(listenTo = [ListenTo.ELEMENT_CREATED])
-class ElementCreationDetector : ALiveAction() {
-    override fun liveActionToPerform(event: MDEvent) {
-        when (event) {
-            is ElementAddedEvent -> {
-                val elementObj = event.element
-                OMFLogger.info("Element created: \${elementObj.name}")
-                // Perform actions on the newly created element
-            }
-            else -> {
-                // Handle other event types if needed
-            }
-        }
+class DemoLiveAction: ALiveAction() {
+    
+    //Will be assessed for each event of the  session
+    override fun eventMatches(evt: PropertyChangeEvent?): Boolean {
+        return EventChecker()
+            .isElementCreated() //event concern an element creation
+            .isBlock() // event concern a block
+            .test(evt) // evaluate block creation
     }
+
+
+    //Triggered when the event is detected
+    //This method is executed in a session, and inside OMFBarrier
+    override fun process(event: PropertyChangeEvent): PropertyChangeEvent {
+            val block =  event.source as Class
+            block.setName("succeed");
+        return event
+    }
+
+    //Allows to execute other LiveAction for this session batch
+    override fun isBlocking(): Boolean {
+        return false
+    }
+
 }`,
     
     option: `//Helper class to manage the options (create, get, set)

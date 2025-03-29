@@ -1,8 +1,5 @@
-# PowerShell script for building and deploying OMF Website with mobile responsiveness
-Write-Host "Building and deploying OMF Website with mobile optimizations..." -ForegroundColor Cyan
-
-# Set environment variables
-$env:NODE_ENV = "production"
+# PowerShell deployment script for OMF Website that handles all component errors
+Write-Host "Building and deploying OMF Website..." -ForegroundColor Cyan
 
 # Navigate to correct directory (if script is run from parent folder)
 $scriptPath = $MyInvocation.MyCommand.Path
@@ -11,6 +8,26 @@ $currentDir = Get-Location
 if (-not $currentDir.Path.EndsWith("omf-website")) {
     Write-Host "Navigating to omf-website directory..." -ForegroundColor Yellow
     cd $scriptDir
+}
+
+# Set environment variables
+$env:NODE_ENV = "production"
+
+# Check for existing builds
+if (Test-Path -Path ".next") {
+    Write-Host "Removing existing .next directory to clean previous builds..." -ForegroundColor Yellow
+    Remove-Item -Recurse -Force .next
+}
+
+if (Test-Path -Path "out") {
+    Write-Host "Removing existing out directory to clean previous builds..." -ForegroundColor Yellow
+    Remove-Item -Recurse -Force out
+}
+
+# Install dependencies if node_modules doesn't exist or is incomplete
+if (-not (Test-Path -Path "node_modules/react")) {
+    Write-Host "Installing dependencies..." -ForegroundColor Yellow
+    npm install --legacy-peer-deps
 }
 
 # Build the project without linting
@@ -35,7 +52,7 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "Deployment complete!" -ForegroundColor Green
 Write-Host "Site is now live at https://omf-website-48649.web.app" -ForegroundColor Cyan
-Write-Host "Mobile responsiveness improvements have been deployed." -ForegroundColor Cyan
+Write-Host "All component and navigation fixes have been deployed." -ForegroundColor Green
 
 # Keep the window open
 Write-Host "Press any key to exit..." -ForegroundColor Yellow
