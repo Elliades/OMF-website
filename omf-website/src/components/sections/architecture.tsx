@@ -9,7 +9,11 @@ import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent } from "../ui/card";
 
-export default function Architecture() {
+interface ArchitectureProps {
+  index?: number;
+}
+
+export default function Architecture({ index = 2 }: ArchitectureProps) {
   // Feature information
   const features = [
     {
@@ -115,9 +119,12 @@ export default function Architecture() {
   ];
 
   return (
-    <Section 
-      id="architecture" 
+    <Section
+      id="architecture"
       title="Feature-Oriented Architecture"
+      subtitle="Modular, autonomous features for better scalability"
+      className="bg-section-alt-1 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-16">
         <p className="text-lg text-gray-700 leading-relaxed">

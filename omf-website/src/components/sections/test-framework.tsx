@@ -7,11 +7,63 @@
 import { motion } from "framer-motion";
 import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
-import CodeSnippet from "../code-snippet";
+import CodeSnippetV2 from "../code-snippet-v2";
 
-export default function TestFramework() {
+interface TestFrameworkProps {
+  index?: number;
+}
+
+export default function TestFramework({ index = 6 }: TestFrameworkProps) {
   // Example code snippet for test framework
   const testFrameworkCode = 
+`// Test suite for the demo local batch
+@RunWith(Suite::class)
+@Suite.SuiteClasses( // BasicSysML
+    T0_BasicSysML_SimpleBlockCreation::class,
+    T1_BasicSysML_MultiActionsBlockCreation::class,
+    T3CreatePort::class // Tests KOs
+
+    ,
+    T1_KO_wrongBlockName::class,
+    T2_KO_noCreation::class,
+    T3_KO_noDeletion::class
+
+)
+// Emplacement of the init and oracle projects
+class DemoLocalBatch : ATestBatchLocal() {
+    override fun initVariable() {
+        initZipProject = "init_publicFeatures_Test.mdzip"
+        oracleZipProject = "oracle_publicFeatures_Test.mdzip"
+    }
+}
+
+// Simulate Block creation by user, in test package
+class T0_BasicSysML_SimpleBlockCreation : AModelComparatorTestCase() {
+    override fun initVariables() {
+        // Test case name
+        // Test case ID
+        // Test package where the test is conducted
+        name =            "2.Create a block in a single user action"
+        testCaseID =      "T2_BasicSysML_SingleActionBlockCreation"
+        testPackageName = "2.Create a block in a single user action"
+    }
+
+    // Which Magicdraw options should be set to run the test
+    override fun initOptions() {}
+
+    // Simulate the action to be tested (in this case, a block creation)
+    // Could be a UI action call, an element creation to activate listener, etc.
+    override fun testAction() {
+        val owner = findTestedElementByID("_2021x_2_da1032a_1686310758915_84973_2922") // test package
+        val myBlock = SysMLFactory.getInstance().createBlock(owner)
+        myBlock.name = "MyBlock"
+    }
+
+    // MagicDraw options to be set after the test
+    override fun reInitEnvOptions() {}
+}`;
+
+  const useCasesCode = 
 `// Model comparison test
 @Test
 public void testBlockCreation() {
@@ -45,9 +97,12 @@ public void testUserWorkflow() {
 }`;
 
   return (
-    <Section 
-      id="test-framework" 
+    <Section
+      id="test-framework"
       title="Functional Test Framework"
+      subtitle="Automated testing for reliability"
+      className="bg-section-alt-1 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">
@@ -127,10 +182,18 @@ public void testUserWorkflow() {
         </div>
 
         <div className="space-y-8">
-          <CodeSnippet 
-            code={testFrameworkCode} 
-            title="Functional Test Examples"
+          <CodeSnippetV2
+            code={testFrameworkCode}
+            title="Test Suite Definition"
             className="shadow-sm"
+            language="kotlin"
+          />
+          
+          <CodeSnippetV2
+            code={useCasesCode}
+            title="Test Use Cases"
+            className="shadow-sm"
+            language="java"
           />
           
           <PlaceholderMedia 

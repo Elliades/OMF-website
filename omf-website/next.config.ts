@@ -1,15 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone', // Enable standalone output for Docker
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/:path*',
-      },
-    ];
-  }
+  output: 'export', // Changed from 'standalone' to 'export' for Firebase static hosting
+  images: {
+    unoptimized: true, // Required for static export
+  },
+  // Remove rewrites as they're not needed for static export
 };
 
 export default nextConfig;

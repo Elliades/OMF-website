@@ -43,80 +43,554 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.21 0.006 285.885);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.705 0.015 286.067);
-}
-
-.dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.92 0.004 286.32);
-  --primary-foreground: oklch(0.21 0.006 285.885);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.552 0.016 285.938);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
-}
-
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    --section-dark: 221 70% 54%;
+    --section-alt-1: 40 96% 89%;
+    --section-alt-2: 0 0% 98%;
+    --section-light: 0 0% 100%;
   }
-  body {
-    @apply bg-background text-foreground;
+  
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --radius: 0.5rem;
+    --section-dark: 221 80% 56%;
+    --section-alt-1: 40 13% 10%;
+    --section-alt-2: 220 33% 5%;
+    --section-light: 222.2 84% 4.9%;
   }
+}
+
+/* Custom styles for code blocks */
+pre {
+  @apply bg-[#1e293b] text-[#e2e8f0] p-4 rounded-lg overflow-x-auto;
+}
+
+code {
+  @apply font-mono text-sm;
+}
+
+/* Section styling - for even-indexed sections (0, 2, 4, 6) */
+.bg-section-light {
+  @apply bg-white dark:bg-[#050309];
+}
+
+/* Specific gradient backgrounds - now replaced with SVG patterns */
+/* Ces règles sont conservées comme référence mais commentées */
+/*
+#core {
+  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+}
+
+.dark #core {
+  background: linear-gradient(to bottom, #000000, #121212);
+}
+
+#feature-items {
+  background: linear-gradient(135deg, #f0f7ff, #e6f0fd);
+}
+
+.dark #feature-items {
+  background: linear-gradient(135deg, #0c1931, #1a2b42);
+}
+
+#feature-library {
+  background: linear-gradient(135deg, #fff0f0, #ffe6e6);
+}
+
+.dark #feature-library {
+  background: linear-gradient(135deg, #310c0c, #421a1a);
+}
+*/
+
+/* Text color overrides for specific sections */
+/* Ces règles sont maintenues pour assurer la lisibilité du texte */
+#whats-omf .text-gray-700, #architecture .text-gray-700, 
+#library .text-gray-700, #test-framework .text-gray-700,
+#core .text-gray-700, #feature-items .text-gray-700, 
+#feature-library .text-gray-700 {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+/* Dark mode text styling - global pour toutes les sections */
+.dark .text-gray-700, .dark p, .dark li, .dark button {
+  color: white;
+}
+
+/* Dark mode subtitle styling */
+.dark .text-gray-600 {
+  color: oklch(0.81 0.05 256.84);
+}
+
+/* Dark mode title styling */
+.dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: white;
+}
+
+/* Text titles with font-semibold in dark mode */
+.dark .font-semibold {
+  color: #24d5ff;
+}
+
+/* Feature items buttons in dark mode */
+.dark .feature-item-button {
+  background-color: #000000b3;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* Selected feature item button in dark mode */
+.dark .feature-item-button.selected {
+  border-color: #98ff00;
+  background-color: #609f00cc;
+}
+
+/* Card backgrounds in dark mode */
+.dark .bg-white {
+  @apply bg-[#050309]/80;
+}
+
+.dark .border-gray-200 {
+  @apply border-gray-700;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent;
+}
+
+/* Animation for scroll indicator */
+.animate-arrow {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* SVG background patterns */
+.pattern-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dark .pattern-bg::after {
+  opacity: 0.05;
+}
+
+/* SVG background classes for specific patterns */
+/* Tous les SVG disponibles pour les fonds de section */
+
+/* Purple Corner Patterns */
+.svg-purple-light {
+  background-image: url('/svg/light-mode/big-corner/white-purple-corner.svg');
+  background-color: #f8f8fe;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-purple-light {
+  background-image: none;
+}
+
+.svg-purple-dark {
+  background-image: none;
+}
+
+.dark .svg-purple-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-purple-corner.svg');
+  background-color: #220033;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Acid Corner Patterns */
+.svg-acid-light {
+  background-image: url('/svg/light-mode/big-corner/white-acid-corner.svg');
+  background-color: #f8fef8;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-acid-light {
+  display: none;
+}
+
+.svg-acid-dark {
+  display: none;
+}
+
+.dark .svg-acid-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-acid-corner.svg');
+  background-color: #003322;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Orange/Cyan Corner Patterns */
+.svg-orange-light {
+  background-image: url('/svg/light-mode/big-corner/white-orange-corner.svg');
+  background-color: #fef8f8;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-orange-light {
+  background-image: none;
+}
+
+.svg-cyan-dark {
+  background-image: none;
+}
+
+.dark .svg-cyan-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-cyan-corner.svg');
+  background-color: #002233;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Orange/Cyan2 Corner Patterns */
+.svg-orange-light {
+  background-image: url('/svg/light-mode/big-corner/white-cyan-corner.svg');
+  background-color: #fef8f8;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.dark .svg-orange-light {
+  background-image: none;
+}
+
+.svg-cyan-dark {
+  background-image: none;
+}
+
+.dark .svg-cyan2-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-cyan-corner.svg');
+  background-color: #002233;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Red2 Corner Patterns */
+.svg-red2-light {
+  background-image: url('/svg/light-mode/big-corner/white-red-corner.svg');
+  background-color: #fff5f5;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-red2-light {
+  background-image: none;
+}
+
+.svg-red2-dark {
+  /*background-image: none;*/
+}
+
+.dark .svg-red2-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-red-corner.svg');
+  background-color: #330000;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+
+/* Red Corner Patterns */
+.svg-red-light {
+  background-image: url('/svg/light-mode/big-corner/white-red-corner.svg');
+  background-color: #fff5f5;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-red-light {
+  background-image: none;
+}
+
+.svg-red-dark {
+  background-image: none;
+}
+
+.dark .svg-red-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-red-corner.svg');
+  background-color: #330000;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+
+
+/* Full Black Patterns */
+.svg-black-light {
+  background-image: url('/svg/light-mode/big-corner/white-white-corner.svg');
+  background-color: #fff5f5;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-black-light {
+  background-image: none;
+}
+
+.svg-black-dark {
+  background-image: none;
+}
+
+.dark .svg-black-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/big-corner/black-pattern.svg');
+  background-color: #330000;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+/* Blue Corner Patterns */
+.svg-blue-light {
+  background-image: url('/svg/light-mode/big-corner/white-blue-corner.svg');
+  background-color: #f5f9ff;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-blue-light {
+  background-image: none;
+}
+
+.svg-blue-dark {
+  background-image: none;
+}
+
+.dark .svg-blue-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-blue-corner.svg');
+  background-color: #001a33;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Gold Corner Patterns */
+.svg-gold-light {
+  background-image: url('/svg/light-mode/big-corner/white-gold-corner.svg');
+  background-color: #fffdf5;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-gold-light {
+  /* background-image: none; */
+}
+
+.svg-gold-dark {
+  /* background-image: none; */
+}
+
+.dark .svg-gold-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-gold-corner.svg');
+  background-color: #332800;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* White Corner Patterns */
+.svg-white-light {
+  display: block;
+  background-image: url('/svg/light-mode/white-pattern.svg');
+  background-color: #ffffff;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-white-light {
+  /* background-image: none; */
+}
+
+.svg-dark-pattern {
+  /* background-image: none; */
+}
+
+.dark .svg-dark-pattern {
+  display: block;
+  background-image: url('/svg/dark-mode/small-corner/small-white-corner.svg');
+  background-color: #101010;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Generic Pattern Backgrounds */
+.svg-pattern-light {
+  background-image: url('/svg/light-mode/pattern-light.svg');
+  background-color: #ffffff;
+  background-size: 200px 200px;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-pattern-light {
+  background-image: none;
+}
+
+.svg-pattern-dark {
+  background-image: none;
+}
+
+.dark .svg-pattern-dark {
+  display: block;
+  background-image: url('/svg/dark-mode/big-corner/black-pattern.svg');
+  background-color: #121212;
+  background-size: 200px 200px;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Purple to Yellow Gradient */
+.svg-purple-to-yellow-light {
+  background-image: url('/svg/background/purpleToYellow.svg');
+  background-color: #f8f8ff;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.dark .svg-purple-to-yellow-light {
+  /* background-image: none; */
+}
+
+.svg-purple-to-yellow-dark {
+  /* background-image: none; */
+}
+
+.dark .svg-purple-to-yellow-dark {
+  background-image: url('/svg/background/purpleToYellow.svg');
+  background-color: #170033;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Text styling for light mode */
+h2, h3, h4, h5, h6 {
+  color: #000000;
+}
+
+p, li, button {
+  color: #333333;
+}
+
+/* Text titles with font-semibold in light mode */
+.font-semibold {
+  color: #0066cc;
+}
+
+/* Feature items buttons in light mode */
+.feature-item-button {
+  background-color: rgba(0, 0, 0, 0.7); /* Black with transparency */
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Selected feature item button in light mode */
+.feature-item-button.selected {
+  background-color: #ffffffed;
+  color: black;
+  border-color: #0066cc;
+}
+
+/* Footer styling for light mode */
+footer {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+}
+
+footer a, footer p, footer h3, footer h4 {
+  color: #333333;
+}
+
+footer .text-slate-300 {
+  color: #333333;
+}
+
+footer .gradient-text {
+  background: linear-gradient(to right, #0066cc, #0099ff);
+  -webkit-background-clip: text;
+  color: transparent;
 }

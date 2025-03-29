@@ -1,105 +1,191 @@
 /**
- * PlaceholderMedia component to represent GIFs, images, or videos
- * Will be replaced with actual media content later
+ * PlaceholderMedia component for displaying images and GIFs
+ * Used throughout the OMF Vitrine website for demos and examples
  */
 "use client";
 
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { useState, useEffect, useRef } from "react";
+import { Maximize2, Minimize2, X } from "lucide-react";
 
 interface PlaceholderMediaProps {
-  type: "gif" | "image" | "video";
-  width?: number | string;
-  height?: number | string;
-  label?: string;
+  type: "image" | "gif";
+  width?: string;
+  height?: number;
+  label: string;
   className?: string;
+  onClick?: () => void;
 }
+
+// Mapping of section labels to GIF files
+const gifMapping: Record<string, string> = {
+  "Feature creation and activation demo (~8s)": "/gifs/FeatureRegistering.gif",
+  "Error rollback demonstration (~10s)": "/gifs/Error Management.gif",
+  "Button click in MagicDraw UI": "/gifs/CreateUIAction.gif",
+  "Immediate response to model modifications": "/gifs/LiveAction.gif",
+  "Real-time configuration change": "/gifs/OMF-Option.gif",
+  "Mini Option demo": "/gifs/OMF-Option.gif",
+  "Mini UIAction demo": "/gifs/CreateUIAction.gif",
+  "Mini LiveAction demo": "/gifs/LiveAction.gif",
+};
 
 export default function PlaceholderMedia({
   type,
   width = "100%",
   height = 300,
   label,
-  className = "",
+  className,
+  onClick
 }: PlaceholderMediaProps) {
-  // Different background colors based on type
-  const bgColors = {
-    gif: "bg-blue-200",
-    image: "bg-green-200",
-    video: "bg-purple-200",
+  const gifPath = gifMapping[label];
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [actualHeight, setActualHeight] = useState(height);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const fullscreenRef = useRef<HTMLDivElement>(null);
+  
+  // Update dimensions when the image loads
+  const updateDimensions = () => {
+    if (imgRef.current) {
+      const imgWidth = imgRef.current.naturalWidth;
+      const imgHeight = imgRef.current.naturalHeight;
+      
+      setDimensions({
+        width: imgWidth,
+        height: imgHeight
+      });
+      
+      // Calculate appropriate container height
+      const aspectRatio = imgWidth / imgHeight;
+      let newHeight = height;
+      
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth;
+        
+        // If image is wider than tall
+        if (aspectRatio > 1) {
+          // Use default height, but ensure it's not too tall for a wide image
+          newHeight = Math.min(height, containerWidth / aspectRatio);
+        } else {
+          // For tall images, limit height to avoid overly tall containers
+          newHeight = Math.min(350, Math.max(250, containerWidth / aspectRatio * 0.8));
+        }
+      }
+      
+      setActualHeight(newHeight);
+    }
   };
 
-  // Icons based on type
-  const icons = {
-    gif: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-8 w-8 text-blue-600"
-      >
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-        <circle cx="9" cy="9" r="2" />
-        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-      </svg>
-    ),
-    image: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-8 w-8 text-green-600"
-      >
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-        <circle cx="9" cy="9" r="2" />
-        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-      </svg>
-    ),
-    video: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-8 w-8 text-purple-600"
-      >
-        <path d="m10 7 5 3-5 3Z" />
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-      </svg>
-    ),
+  // Handle Escape key press to exit fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    
+    // Handle scroll to exit fullscreen
+    const handleScroll = () => {
+      if (isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleScroll);
+    
+    // Set initial dimensions
+    if (imgRef.current && imgRef.current.complete) {
+      updateDimensions();
+    }
+    
+    // Add window resize handler
+    const handleResize = () => {
+      updateDimensions();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isFullscreen]);
+  
+  const toggleFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFullscreen(!isFullscreen);
+    
+    // When entering fullscreen, scroll to the component to make it visible
+    if (!isFullscreen && fullscreenRef.current) {
+      setTimeout(() => {
+        fullscreenRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 50);
+    }
   };
 
   return (
     <motion.div
-      className={`rounded-lg border border-gray-200 overflow-hidden ${bgColors[type]} flex items-center justify-center ${className}`}
-      style={{ width, height }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      ref={containerRef}
+      className={cn(
+        "relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 transition-all duration-300 ease-in-out",
+        isFullscreen ? "fixed inset-x-0 top-16 bottom-0 z-50 rounded-none" : "",
+        className
+      )}
+      style={{ 
+        width: isFullscreen ? "100%" : width, 
+        height: isFullscreen ? "calc(100vh - 4rem)" : actualHeight,
+      }}
+      onClick={onClick}
     >
-      <div className="flex flex-col items-center text-center p-6">
-        {icons[type]}
-        <p className="mt-3 font-medium">{type.toUpperCase()}: {label || `Placeholder ${type}`}</p>
-        <p className="text-xs text-gray-500 mt-2">Will be replaced with actual {type}</p>
-      </div>
+      {gifPath ? (
+        <>
+          <div ref={fullscreenRef} className="relative w-full h-full overflow-hidden">
+            <img
+              ref={imgRef}
+              src={gifPath}
+              alt={label}
+              className="w-full h-full object-contain transition-transform duration-200"
+              onLoad={updateDimensions}
+            />
+            
+            {/* Caption overlay at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
+              <div className="text-sm text-white text-center">{label}</div>
+            </div>
+          </div>
+          
+          {/* Fullscreen toggle button */}
+          <button
+            onClick={toggleFullscreen}
+            className="absolute top-2 right-2 p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors z-10"
+            aria-label={isFullscreen ? "Exit fullscreen" : "View fullscreen"}
+          >
+            {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          </button>
+          
+          {/* Close button (only visible in fullscreen mode) */}
+          {isFullscreen && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setIsFullscreen(false); }}
+              className="absolute top-2 left-2 p-2 bg-black/40 rounded-full hover:bg-black/60 text-white transition-colors z-10"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-4xl mb-2">🎥</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{label}</div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 } 

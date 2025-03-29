@@ -9,7 +9,11 @@ import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 
-export default function FeatureLibrary() {
+interface FeatureLibraryProps {
+  index?: number;
+}
+
+export default function FeatureLibrary({ index = 5 }: FeatureLibraryProps) {
   // Built-in features
   const features = [
     {
@@ -48,10 +52,12 @@ export default function FeatureLibrary() {
   ];
 
   return (
-    <Section 
-      id="feature-library" 
+    <Section
+      id="feature-library"
       title="Feature Library"
-      className="bg-gradient-to-b from-white to-slate-50"
+      subtitle="Built-in features for common tasks"
+      className="section-alt-2 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-16">
         <p className="text-lg text-gray-700 leading-relaxed">

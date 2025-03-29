@@ -11,7 +11,11 @@ import PlaceholderMedia from "../placeholder-media";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
-export default function FeatureItems() {
+interface FeatureItemsProps {
+  index?: number;
+}
+
+export default function FeatureItems({ index = 3 }: FeatureItemsProps) {
   // Feature item details
   const featureItems = [
     {
@@ -75,18 +79,20 @@ export default function FeatureItems() {
       gifLabel: "API integration demonstration"
     }
   ];
-  
+
   const [activeTab, setActiveTab] = useState(featureItems[0].id);
 
   return (
-    <Section 
-      id="feature-items" 
+    <Section
+      id="feature-items"
       title="Feature Items"
-      className="bg-gradient-to-b from-slate-50 to-white"
+      subtitle="Ready-to-use components for your plugins"
+      className="section-alt-2 dark:section-dark"
+      index={index}
     >
       <div className="text-center max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 leading-relaxed">
-          OMF provides ready-to-use Feature Items. Easily integrate UI actions, 
+          OMF provides ready-to-use Feature Items. Easily integrate UI actions,
           live actions, configurable options, custom hooks, and standardized APIs.
         </p>
       </div>
@@ -95,41 +101,45 @@ export default function FeatureItems() {
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full mb-8">
             {featureItems.map(item => (
-              <TabsTrigger key={item.id} value={item.id} className="text-sm">
+              <TabsTrigger 
+                key={item.id} 
+                value={item.id} 
+                className={`text-sm feature-item-button ${activeTab === item.id ? 'selected' : ''}`}
+              >
                 {item.title}
               </TabsTrigger>
             ))}
           </TabsList>
-          
+
           {featureItems.map(item => (
             <TabsContent key={item.id} value={item.id} className="mt-0">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <Card className="border-t-4 border-primary shadow-sm">
                   <CardHeader>
-                    <CardTitle>{item.title}</CardTitle>
-                    <CardDescription className="text-base text-gray-700">
+                    <CardTitle className="font-semibold">{item.title}</CardTitle>
+                    <CardDescription className="text-base">
                       {item.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <h4 className="font-semibold text-sm mb-3 text-gray-500 uppercase">Benefits</h4>
-                    <ul className="space-y-2 ml-5 list-disc text-gray-700">
+                    <h4 className="font-semibold text-sm mb-3 uppercase">Benefits</h4>
+                    <ul className="space-y-2 ml-5 list-disc">
                       {item.benefits.map((benefit, index) => (
                         <li key={index}>{benefit}</li>
                       ))}
                     </ul>
                   </CardContent>
                 </Card>
-                
+
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <PlaceholderMedia 
-                    type="gif" 
-                    height={300} 
+                  <PlaceholderMedia
+                    type="gif"
+                    height={300}
                     label={item.gifLabel}
                   />
                 </motion.div>
@@ -138,7 +148,7 @@ export default function FeatureItems() {
           ))}
         </Tabs>
       </div>
-      
+
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
         {featureItems.map((item, index) => (
           <motion.div
@@ -149,9 +159,9 @@ export default function FeatureItems() {
             viewport={{ once: true }}
             className={`${activeTab === item.id ? 'opacity-100' : 'opacity-60'}`}
           >
-            <PlaceholderMedia 
-              type="gif" 
-              height={120} 
+            <PlaceholderMedia
+              type="gif"
+              height={120}
               label={`Mini ${item.title} demo`}
               className="cursor-pointer"
               onClick={() => setActiveTab(item.id)}

@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 3280",
-    "build": "next build",
-    "start": "next start -p 3280",
-    "lint": "next lint"
+    "dev": "next dev --turbopack --port 3282",
+    "build": "next build && node scripts/post-build.js",
+    "build-no-lint": "next build --no-lint && node scripts/post-build.js",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "postbuild": "node scripts/post-build.js",
+    "deploy": "next build --no-lint && node scripts/post-build.js && firebase deploy --only hosting"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",
@@ -17,9 +21,11 @@
     "framer-motion": "^12.6.2",
     "lucide-react": "^0.484.0",
     "next": "15.2.4",
+    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7",
     "tw-animate-css": "^1.2.4"
   },
   "devDependencies": {

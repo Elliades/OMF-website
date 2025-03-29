@@ -1,18 +1,23 @@
 /**
- * "Library" section component
- * Showcases OMF's library features like SysML Factory, Helpers, and LayoutManager
+ * Library section component
+ * Displays the SysML Factory, SysML Helpers, and LayoutManager libraries
  */
 "use client";
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Section from "../section";
-import PlaceholderMedia from "../placeholder-media";
+import Section from "@/components/section";
+import PlaceholderMedia from "@/components/placeholder-media";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import CodeSnippetV2 from "../code-snippet-v2";
 
-export default function Library() {
+interface LibraryProps {
+  index: number;
+}
+
+export default function Library({ index }: LibraryProps) {
   const [activeLibrary, setActiveLibrary] = useState("sysml-factory");
   
   // Library information
@@ -20,12 +25,12 @@ export default function Library() {
     {
       id: "sysml-factory",
       title: "SysML Factory",
-      description: "Create SysML elements with minimal code.",
+      description: "Create SysML elements with ease. The factory provides a fluent API for creating and configuring model elements.",
       features: [
-        "Simplified block creation API",
-        "Port and connector generation",
-        "Requirements creation helpers",
-        "Activity diagram elements"
+        "Create blocks, requirements, and more",
+        "Fluent API for chaining operations",
+        "Automatic error handling",
+        "Type-safe interfaces"
       ],
       codeExample: 
 `// Create a block with ports in one line
@@ -41,12 +46,12 @@ Requirement req = SysMLFactory.createRequirement("REQ-001")
     {
       id: "sysml-helpers",
       title: "SysML Helpers",
-      description: "Utilities for working with existing SysML models.",
+      description: "Efficiently manipulate SysML elements. Helpers provide utility functions for common operations.",
       features: [
-        "Element search and filtering",
-        "Relationship management",
-        "Model traversal utilities",
-        "Type-safe element operations"
+        "Find elements by criteria",
+        "Traverse model hierarchies",
+        "Transform model elements",
+        "Handle stereotypes efficiently"
       ],
       codeExample: 
 `// Find all blocks with a specific stereotype
@@ -64,12 +69,12 @@ List<Element> path = SysMLHelpers
     {
       id: "layout-manager",
       title: "Layout Manager",
-      description: "Automatically arrange diagram elements for better visualization.",
+      description: "Automatically manage visual layouts. Ensure diagrams look professional with minimal effort.",
       features: [
-        "Hierarchical layout algorithms",
-        "Auto-spacing and alignment",
-        "Connector routing optimization",
-        "Custom layout persistence"
+        "Auto-arrange diagram elements",
+        "Grid alignment support",
+        "Aesthetic spacing algorithms",
+        "Preserve manual adjustments"
       ],
       codeExample: 
 `// Apply automatic layout to a diagram
@@ -90,90 +95,61 @@ LayoutManager.arrangeElements(diagram, selectedElements);`
   const activeLibraryData = libraries.find(lib => lib.id === activeLibrary)!;
 
   return (
-    <Section 
-      id="library" 
+    <Section
+      id="library"
       title="Library"
+      subtitle="Powerful libraries to accelerate your MagicDraw plugin development"
+      index={index}
     >
-      <div className="text-center max-w-3xl mx-auto mb-12">
-        <p className="text-lg text-gray-700 leading-relaxed">
-          Accelerate your development with a powerful library: effortlessly create SysML 
-          elements, manipulate them efficiently, and automatically manage visual layouts.
-        </p>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
-        {libraries.map(library => (
-          <Button
-            key={library.id}
-            variant={activeLibrary === library.id ? "default" : "outline"}
-            onClick={() => setActiveLibrary(library.id)}
-            className="px-6"
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {libraries.map((lib, idx) => (
+          <motion.div
+            key={lib.id}
+            className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 h-full cursor-pointer transition-all ${activeLibrary === lib.id ? 'ring-2 ring-primary' : ''}`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: idx * 0.1 }}
+            viewport={{ once: true }}
+            onClick={() => setActiveLibrary(lib.id)}
           >
-            {library.title}
-          </Button>
+            <div className="p-6 flex flex-col h-full">
+              <h3 className="text-xl font-bold mb-3">{lib.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">{lib.description}</p>
+              
+              <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400 uppercase mb-2 mt-auto">Features</h4>
+              <ul className="space-y-1">
+                {lib.features.map((feature, index) => (
+                  <li key={index} className="text-gray-700 dark:text-gray-300 flex items-start">
+                    <span className="text-green-500 mr-2">✓</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
         ))}
       </div>
-
-      <div className="grid md:grid-cols-2 gap-16 items-start">
-        <motion.div
-          key={activeLibraryData.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="order-2 md:order-1"
-        >
-          <Card className="mb-8 shadow-sm">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-primary">
-                {activeLibraryData.title}
-              </h3>
-              <p className="mb-4 text-gray-700">
-                {activeLibraryData.description}
-              </p>
-              
-              <Accordion type="single" collapsible className="mb-4">
-                <AccordionItem value="features">
-                  <AccordionTrigger className="text-sm font-medium">
-                    Features
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2 ml-5 list-disc text-gray-700">
-                      {activeLibraryData.features.map((feature, index) => (
-                        <li key={index}>{feature}</li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="code">
-                  <AccordionTrigger className="text-sm font-medium">
-                    Code Example
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <pre className="bg-gray-50 p-4 rounded-md text-sm font-mono overflow-x-auto">
-                      {activeLibraryData.codeExample}
-                    </pre>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CardContent>
-          </Card>
-          
-          <PlaceholderMedia 
-            type="gif" 
-            height={280} 
-            label={`${activeLibraryData.title} demo`}
-          />
-        </motion.div>
-
-        <div className="order-1 md:order-2">
-          <PlaceholderMedia 
-            type="gif" 
-            height={450} 
-            label="SysML block creation and layout adjustments"
-            className="shadow-lg rounded-lg"
-          />
-        </div>
-      </div>
+      
+      <CodeSnippetV2
+        code={activeLibraryData.codeExample}
+        title={`${activeLibraryData.title} Example`}
+        language="java"
+        className="mb-12"
+      />
+      
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <PlaceholderMedia
+          type="gif"
+          label="Dynamic example showing automated SysML block creation"
+          height={300}
+          className="mx-auto max-w-3xl rounded-lg shadow-md"
+        />
+      </motion.div>
     </Section>
   );
 } 
