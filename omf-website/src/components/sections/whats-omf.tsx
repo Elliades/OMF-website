@@ -6,11 +6,9 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
 import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import { Card, CardContent } from "../ui/card";
-import { Copy, Check, Github } from "lucide-react";
 
 // Custom background style for the first section
 const bgStyle = {
@@ -32,15 +30,6 @@ interface WhatsOMFProps {
 }
 
 export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
-  const repoUrl = "https://github.com/OMF-Open-MBSE-Framework/OMF.git";
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(repoUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <Section 
       id="whats-omf" 
@@ -66,42 +55,6 @@ export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
               efficient development of MagicDraw plugins. Built by developers for 
               developers, OMF streamlines complex automations reliably and elegantly.
             </p>
-            
-            {/* GitHub Repository Card */}
-            <motion.div 
-              className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-6 border border-white/20 flex items-center justify-between"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <div className="flex items-center space-x-2 overflow-hidden">
-                <Github size={20} className="text-white flex-shrink-0" />
-                <a 
-                  href={repoUrl}
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-white font-mono text-sm truncate hover:underline transition-all"
-                >
-                  {repoUrl}
-                </a>
-              </div>
-              <div className="relative ml-2">
-                <button 
-                  onClick={copyToClipboard}
-                  className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors flex-shrink-0"
-                  aria-label="Copy repository URL"
-                >
-                  {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} className="text-white" />}
-                </button>
-                {copied && (
-                  <div className="absolute -top-8 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap">
-                    Copied to clipboard!
-                  </div>
-                )}
-              </div>
-            </motion.div>
-            
             <Card className="bg-white/10 backdrop-blur-sm shadow-soft mt-6 border border-white/20">
               <CardContent className="p-6">
                 <h4 className="font-semibold text-lg mb-2 flex items-center text-white">

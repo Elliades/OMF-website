@@ -26,6 +26,8 @@ const gifMapping: Record<string, string> = {
   "Immediate response to model modifications": "/gifs/LiveAction.gif",
   "Real-time configuration change": "/gifs/OMF-Option.gif",
   "Mini Option demo": "/gifs/OMF-Option.gif",
+  "Mini UIAction demo": "/gifs/CreateUIAction.gif",
+  "Mini LiveAction demo": "/gifs/LiveAction.gif",
 };
 
 export default function PlaceholderMedia({

@@ -36,7 +36,7 @@ export default function Footer() {
               </p>
               <div className="flex space-x-4">
                 <Link 
-                  href="https://github.com/OMF-Open-MBSE-Framework/OMF.git" 
+                  href="https://github.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="transition"
@@ -79,7 +79,7 @@ export default function Footer() {
                   </svg>
                 </Link>
                 <Link 
-                  href="mailto:openMBSEFramework@gmail.com"
+                  href="mailto:contact@example.com"
                   className="transition"
                 >
                   <svg 
@@ -137,7 +137,7 @@ export default function Footer() {
               <ul className="space-y-2">
                 <li>
                   <Link 
-                    href="https://github.com/OMF-Open-MBSE-Framework/OMF.git" 
+                    href="https://github.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:ml-1 transition-all duration-200"
@@ -147,7 +147,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link 
-                    href="https://github.com/OMF-Open-MBSE-Framework/OMF.git" 
+                    href="https://github.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:ml-1 transition-all duration-200"
@@ -157,7 +157,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link 
-                    href="https://github.com/OMF-Open-MBSE-Framework/OMF.git/issues" 
+                    href="https://github.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:ml-1 transition-all duration-200"
@@ -167,7 +167,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link 
-                    href="https://github.com/OMF-Open-MBSE-Framework/OMF.git/wiki" 
+                    href="https://github.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:ml-1 transition-all duration-200"
