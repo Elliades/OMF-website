@@ -228,7 +228,7 @@ class OptionsDemoOptionHelper(feature: OMFFeature): EnvOptionsHelper(feature) {
 
       <div className="mb-16">
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full mb-8">
+          <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full mb-8 min-w-full">
             {featureItems.map(item => (
               <TabsTrigger 
                 key={item.id} 

@@ -33,7 +33,7 @@ interface WhatsOMFProps {
 
 export default function WhatsOMF({ index = 0 }: WhatsOMFProps) {
   const [copied, setCopied] = useState(false);
-  const githubUrl = "https://github.com/yourname/omf";
+  const githubUrl = "https://github.com/OMF-Open-MBSE-Framework/OMF/";
   
   const copyToClipboard = () => {
     navigator.clipboard.writeText(githubUrl);
