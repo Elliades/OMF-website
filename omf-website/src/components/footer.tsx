@@ -157,7 +157,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link 
-                    href="https://github.com" 
+                    href="https://github.com/OMF-Open-MBSE-Framework/OMF/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:ml-1 transition-all duration-200"

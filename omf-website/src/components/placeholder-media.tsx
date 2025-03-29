@@ -28,10 +28,13 @@ const gifMapping: Record<string, string> = {
   "Mini Option demo": "/gifs/OMF-Option.gif",
   "Mini UIAction demo": "/gifs/CreateUIAction.gif",
   "Mini LiveAction demo": "/gifs/LiveAction.gif",
-  "Mini Hook demo": "/gifs/placeholder-hook.gif",
-  "Mini API demo": "/gifs/placeholder-api.gif",
-  "Adding custom behaviors triggered by events": "/gifs/placeholder-hook.gif",
-  "API integration demonstration": "/gifs/placeholder-api.gif"
+  "Mini Hook demo": "/gifs/Demo-Hook.gif",
+  "Mini API demo": "/gifs/Demo-API.gif",
+  "Adding custom behaviors triggered by events": "/gifs/Demo-Hook.gif",
+  "API integration demonstration": "/gifs/Demo-API.gif",
+  "SysML model comparison with highlighted results": "/gifs/Demo-TestFramework.gif",
+  "Dynamic example showing automated SysML block creation": "/gifs/Demo-SysMLFactory.gif",
+  "Live demonstration of enabling/disabling Features": "/gifs/Demo-Architecture.gif"
 };
 
 export default function PlaceholderMedia({
@@ -156,7 +159,7 @@ export default function PlaceholderMedia({
       )}
       style={{ 
         width: isFullscreen ? "100%" : width, 
-        height: isFullscreen ? "calc(100vh - 4rem)" : actualHeight,
+        height: isFullscreen ? "calc(100vh - 4rem)" : actualHeight
       }}
       onClick={onClick}
     >

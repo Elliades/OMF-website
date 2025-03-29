@@ -1,7 +1,7 @@
 /**
  * Root layout for the OMF Vitrine website
  */
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -19,6 +19,15 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  minimumScale: 1,
+  viewportFit: 'cover'
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,7 +43,7 @@ export default function RootLayout({
       <body 
         className={cn(
           inter.className,
-          "transition-colors duration-300"
+          "transition-colors duration-300 overflow-x-hidden w-full"
         )}
         suppressHydrationWarning
       >

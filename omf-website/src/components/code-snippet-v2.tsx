@@ -51,6 +51,15 @@ export default function CodeSnippetV2({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Calculate appropriate max height based on screen size
+  const getMaxHeight = () => {
+    // Simple check for small screens
+    if (typeof window !== 'undefined' && window.innerWidth < 640) {
+      return Math.min(300, maxHeight);
+    }
+    return maxHeight;
+  };
+
   return (
     <motion.div
       className={`rounded-lg overflow-hidden border border-gray-700 dark:border-gray-800 shadow-md ${className}`}
@@ -59,35 +68,35 @@ export default function CodeSnippetV2({
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <div className="bg-gray-800 dark:bg-gray-900 px-4 py-2 flex justify-between items-center">
-        <span className="text-sm font-medium text-gray-200">{title}</span>
+      <div className="bg-gray-800 dark:bg-gray-900 px-3 sm:px-4 py-2 flex justify-between items-center">
+        <span className="text-xs sm:text-sm font-medium text-gray-200 truncate">{title}</span>
         <Button
           variant="ghost"
           size="sm"
           onClick={copyToClipboard}
-          className="text-xs hover:bg-gray-700 text-gray-300"
+          className="text-xs hover:bg-gray-700 text-gray-300 ml-2 p-1 sm:p-2"
         >
           {copied ? (
             <span className="text-green-400 flex items-center">
-              <Check className="h-4 w-4 mr-1" />
-              Copied!
+              <Check className="h-3 w-3 sm:h-4 sm:w-4 mr-0 sm:mr-1" />
+              <span className="hidden sm:inline">Copied</span>
             </span>
           ) : (
             <span className="flex items-center text-gray-300">
-              <Copy className="h-4 w-4 mr-1" />
-              Copy
+              <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-0 sm:mr-1" />
+              <span className="hidden sm:inline">Copy</span>
             </span>
           )}
         </Button>
       </div>
       
       <div 
-        className="relative" 
-        style={{ maxHeight: maxHeight, overflow: 'auto' }}
+        className="relative overflow-auto" 
+        style={{ maxHeight: getMaxHeight() }}
       >
         <pre 
           ref={preRef}
-          className="p-4 bg-gray-900 dark:bg-gray-950 overflow-x-auto text-sm font-mono m-0"
+          className="p-2 sm:p-4 bg-gray-900 dark:bg-gray-950 overflow-x-auto text-xs sm:text-sm font-mono m-0"
         >
           <code 
             ref={codeRef}
@@ -99,7 +108,7 @@ export default function CodeSnippetV2({
         </pre>
         
         {showLineNumbers && (
-          <div className="absolute left-0 top-0 pl-2 pt-4 text-right select-none">
+          <div className="absolute left-0 top-0 pl-1 sm:pl-2 pt-2 sm:pt-4 text-right select-none">
             {code.split('\n').map((_, i) => (
               <div 
                 key={i} 

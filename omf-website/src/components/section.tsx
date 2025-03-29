@@ -97,7 +97,7 @@ export default function Section({
       <section
         id={id}
         className={cn(
-          "relative py-16 md:py-24 transition-colors duration-300",
+          "relative py-16 md:py-24 transition-colors duration-300 w-full",
           className
         )}
         style={{...style, display: 'block'}}
@@ -107,14 +107,14 @@ export default function Section({
           fullWidth ? "w-full" : "container mx-auto px-4"
         )}>
           <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6" 
+            <h2 className="text-4xl sm:text-5xl md:text-7xl leading-tight font-bold mb-6" 
               style={titleStyles}
             >
               {title}
-              <div className="h-1 w-24 mx-auto mt-6 bg-gradient-to-r from-primary to-accent rounded" />
+              <div className="h-1 w-16 sm:w-24 mx-auto mt-4 sm:mt-6 bg-gradient-to-r from-primary to-accent rounded" />
             </h2>
             {subtitle && (
-              <p className="text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl md:text-2xl leading-tight max-w-3xl mx-auto">
                 {subtitle}
               </p>
             )}
@@ -129,7 +129,7 @@ export default function Section({
     <section
       id={id}
       className={cn(
-        "relative py-16 md:py-24 transition-colors duration-300",
+        "relative py-16 md:py-24 transition-colors duration-300 w-full",
         getSVGClasses(), // Toutes les sections ont maintenant un fond SVG
         className
       )}
@@ -144,14 +144,12 @@ export default function Section({
         fullWidth ? "w-full" : "container mx-auto px-4"
       )}>
         <div className="text-center mb-10 md:mb-16">
-          <h2 className={cn(
-            "text-[10rem] lg:text-[7rem] md:text-[5rem] sm:text-[3.5rem] leading-none font-bold mb-6"
-          )} 
+          <h2 className="text-4xl sm:text-5xl md:text-7xl leading-tight font-bold mb-6" 
             style={titleStyles}
           >
             {title}
             <motion.div
-              className="h-1 w-24 mx-auto mt-6 bg-gradient-to-r from-primary to-accent rounded"
+              className="h-1 w-16 sm:w-24 mx-auto mt-4 sm:mt-6 bg-gradient-to-r from-primary to-accent rounded"
               initial={{ width: 0 }}
               whileInView={{ width: "6rem" }}
               viewport={{ once: true }}
@@ -160,8 +158,8 @@ export default function Section({
           </h2>
           {subtitle && (
             <p className={cn(
-              "text-[2rem] md:text-[2rem] sm:text-[1.5rem] leading-tight max-w-3xl mx-auto",
-              "text-gray-600"
+              "text-lg sm:text-xl md:text-2xl leading-tight max-w-3xl mx-auto",
+              "text-gray-600 dark:text-gray-300"
             )}>
               {subtitle}
             </p>

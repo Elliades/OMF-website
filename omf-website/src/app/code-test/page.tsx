@@ -1,12 +1,11 @@
 /**
  * Test page for debugging code highlighting
  */
-"use client";
-
 import { Metadata } from "next";
 import CodeSnippetTest from "@/components/code-snippet-test";
 import CodeSnippet from "@/components/code-snippet";
 import CodeSnippetV2 from "@/components/code-snippet-v2";
+import { ClientComponent } from "./client-component";
 
 export const metadata: Metadata = {
   title: "Code Snippet Test | OMF",
@@ -42,9 +41,8 @@ class DemoLocalBatch : ATestBatchLocal() {
     }
 }`;
 
-export default function TestPage() {
-  // Test code snippet with annotations
-  const kotlinCode = `@BrowserAction // This action will be available in the browser
+// Kotlin code with annotations
+const kotlinCode = `@BrowserAction // This action will be available in the browser
 @DiagramAction // This action will be available in the diagram
 @MenuAction // This action will be available in the menu
 @DeactivateListener //Deactivates the listeners when triggered
@@ -64,6 +62,7 @@ class DemoAction: AUIAction() {
     }    
 }`;
 
+export default function TestPage() {
   return (
     <main className="min-h-screen py-20 px-4">
       <div className="container mx-auto">
@@ -74,18 +73,20 @@ class DemoAction: AUIAction() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <h3 className="text-xl font-semibold mb-3">Original Component</h3>
-              <CodeSnippet 
+              <ClientComponent 
                 code={javaTestCode} 
                 language="java" 
                 title="Original Java Code" 
+                componentType="original"
               />
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-3">Improved Component (V2)</h3>
-              <CodeSnippetV2 
+              <ClientComponent 
                 code={javaTestCode} 
                 language="java" 
-                title="Improved Java Code" 
+                title="Improved Java Code"
+                componentType="improved" 
               />
             </div>
           </div>
@@ -96,18 +97,20 @@ class DemoAction: AUIAction() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <h3 className="text-xl font-semibold mb-3">Original Component</h3>
-              <CodeSnippet 
+              <ClientComponent 
                 code={kotlinCode} 
                 language="kotlin" 
-                title="Original Kotlin Code" 
+                title="Original Kotlin Code"
+                componentType="original" 
               />
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-3">Improved Component (V2)</h3>
-              <CodeSnippetV2 
+              <ClientComponent 
                 code={kotlinCode} 
                 language="kotlin" 
-                title="Improved Kotlin Code" 
+                title="Improved Kotlin Code"
+                componentType="improved" 
               />
             </div>
           </div>
@@ -120,4 +123,4 @@ class DemoAction: AUIAction() {
       </div>
     </main>
   );
-} 
+}

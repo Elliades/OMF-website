@@ -57,7 +57,7 @@ export default function Navbar() {
 
   return (
     <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 w-full ${
         scrolled 
           ? "dark:bg-[#050309]/90 bg-white/90 backdrop-blur-sm shadow-sm" 
           : "dark:bg-[#050309]/20 bg-transparent"
@@ -66,7 +66,7 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 flex items-center justify-between">
         <motion.div 
           className="text-2xl font-bold gradient-text"
           initial={{ opacity: 0 }}
@@ -150,9 +150,9 @@ export default function Navbar() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-white dark:bg-[#050309] shadow-md"
+          className="md:hidden bg-white dark:bg-[#050309] shadow-md w-full"
         >
-          <div className="container py-4 flex flex-col space-y-2">
+          <div className="container mx-auto px-4 py-4 flex flex-col space-y-2">
             {navItems.map((item) => (
               <Button
                 key={item.name}
