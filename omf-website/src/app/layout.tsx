@@ -1,7 +1,7 @@
 /**
  * Root layout for the OMF Vitrine website
  */
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -17,13 +17,15 @@ export const metadata: Metadata = {
     shortcut: "/favicon/favicon.png",
     apple: "/favicon/favicon.png",
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    minimumScale: 1,
-  },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  minimumScale: 1,
+  viewportFit: 'cover'
 };
 
 export default function RootLayout({
@@ -37,7 +39,6 @@ export default function RootLayout({
         <link rel="shortcut icon" type="image/png" href="/favicon/favicon.png" />
         <link rel="icon" type="image/png" href="/favicon/favicon.png" />
         <link rel="apple-touch-icon" href="/favicon/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
       </head>
       <body 
         className={cn(

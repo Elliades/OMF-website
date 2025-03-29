@@ -91,8 +91,8 @@ export default function CodeSnippetV2({
       </div>
       
       <div 
-        className="relative" 
-        style={{ maxHeight: getMaxHeight(), overflow: 'auto' }}
+        className="relative overflow-auto" 
+        style={{ maxHeight: getMaxHeight() }}
       >
         <pre 
           ref={preRef}

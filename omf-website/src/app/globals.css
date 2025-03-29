@@ -581,6 +581,10 @@ footer {
   background: linear-gradient(to right, #f8f9fa, #e9ecef);
 }
 
+.dark footer {
+  background: black; /* Set footer background to black in dark mode */
+}
+
 footer a, footer p, footer h3, footer h4 {
   color: #333333;
 }
