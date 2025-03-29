@@ -10,7 +10,7 @@ import Section from "../section";
 import PlaceholderMedia from "../placeholder-media";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import CodeSnippet from "../code-snippet";
+import CodeSnippetV2 from "../code-snippet-v2";
 import { Code, Play } from "lucide-react";
 
 interface FeatureItemsProps {
@@ -55,7 +55,6 @@ class DemoAction: AUIAction() {
     override fun actionToPerform(selectedElements: List<Element>) {
         OMFLogger2.toNotification().success("Demo Action performed")
     }    
-}
 }`,
     
     liveaction: `//Will be evaluated when model change is detected
@@ -304,9 +303,9 @@ class OptionsDemoOptionHelper(feature: OMFFeature): EnvOptionsHelper(feature) {
                       label={item.gifLabel}
                     />
                   ) : (
-                    <CodeSnippet
+                    <CodeSnippetV2
                       code={codeExamples[item.id as keyof typeof codeExamples]}
-                      language="java"
+                      language="kotlin"
                       title={`${item.title} Implementation`}
                     />
                   )}
